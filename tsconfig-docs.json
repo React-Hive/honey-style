@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "ESNext"],
+    "jsx": "react",
+    "target": "ES6",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "outDir": "./dist-docs",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true
+  },
+  "include": ["src"]
+}
