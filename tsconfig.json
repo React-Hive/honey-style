@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "ESNext"],
-    "jsx": "react",
-    "target": "ES6",
-    "module": "ESNext",
+    "lib": ["dom", "esnext"],
+    "target": "es2020",
+    "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "sourceMap": true,
-    "declaration": true,
+    "jsx": "react-jsx",
     "outDir": "./dist",
-    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
     "strict": true
   },
   "include": ["src"]

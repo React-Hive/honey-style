@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "keywords": [
     "react",
@@ -18,9 +18,11 @@
   "author": "Mykhailo Aliinyk <m.aliynik@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production webpack",
-    "build-docs": "NODE_ENV=production webpack -c webpack-docs.config.js",
-    "test": "jest --collect-coverage"
+    "clean": "rm -rf dist",
+    "build": "npm run clean && NODE_ENV=production webpack --config webpack.config.js",
+    "test": "jest --collect-coverage",
+    "diagnostics": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc --project ./tsconfig.build.json --extendedDiagnostics --generateTrace ts-trace",
+    "analyze": "analyze-trace ts-trace"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
