@@ -123,7 +123,7 @@ export const styled = <
             css([''], [cssPropRaw])(context)
         : '';
 
-      const cssPropClassName = cssPropString ? `hscn-${hashString(cssPropString)}` : '';
+      const cssPropClassName = cssPropString ? `hspcn-${hashString(cssPropString)}` : '';
 
       useInsertionEffect(() => {
         if (cssPropClassName) {

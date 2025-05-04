@@ -1,1 +1,1 @@
-export * from './use-honey-layout';
+export * from './use-honey-style';
