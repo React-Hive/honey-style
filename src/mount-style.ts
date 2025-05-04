@@ -21,10 +21,13 @@ let globalStyleTag: HTMLStyleElement | null = null;
  */
 const ensureGlobalStyleTag = (): HTMLStyleElement => {
   if (!globalStyleTag) {
-    globalStyleTag = document.createElement('style');
-    globalStyleTag.setAttribute('data-honey-style', 'true');
+    globalStyleTag = document.querySelector('style[data-honey-style="true"]');
 
-    document.head.appendChild(globalStyleTag);
+    if (!globalStyleTag) {
+      globalStyleTag = document.createElement('style');
+      globalStyleTag.setAttribute('data-honey-style', 'true');
+      document.head.appendChild(globalStyleTag);
+    }
   }
 
   return globalStyleTag;
