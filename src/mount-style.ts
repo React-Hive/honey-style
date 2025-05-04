@@ -10,7 +10,19 @@ interface StyleRegistryEntry {
 
 type StyleCleanupFn = () => void;
 
-const styleRegistry = new Map<string, StyleRegistryEntry>();
+/**
+ * Global style registry, shared across reloads and modules.
+ */
+const getStyleRegistry = (): Map<string, StyleRegistryEntry> => {
+  const w = window as any;
+  if (!w.__honeyStyleRegistry) {
+    w.__honeyStyleRegistry = new Map<string, StyleRegistryEntry>();
+  }
+
+  return w.__honeyStyleRegistry;
+};
+
+const styleRegistry = getStyleRegistry();
 
 let globalStyleTag: HTMLStyleElement | null = null;
 
