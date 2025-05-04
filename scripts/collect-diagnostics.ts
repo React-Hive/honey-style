@@ -44,7 +44,7 @@ for (const line of raw.split('\n')) {
     key += 'Bytes';
   }
 
-  metrics[key] = Math.round(num * 1000) / 1000; // round for readability
+  metrics[key] = Math.round(num * 1000) / 1000;
 }
 
 const output = JSON.stringify(metrics, null, 2);
