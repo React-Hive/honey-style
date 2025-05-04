@@ -7,7 +7,7 @@ if (!fs.existsSync(jsonPath)) process.exit(0);
 const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 
 const summary = [
-  `\n[Diagnostics]`,
+  `[Diagnostics]`,
   `Total Time: ${data.totalTime}ms`,
   `Instantiations: ${data.instantiations}`,
   `Memory Used: ${(data.memoryUsedBytes / 1024 / 1024).toFixed(2)} MB`,

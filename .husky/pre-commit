@@ -1,1 +1,3 @@
 pnpm diagnostics
+git add diagnostics
+tsx scripts/attach-diagnostics-summary.ts

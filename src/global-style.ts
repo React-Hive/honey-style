@@ -26,7 +26,7 @@ export const createGlobalStyle = (
       const styleElement = document.createElement('style');
       styleElement.id = styleId;
       styleElement.innerHTML = processCss(rawCss);
-      styleElement.setAttribute('data-honey-style', 'true');
+      styleElement.setAttribute('data-honey-style1', 'true');
 
       document.head.appendChild(styleElement);
 
