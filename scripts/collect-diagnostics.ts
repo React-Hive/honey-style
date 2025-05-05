@@ -37,12 +37,10 @@ for (const line of raw.split('\n')) {
   if (unit === 'K') {
     // convert kilobytes to bytes
     num *= 1024;
-    key += 'Bytes';
   }
 
   if (unit === 'M') {
     num *= 1024 * 1024;
-    key += 'Bytes';
   }
 
   metrics[key] = Math.round(num * 1000) / 1000;
