@@ -1,5 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-pnpm diagnostics
-git add diagnostics
+tsx scripts/attach-diagnostics-summary.ts

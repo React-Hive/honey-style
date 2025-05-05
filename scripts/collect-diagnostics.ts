@@ -35,7 +35,8 @@ for (const line of raw.split('\n')) {
 
   let num = parseFloat(value);
   if (unit === 'K') {
-    num *= 1024; // convert kilobytes to bytes
+    // convert kilobytes to bytes
+    num *= 1024;
     key += 'Bytes';
   }
 

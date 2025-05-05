@@ -1,16 +1,22 @@
 import fs from 'fs';
 import path from 'path';
 
-const jsonPath = path.join(__dirname, '..', 'diagnostics', 'latest.json');
-if (!fs.existsSync(jsonPath)) process.exit(0);
+const commitMsgFile = process.argv[2] || '.git/COMMIT_EDITMSG';
+const commitMsgFilePath = path.resolve(process.cwd(), commitMsgFile);
 
-const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+const diagnosticsJsonFilePath = path.join(__dirname, '..', 'diagnostics', 'latest.json');
+if (!fs.existsSync(diagnosticsJsonFilePath)) {
+  process.exit(0);
+}
 
-const summary = [
+const diagnosticsData = JSON.parse(fs.readFileSync(diagnosticsJsonFilePath, 'utf-8'));
+
+const diagnosticsSummary = [
   `[Diagnostics]`,
-  `Total Time: ${data.totalTime}ms`,
-  `Instantiations: ${data.instantiations}`,
-  `Memory Used: ${(data.memoryUsedBytes / 1024 / 1024).toFixed(2)} MB`,
+  `Total Time: ${diagnosticsData.totalTime}ms`,
+  `Instantiations: ${diagnosticsData.instantiations}`,
+  `Memory Used: ${(diagnosticsData.memoryUsedBytes / 1024 / 1024).toFixed(2)} MB`,
 ].join('\n');
 
-fs.appendFileSync('.git/COMMIT_EDITMSG', '\n' + summary + '\n');
+const original = fs.readFileSync(commitMsgFilePath, 'utf8');
+fs.writeFileSync(commitMsgFilePath, `${original.trim()}\n\n${diagnosticsSummary}\n`);
