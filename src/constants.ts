@@ -39,6 +39,7 @@ const VALID_HTML_ATTRS = new Set([
   'href',
   'hrefLang',
   'id',
+  'is',
   'isMap',
   'inert',
   'key',
@@ -76,11 +77,10 @@ const VALID_HTML_ATTRS = new Set([
   'ref',
   'children',
   'class',
-  'bgColor',
   'char',
   'charOff',
-  'id',
-  'style',
+  'unselectable',
+  'inputMode',
 ]);
 
 const VALID_TABLE_ATTRS = new Set<keyof TdHTMLAttributes<any>>([
@@ -89,7 +89,13 @@ const VALID_TABLE_ATTRS = new Set<keyof TdHTMLAttributes<any>>([
   'headers',
   'abbr',
   'scope',
+  /**
+   * @deprecated https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement/align
+   */
   'align',
+  /**
+   * @deprecated https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement/vAlign
+   */
   'valign',
 ]);
 
@@ -120,7 +126,6 @@ const VALID_SVG_ATTRS = new Set<keyof SVGAttributes<any>>([
   'ry',
   'd',
   'points',
-  'width',
   'height',
   'transform',
   'xmlns',
