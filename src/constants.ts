@@ -1,4 +1,8 @@
+import type { SVGAttributes, TdHTMLAttributes } from 'react';
+
 import type { HoneyBreakpointName } from './types';
+
+export const HONEY_STYLE_ATTR = 'data-honey-style';
 
 export const HONEY_BREAKPOINTS: HoneyBreakpointName[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
@@ -71,9 +75,15 @@ const VALID_HTML_ATTRS = new Set([
   'width',
   'ref',
   'children',
+  'class',
+  'bgColor',
+  'char',
+  'charOff',
+  'id',
+  'style',
 ]);
 
-const VALID_TABLE_ATTRS = new Set([
+const VALID_TABLE_ATTRS = new Set<keyof TdHTMLAttributes<any>>([
   'colSpan',
   'rowSpan',
   'headers',
@@ -81,12 +91,9 @@ const VALID_TABLE_ATTRS = new Set([
   'scope',
   'align',
   'valign',
-  'bgColor',
-  'char',
-  'charOff',
 ]);
 
-const VALID_SVG_ATTRS = new Set([
+const VALID_SVG_ATTRS = new Set<keyof SVGAttributes<any>>([
   'viewBox',
   'fill',
   'stroke',
@@ -98,6 +105,8 @@ const VALID_SVG_ATTRS = new Set([
   'strokeOpacity',
   'fillOpacity',
   'opacity',
+  'pointerEvents',
+  'focusable',
   'x',
   'y',
   'x1',
@@ -118,9 +127,6 @@ const VALID_SVG_ATTRS = new Set([
   'preserveAspectRatio',
   'mask',
   'clipPath',
-  'id',
-  'class',
-  'style',
   'pathLength',
   'markerStart',
   'markerMid',

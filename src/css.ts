@@ -1,32 +1,34 @@
+import { toKebabCase } from './utils';
 import type { HoneyStyledInterpolation, HoneyStyledContext } from './types';
 
-const toKebabCase = (str: string): string =>
-  str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-
 const resolveCssInterpolation = <Props extends object>(
-  interpolation: HoneyStyledInterpolation<Props>,
+  value: HoneyStyledInterpolation<Props>,
   context: HoneyStyledContext<Props>,
 ): string => {
-  if (typeof interpolation === 'function') {
-    if ('$$ComponentId' in interpolation) {
-      return `.${interpolation.$$ComponentId}`;
+  if (value === '' || value === false || value === undefined || value === null) {
+    return '';
+  }
+
+  if (typeof value === 'function') {
+    if ('$$ComponentId' in value) {
+      return `.${value.$$ComponentId}`;
     }
 
-    return resolveCssInterpolation(interpolation(context), context);
+    return resolveCssInterpolation(value(context), context);
   }
 
-  if (Array.isArray(interpolation)) {
-    return interpolation.map(v => resolveCssInterpolation(v, context)).join('\n');
+  if (Array.isArray(value)) {
+    return value.map(v => resolveCssInterpolation(v, context)).join('\n');
   }
 
-  if (interpolation && typeof interpolation === 'object') {
-    return Object.entries(interpolation)
+  if (value && typeof value === 'object') {
+    return Object.entries(value)
       .filter(([, v]) => v !== undefined && v !== false)
       .map(([k, v]) => `${toKebabCase(k)}: ${v};`)
       .join('\n');
   }
 
-  return interpolation?.toString?.() ?? '';
+  return value?.toString?.() ?? '';
 };
 
 export const css = <Props extends object>(
@@ -34,18 +36,9 @@ export const css = <Props extends object>(
   ...interpolations: HoneyStyledInterpolation<Props>[]
 ) => {
   return (context: HoneyStyledContext<Props>) =>
-    strings.reduce((cssResult, str, index) => {
-      const interpolation = interpolations[index];
-
-      if (
-        interpolation === '' ||
-        interpolation === false ||
-        interpolation === undefined ||
-        interpolation === null
-      ) {
-        return cssResult + str;
-      }
-
-      return cssResult + str + resolveCssInterpolation(interpolation, context);
-    }, '');
+    strings.reduce(
+      (cssResult, str, index) =>
+        cssResult + str + resolveCssInterpolation(interpolations[index], context),
+      '',
+    );
 };

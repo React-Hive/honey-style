@@ -1,3 +1,7 @@
+import { HONEY_STYLE_ATTR } from './constants';
+
+type StyleCleanupFn = () => void;
+
 /**
  * Represents an entry in the style registry with the raw CSS string,
  * its usage count, and optional priority for ordering.
@@ -8,18 +12,15 @@ interface StyleRegistryEntry {
   priority: number;
 }
 
-type StyleCleanupFn = () => void;
-
 /**
  * Global style registry, shared across reloads and modules.
  */
 const getStyleRegistry = (): Map<string, StyleRegistryEntry> => {
-  const w = window as any;
-  if (!w.__honeyStyleRegistry) {
-    w.__honeyStyleRegistry = new Map<string, StyleRegistryEntry>();
+  if (!window.__honeyStyleRegistry) {
+    window.__honeyStyleRegistry = new Map<string, StyleRegistryEntry>();
   }
 
-  return w.__honeyStyleRegistry;
+  return window.__honeyStyleRegistry;
 };
 
 const styleRegistry = getStyleRegistry();
@@ -33,11 +34,12 @@ let globalStyleTag: HTMLStyleElement | null = null;
  */
 const ensureGlobalStyleTag = (): HTMLStyleElement => {
   if (!globalStyleTag) {
-    globalStyleTag = document.querySelector('style[data-honey-style="true"]');
+    globalStyleTag = document.querySelector(`style[${HONEY_STYLE_ATTR}="true"]`);
 
     if (!globalStyleTag) {
       globalStyleTag = document.createElement('style');
-      globalStyleTag.setAttribute('data-honey-style', 'true');
+      globalStyleTag.setAttribute(HONEY_STYLE_ATTR, 'true');
+
       document.head.appendChild(globalStyleTag);
     }
   }

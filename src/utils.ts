@@ -2,6 +2,9 @@ import { compile, serialize, stringify } from 'stylis';
 
 export const generateId = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 8)}`;
 
+export const toKebabCase = (str: string): string =>
+  str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+
 export const hashString = (str: string): string => {
   let hash = 5381;
 

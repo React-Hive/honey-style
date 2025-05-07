@@ -184,13 +184,6 @@ interface BaseHoneyColors {
  */
 export interface HoneyColors extends BaseHoneyColors {}
 
-export interface HoneyContainer {
-  /**
-   * Max container width in any CSS distance value.
-   */
-  maxWidth: HoneyCSSDimensionValue;
-}
-
 /**
  * Generates a union of all possible color keys by combining each property of `HoneyColors` with its corresponding keys.
  *
@@ -217,6 +210,13 @@ export type HoneyColorKey = {
 }[keyof HoneyColors];
 
 export type HoneyColor = HoneyCSSColor | HoneyColorKey;
+
+export interface HoneyContainer {
+  /**
+   * Max container width in any CSS distance value.
+   */
+  maxWidth: HoneyCSSDimensionValue;
+}
 
 /**
  * Represents a map of dimension names to CSS distance values.

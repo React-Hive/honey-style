@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { HONEY_STYLE_ATTR } from './constants';
 import { css } from './css';
 import { processCss, generateId } from './utils';
 import { useHoneyStyle } from './hooks';
@@ -26,7 +27,7 @@ export const createGlobalStyle = (
       const styleElement = document.createElement('style');
       styleElement.id = styleId;
       styleElement.innerHTML = processCss(rawCss);
-      styleElement.setAttribute('data-honey-style1', 'true');
+      styleElement.setAttribute(HONEY_STYLE_ATTR, 'true');
 
       document.head.appendChild(styleElement);
 
