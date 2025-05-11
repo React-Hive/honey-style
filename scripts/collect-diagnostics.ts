@@ -47,7 +47,5 @@ for (const line of raw.split('\n')) {
 }
 
 const output = JSON.stringify(metrics, null, 2);
-const timestamp = new Date().toISOString().replace(/:/g, '-');
 
-fs.writeFileSync(path.join(diagnosticsDir, `${timestamp}.json`), output);
 fs.writeFileSync(path.join(diagnosticsDir, `latest.json`), output);

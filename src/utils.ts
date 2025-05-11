@@ -1,5 +1,7 @@
 import { compile, serialize, stringify } from 'stylis';
 
+import type { HoneyCSSClassName } from './types';
+
 export const generateId = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 8)}`;
 
 export const toKebabCase = (str: string): string =>
@@ -15,7 +17,12 @@ export const hashString = (str: string): string => {
   return (hash >>> 0).toString(36);
 };
 
-export const makeClassName = (classNames: (string | undefined)[]) =>
+/**
+ * Combines multiple class names into a single space-separated string
+ *
+ * @param classNames - Array of class names to combine
+ */
+export const combineClassNames = (classNames: HoneyCSSClassName[]) =>
   classNames.filter(Boolean).join(' ').trim();
 
 export const processCss = (rawCss: string, selector?: string): string => {

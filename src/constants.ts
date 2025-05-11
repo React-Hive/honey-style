@@ -2,6 +2,8 @@ import type { SVGAttributes, TdHTMLAttributes } from 'react';
 
 import type { HoneyBreakpointName } from './types';
 
+export const __DEV__ = process.env.NODE_ENV !== 'production';
+
 export const HONEY_STYLE_ATTR = 'data-honey-style';
 
 export const HONEY_BREAKPOINTS: HoneyBreakpointName[] = ['xs', 'sm', 'md', 'lg', 'xl'];

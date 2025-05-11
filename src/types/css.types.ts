@@ -1,5 +1,7 @@
 import * as CSS from 'csstype';
 
+export type HoneyCSSClassName = string | undefined;
+
 /**
  * Represents a hexadecimal color value.
  *

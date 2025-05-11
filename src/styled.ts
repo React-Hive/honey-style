@@ -1,7 +1,8 @@
 import { createElement, useInsertionEffect } from 'react';
 import type { ElementType, ComponentProps, ComponentPropsWithRef } from 'react';
 
-import { processCss, generateId, hashString, makeClassName } from './utils';
+import { __DEV__ } from './constants';
+import { processCss, generateId, hashString, combineClassNames } from './utils';
 import { css } from './css';
 import { mountStyle } from './mount-style';
 import { useHoneyStyle } from './hooks';
@@ -9,11 +10,28 @@ import { filterNonHtmlAttrs } from './helpers';
 import type {
   FastOmit,
   Override,
+  HoneyCSSClassName,
   HoneyHTMLDataAttributes,
   HoneyStyledInterpolation,
   HoneyStyledPropsWithAs,
   HoneyStyledContext,
 } from './types';
+
+const evaluateDynamicCss = (
+  interpolation: HoneyStyledInterpolation<any> | undefined,
+  context: any,
+): string => {
+  if (!interpolation) {
+    return '';
+  }
+
+  if (typeof interpolation === 'string') {
+    return interpolation;
+  }
+
+  // @ts-expect-error
+  return css([''], [interpolation])(context);
+};
 
 export type HoneyStyledProps<
   Element extends ElementType,
@@ -59,10 +77,19 @@ export const styled = <
       AsElement,
       Override<ComponentProps<AsElement>, FastOmit<Props, 'as'>>
     > & {
+      /**
+       * @deprecated Please use inheritance instead.
+       */
       css?: HoneyStyledInterpolation<Props>;
-      className?: string;
+      className?: HoneyCSSClassName;
       __chain?: string;
     }) => {
+      if (__DEV__ && cssProp) {
+        console.warn(
+          `[@react-hive/honey-style]: The "css" prop is deprecated. Please use inheritance or composition instead.`,
+        );
+      }
+
       const { theme } = useHoneyStyle();
 
       const cleanedProps = Object.fromEntries(
@@ -83,34 +110,29 @@ export const styled = <
       const rawCss = computeCss(context);
       const baseClassName = `hscn-${hashString(rawCss)}`;
 
-      const baseCss = processCss(rawCss, `.${baseClassName}`);
+      useInsertionEffect(() => {
+        const baseCss = processCss(rawCss, `.${baseClassName}`);
 
-      useInsertionEffect(
-        () => mountStyle(baseClassName, baseCss, __chain ? 0 : 1),
-        [baseClassName],
-      );
+        return mountStyle(baseClassName, baseCss, __chain ? 0 : 1);
+      }, [baseClassName]);
 
       const cssPropRaw = typeof cssProp === 'function' ? cssProp(context) : cssProp;
-
-      const cssPropString = cssPropRaw
-        ? typeof cssPropRaw === 'string'
-          ? cssPropRaw
-          : // @ts-ignore
-            css([''], [cssPropRaw])(context)
-        : '';
+      const cssPropString = evaluateDynamicCss(cssPropRaw, context);
 
       const cssPropClassName = cssPropString ? `hspcn-${hashString(cssPropString)}` : '';
 
       useInsertionEffect(() => {
         if (cssPropClassName) {
-          return mountStyle(cssPropClassName, processCss(cssPropString, `.${cssPropClassName}`), 2);
+          const overrideCss = processCss(cssPropString, `.${cssPropClassName}`);
+
+          return mountStyle(cssPropClassName, overrideCss, 2);
         }
       }, [cssPropClassName]);
 
       const mergedProps = {
         ...resolvedDefaultProps,
         ...cleanedProps,
-        className: makeClassName([componentId, baseClassName, className, cssPropClassName]),
+        className: combineClassNames([componentId, baseClassName, className, cssPropClassName]),
       };
 
       const finalComponent = as || target;
@@ -131,7 +153,10 @@ export const styled = <
     };
 
     StyledComponent.$$ComponentId = componentId;
-    StyledComponent.displayName = `HoneyStyledComponent(${typeof target === 'string' ? target : target.displayName || target.name || 'Component'})`;
+
+    if (__DEV__) {
+      StyledComponent.displayName = `HoneyStyledComponent(${typeof target === 'string' ? target : target.displayName || target.name || 'Component'})`;
+    }
 
     return StyledComponent;
   };
