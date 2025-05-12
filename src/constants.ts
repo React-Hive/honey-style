@@ -2,7 +2,10 @@ import type { SVGAttributes, TdHTMLAttributes } from 'react';
 
 import type { HoneyBreakpointName } from './types';
 
-export const __DEV__ = process.env.NODE_ENV !== 'production';
+export const ENV =
+  typeof process !== 'undefined' && process.env?.NODE_ENV ? process.env.NODE_ENV : 'development';
+
+export const __DEV__ = ENV !== 'production';
 
 export const HONEY_STYLE_ATTR = 'data-honey-style';
 

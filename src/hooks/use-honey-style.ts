@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
+import { assert } from '../utils';
 import { HoneyStyleContext } from '../contexts';
-import { assert } from '../helpers';
 
 export const useHoneyStyle = () => {
   const context = useContext(HoneyStyleContext);

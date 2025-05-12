@@ -65,4 +65,33 @@ describe('[styled]: basic behavior', () => {
 
     expect(getByTestId('link')).toHaveAttribute('href', 'https://google.com');
   });
+
+  it('should compose class names from base and extended styled components', () => {
+    const Button = styled('button')`
+      background-color: white;
+    `;
+
+    const AddButton = (props: PropsWithChildren) => <Button {...props} />;
+
+    const CustomAddButton = styled(AddButton)`
+      background-color: green;
+    `;
+
+    const { getByTestId } = customRender(
+      <CustomAddButton data-testid="custom-add-btn">content</CustomAddButton>,
+    );
+
+    expect(getByTestId('custom-add-btn')).toHaveClass(
+      ...[
+        // white
+        'button-zqnl6l',
+        // green
+        'AddButton-1b56n0h',
+      ],
+    );
+
+    expect(getByTestId('custom-add-btn')).toHaveStyle({
+      backgroundColor: 'green',
+    });
+  });
 });

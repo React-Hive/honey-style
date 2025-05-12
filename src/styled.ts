@@ -2,11 +2,16 @@ import { createElement, useInsertionEffect } from 'react';
 import type { ElementType, ComponentProps, ComponentPropsWithRef } from 'react';
 
 import { __DEV__ } from './constants';
-import { processCss, generateId, hashString, combineClassNames } from './utils';
+import {
+  processCss,
+  generateId,
+  combineClassNames,
+  resolveClassName,
+  filterNonHtmlAttrs,
+} from './utils';
 import { css } from './css';
 import { mountStyle } from './mount-style';
 import { useHoneyStyle } from './hooks';
-import { filterNonHtmlAttrs } from './helpers';
 import type {
   FastOmit,
   Override,
@@ -19,7 +24,7 @@ import type {
 
 const evaluateDynamicCss = (
   interpolation: HoneyStyledInterpolation<any> | undefined,
-  context: any,
+  context: HoneyStyledContext<any>,
 ): string => {
   if (!interpolation) {
     return '';
@@ -64,13 +69,16 @@ export const styled = <
     strings: TemplateStringsArray,
     ...interpolations: HoneyStyledInterpolation<Override<ComponentProps<OverrideTarget>, Props>>[]
   ) => {
-    const componentId = generateId('hsc');
+    const componentName =
+      typeof target === 'string' ? target : target.displayName || target.name || 'Component';
+
+    const componentId = generateId(__DEV__ ? componentName : 'hsc');
     const computeCss = css(strings, ...interpolations);
 
     const StyledComponent = <AsElement extends ElementType = OverrideTarget>({
       as,
       className,
-      __chain,
+      __compositionDepth = 0,
       css: cssProp,
       ...props
     }: HoneyStyledPropsWithAs<
@@ -82,7 +90,7 @@ export const styled = <
        */
       css?: HoneyStyledInterpolation<Props>;
       className?: HoneyCSSClassName;
-      __chain?: string;
+      __compositionDepth?: number;
     }) => {
       if (__DEV__ && cssProp) {
         console.warn(
@@ -108,24 +116,24 @@ export const styled = <
       };
 
       const rawCss = computeCss(context);
-      const baseClassName = `hscn-${hashString(rawCss)}`;
+      const baseClassName = resolveClassName(componentName, rawCss);
 
       useInsertionEffect(() => {
         const baseCss = processCss(rawCss, `.${baseClassName}`);
 
-        return mountStyle(baseClassName, baseCss, __chain ? 0 : 1);
-      }, [baseClassName, __chain]);
+        return mountStyle(baseClassName, baseCss, __compositionDepth);
+      }, [baseClassName]);
 
       const cssPropRaw = typeof cssProp === 'function' ? cssProp(context) : cssProp;
       const cssPropString = evaluateDynamicCss(cssPropRaw, context);
 
-      const cssPropClassName = cssPropString ? `hspcn-${hashString(cssPropString)}` : '';
+      const cssPropClassName = cssPropString ? resolveClassName(componentName, cssPropString) : '';
 
       useInsertionEffect(() => {
         if (cssPropClassName) {
           const overrideCss = processCss(cssPropString, `.${cssPropClassName}`);
 
-          return mountStyle(cssPropClassName, overrideCss, 2);
+          return mountStyle(cssPropClassName, overrideCss, 1);
         }
       }, [cssPropClassName]);
 
@@ -148,14 +156,14 @@ export const styled = <
       return createElement(target, {
         ...mergedProps,
         ...(as && { as }),
-        __chain: 'true',
+        __compositionDepth: __compositionDepth - 1,
       });
     };
 
     StyledComponent.$$ComponentId = componentId;
 
     if (__DEV__) {
-      StyledComponent.displayName = `HoneyStyledComponent(${typeof target === 'string' ? target : target.displayName || target.name || 'Component'})`;
+      StyledComponent.displayName = `HoneyStyledComponent(${componentName})`;
     }
 
     return StyledComponent;
