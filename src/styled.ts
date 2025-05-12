@@ -69,10 +69,7 @@ export const styled = <
     strings: TemplateStringsArray,
     ...interpolations: HoneyStyledInterpolation<Override<ComponentProps<OverrideTarget>, Props>>[]
   ) => {
-    const componentName =
-      typeof target === 'string' ? target : target.displayName || target.name || 'Component';
-
-    const componentId = generateId(__DEV__ ? componentName : 'hsc');
+    const componentId = generateId('hsc');
     const computeCss = css(strings, ...interpolations);
 
     const StyledComponent = <AsElement extends ElementType = OverrideTarget>({
@@ -116,7 +113,7 @@ export const styled = <
       };
 
       const rawCss = computeCss(context);
-      const baseClassName = resolveClassName(componentName, rawCss);
+      const baseClassName = resolveClassName(rawCss);
 
       useInsertionEffect(() => {
         const baseCss = processCss(rawCss, `.${baseClassName}`);
@@ -127,7 +124,7 @@ export const styled = <
       const cssPropRaw = typeof cssProp === 'function' ? cssProp(context) : cssProp;
       const cssPropString = evaluateDynamicCss(cssPropRaw, context);
 
-      const cssPropClassName = cssPropString ? resolveClassName(componentName, cssPropString) : '';
+      const cssPropClassName = cssPropString ? resolveClassName(cssPropString) : '';
 
       useInsertionEffect(() => {
         if (cssPropClassName) {
@@ -163,6 +160,9 @@ export const styled = <
     StyledComponent.$$ComponentId = componentId;
 
     if (__DEV__) {
+      const componentName =
+        typeof target === 'string' ? target : target.displayName || target.name || 'Component';
+
       StyledComponent.displayName = `HoneyStyledComponent(${componentName})`;
     }
 

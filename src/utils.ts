@@ -32,8 +32,7 @@ export const hashString = (str: string): string => {
 export const combineClassNames = (classNames: HoneyCSSClassName[]) =>
   classNames.filter(Boolean).join(' ').trim();
 
-export const resolveClassName = (componentName: string, css: string) =>
-  `${__DEV__ ? componentName : 'hscn'}-${hashString(css)}`;
+export const resolveClassName = (css: string) => `hscn-${hashString(css)}`;
 
 export const processCss = (rawCss: string, selector?: string): string => {
   const scopedCss = selector ? `${selector}{${rawCss}}` : rawCss;

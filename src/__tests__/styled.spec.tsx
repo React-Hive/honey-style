@@ -84,9 +84,9 @@ describe('[styled]: basic behavior', () => {
     expect(getByTestId('custom-add-btn')).toHaveClass(
       ...[
         // white
-        'button-zqnl6l',
+        'hscn-zqnl6l',
         // green
-        'AddButton-1b56n0h',
+        'hscn-1b56n0h',
       ],
     );
 
