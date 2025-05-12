@@ -1,13 +1,14 @@
 import { createElement, useInsertionEffect } from 'react';
 import type { ElementType, ComponentProps, ComponentPropsWithRef } from 'react';
 
-import { __DEV__ } from './constants';
+import { __DEV__, HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
 import {
   processCss,
   generateId,
   combineClassNames,
   resolveClassName,
   filterNonHtmlAttrs,
+  isStyledComponent,
 } from './utils';
 import { css } from './css';
 import { mountStyle } from './mount-style';
@@ -149,15 +150,16 @@ export const styled = <
         return createElement(finalComponent, filteredProps);
       }
 
-      // Recreate all elements in the chain
       return createElement(target, {
         ...mergedProps,
         ...(as && { as }),
-        __compositionDepth: __compositionDepth - 1,
+        ...(isStyledComponent(target) && {
+          __compositionDepth: __compositionDepth - 1,
+        }),
       });
     };
 
-    StyledComponent.$$ComponentId = componentId;
+    StyledComponent[HONEY_STYLED_COMPONENT_ID_PROP] = componentId;
 
     if (__DEV__) {
       const componentName =

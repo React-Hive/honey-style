@@ -1,4 +1,5 @@
-import { toKebabCase } from './utils';
+import { HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
+import { isStyledComponent, toKebabCase } from './utils';
 import type { HoneyStyledInterpolation, HoneyStyledContext } from './types';
 
 const resolveCssInterpolation = <Props extends object>(
@@ -10,8 +11,8 @@ const resolveCssInterpolation = <Props extends object>(
   }
 
   if (typeof value === 'function') {
-    if ('$$ComponentId' in value) {
-      return `.${value.$$ComponentId}`;
+    if (isStyledComponent(value)) {
+      return `.${value[HONEY_STYLED_COMPONENT_ID_PROP]}`;
     }
 
     return resolveCssInterpolation(value(context), context);

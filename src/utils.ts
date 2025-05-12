@@ -1,7 +1,7 @@
 import { compile, serialize, stringify } from 'stylis';
 
-import { __DEV__, VALID_DOM_ELEMENT_ATTRS } from './constants';
-import type { HoneyCSSClassName } from './types';
+import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
+import type { HoneyCSSClassName, HoneyStyledComponent } from './types';
 
 export function assert(condition: any, message: string): asserts condition {
   if (!condition) {
@@ -33,6 +33,9 @@ export const combineClassNames = (classNames: HoneyCSSClassName[]) =>
   classNames.filter(Boolean).join(' ').trim();
 
 export const resolveClassName = (css: string) => `hscn-${hashString(css)}`;
+
+export const isStyledComponent = (component: any): component is HoneyStyledComponent =>
+  HONEY_STYLED_COMPONENT_ID_PROP in component;
 
 export const processCss = (rawCss: string, selector?: string): string => {
   const scopedCss = selector ? `${selector}{${rawCss}}` : rawCss;

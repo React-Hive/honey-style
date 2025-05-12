@@ -1,6 +1,7 @@
 import * as CSS from 'csstype';
 import type { ElementType } from 'react';
 
+import { HONEY_STYLED_COMPONENT_ID_PROP } from '../constants';
 import type { HoneyCSSColor, HoneyCSSDimensionValue } from './css.types';
 
 /**
@@ -263,8 +264,11 @@ export type HoneyStyledPropsWithAs<Element extends ElementType, Props extends ob
   as?: Element;
 } & Props;
 
-export interface HoneyStyledComponent {
-  $$ComponentId: string;
+type HoneyInternalStyledComponent = {
+  [HONEY_STYLED_COMPONENT_ID_PROP]: string;
+};
+
+export interface HoneyStyledComponent extends HoneyInternalStyledComponent {
   displayName?: string;
 }
 

@@ -7,6 +7,8 @@ export const ENV =
 
 export const __DEV__ = ENV !== 'production';
 
+export const HONEY_STYLED_COMPONENT_ID_PROP = '$$ComponentId';
+
 export const HONEY_STYLE_ATTR = 'data-honey-style';
 
 export const HONEY_BREAKPOINTS: HoneyBreakpointName[] = ['xs', 'sm', 'md', 'lg', 'xl'];
