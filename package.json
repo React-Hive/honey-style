@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "keywords": [
     "react",
@@ -20,7 +20,7 @@
   "scripts": {
     "prepare": "husky",
     "clean": "rm -rf dist",
-    "build": "npm run clean && NODE_ENV=production webpack --config webpack.config.js",
+    "build": "NODE_ENV=production webpack --config webpack.config.js",
     "test": "jest --collect-coverage",
     "diagnostics": "tsx scripts/collect-diagnostics.ts"
   },

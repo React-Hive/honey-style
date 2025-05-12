@@ -114,7 +114,7 @@ export const styled = <
         const baseCss = processCss(rawCss, `.${baseClassName}`);
 
         return mountStyle(baseClassName, baseCss, __chain ? 0 : 1);
-      }, [baseClassName]);
+      }, [baseClassName, __chain]);
 
       const cssPropRaw = typeof cssProp === 'function' ? cssProp(context) : cssProp;
       const cssPropString = evaluateDynamicCss(cssPropRaw, context);
