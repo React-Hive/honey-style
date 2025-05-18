@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "",
   "keywords": [
     "react",
@@ -24,13 +24,13 @@
     "diagnostics": "tsx scripts/collect-diagnostics.ts"
   },
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
   "files": [
     "dist",
     "!dist/**/__mocks__",
