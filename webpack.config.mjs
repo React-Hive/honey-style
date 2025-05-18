@@ -1,12 +1,24 @@
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
+  target: ['web'],
   entry: {
     index: path.resolve(__dirname, 'src/index.ts'),
   },
   output: {
+    module: true,
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'commonjs2',
+    library: {
+      // https://webpack.js.org/configuration/output/#type-modern-module
+      type: 'modern-module',
+    },
+  },
+  experiments: {
+    outputModule: true,
   },
   module: {
     rules: [
@@ -27,6 +39,6 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
   },
   externals: {
-    react: 'commonjs react',
+    react: 'react',
   },
 };

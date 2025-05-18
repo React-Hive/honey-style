@@ -29,7 +29,7 @@ const resolveCssInterpolation = <Props extends object>(
       .join('\n');
   }
 
-  return value?.toString?.() ?? '';
+  return value.toString?.() ?? '';
 };
 
 export const css = <Props extends object>(

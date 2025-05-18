@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useInsertionEffect } from 'react';
 
-import { HONEY_STYLE_ATTR } from './constants';
+import { HONEY_GLOBAL_STYLE_ATTR } from './constants';
 import { css } from './css';
 import { processCss, generateId } from './utils';
 import { useHoneyStyle } from './hooks';
@@ -17,19 +17,16 @@ export const createGlobalStyle = (
   const GlobalStyle = () => {
     const { theme } = useHoneyStyle();
 
-    useEffect(() => {
-      if (document.getElementById(styleId)) {
-        return;
-      }
-
+    useInsertionEffect(() => {
       const rawCss = computeCss({ theme });
+      const processedCss = processCss(rawCss);
 
       const styleElement = document.createElement('style');
       styleElement.id = styleId;
-      styleElement.innerHTML = processCss(rawCss);
-      styleElement.setAttribute(HONEY_STYLE_ATTR, 'true');
+      styleElement.innerHTML = processedCss;
+      styleElement.setAttribute(HONEY_GLOBAL_STYLE_ATTR, 'true');
 
-      document.head.appendChild(styleElement);
+      document.head.insertBefore(styleElement, document.head.firstChild);
 
       return () => {
         styleElement.remove();
