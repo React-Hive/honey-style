@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "",
   "keywords": [
     "react",
@@ -25,7 +25,10 @@
   },
   "type": "module",
   "exports": {
-    ".": "./dist/index.mjs"
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
   },
   "types": "dist/index.d.ts",
   "files": [
