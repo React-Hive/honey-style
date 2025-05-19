@@ -2,11 +2,16 @@ import type { SVGAttributes, TdHTMLAttributes } from 'react';
 
 import type { HoneyBreakpointName } from './types';
 
-const ENV =
-  (typeof process !== 'undefined' && typeof process.env !== 'undefined' && process.env.NODE_ENV) ||
-  'development';
+const ENV = process.env.NODE_ENV || 'development';
 
 export const __DEV__ = ENV !== 'production';
+
+if (__DEV__ && typeof window !== 'undefined' && !process.env.JEST_WORKER_ID) {
+  console.info(
+    '[@react-hive/honey-style]: You are running in development mode. ' +
+      'This build is not optimized for production and may include extra checks or logs.',
+  );
+}
 
 export const HONEY_STYLED_COMPONENT_ID_PROP = '$$ComponentId';
 

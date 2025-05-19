@@ -1,5 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import CopyPlugin from 'copy-webpack-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +24,6 @@ const baseConfig = {
       },
     ],
   },
-  devtool: 'source-map',
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
@@ -32,23 +32,40 @@ const baseConfig = {
   },
 };
 
+const copyFiles = new CopyPlugin({
+  patterns: [
+    {
+      from: path.resolve(__dirname, 'README.md'),
+      to: path.resolve(__dirname, 'dist', 'README.md'),
+    },
+    {
+      from: path.resolve(__dirname, 'LICENSE'),
+      to: path.resolve(__dirname, 'dist', 'LICENSE'),
+      toType: 'file',
+    },
+  ],
+});
+
 const esmConfig = {
   ...baseConfig,
+  mode: 'production',
   output: {
     module: true,
     path: path.resolve(__dirname, 'dist'),
     library: {
-      // https://webpack.js.org/configuration/output/#type-modern-module
-      type: 'modern-module',
+      type: 'module',
     },
   },
+  devtool: 'source-map',
   experiments: {
     outputModule: true,
   },
+  plugins: [copyFiles],
 };
 
 const cjsConfig = {
   ...baseConfig,
+  mode: 'production',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].cjs',
@@ -56,6 +73,20 @@ const cjsConfig = {
       type: 'commonjs2',
     },
   },
+  devtool: 'source-map',
 };
 
-export default [esmConfig, cjsConfig];
+const devConfig = {
+  ...baseConfig,
+  mode: 'development',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].dev.cjs',
+    library: {
+      type: 'commonjs2',
+    },
+  },
+  devtool: 'source-map',
+};
+
+export default [esmConfig, cjsConfig, devConfig];

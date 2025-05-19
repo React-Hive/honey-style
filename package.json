@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "",
   "keywords": [
     "react",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky",
-    "build": "NODE_ENV=production webpack --config webpack.config.mjs",
+    "build": "webpack --config webpack.config.mjs",
     "test": "jest --collect-coverage",
     "diagnostics": "tsx scripts/collect-diagnostics.ts"
   },
@@ -55,6 +55,7 @@
     "@types/node": "22.15.17",
     "@types/react": "^19.1.4",
     "@types/stylis": "4.2.7",
+    "copy-webpack-plugin": "13.0.0",
     "eslint": "9.27.0",
     "eslint-plugin-react": "7.37.5",
     "html-webpack-plugin": "5.6.3",
