@@ -86,6 +86,7 @@ const VALID_HTML_ATTRS = new Set([
   'muted',
   'poster',
   'preload',
+  'role',
   'src',
   'srcSet',
   'useMap',
