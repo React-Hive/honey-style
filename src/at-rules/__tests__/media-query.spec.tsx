@@ -1,4 +1,4 @@
-import { mediaQuery } from '../utils';
+import { mediaQuery } from '../media-query';
 
 describe('[mediaQuery]: basic behavior', () => {
   it('should return "@media " for empty input', () => {

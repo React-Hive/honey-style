@@ -1,7 +1,7 @@
 import { compile, serialize, stringify } from 'stylis';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
-import type { HoneyCSSClassName, HoneyCSSMediaRule, HoneyStyledComponent } from './types';
+import type { HoneyCSSClassName, HoneyStyledComponent } from './types';
 
 export function assert(condition: any, message: string): asserts condition {
   if (!condition) {
@@ -107,49 +107,3 @@ export const filterNonHtmlAttrs = <Attrs extends object>(attrs: Attrs): Attrs =>
     }
     return allowedAttrs;
   }, {} as Attrs);
-
-/**
- * Constructs a complete `@media` query string from an array of media rule objects.
- * Each rule defines conditions such as screen size, orientation, or resolution,
- * which are converted into standard CSS media query syntax.
- *
- * @param rules - An array of media rule objects used to generate individual media queries.
- *
- * @returns A string containing a full `@media` query that can be used in CSS or injected into a stylesheet.
- *
- * @example
- * ```ts
- * atMedia([
- *   { minWidth: '768px', orientation: 'landscape' },
- *   { mediaType: 'print' }
- * ]);
- * // Returns: "@media screen and (min-width: 768px) and (orientation: landscape), print"
- * ```
- */
-export const mediaQuery = (rules: HoneyCSSMediaRule[]): string => {
-  const mediaRules = rules.map(rule => {
-    const conditions = [
-      rule.width && ['width', rule.width],
-      rule.minWidth && ['min-width', rule.minWidth],
-      rule.maxWidth && ['max-width', rule.maxWidth],
-      rule.height && ['height', rule.height],
-      rule.minHeight && ['min-height', rule.minHeight],
-      rule.maxHeight && ['max-height', rule.maxHeight],
-      rule.orientation && ['orientation', rule.orientation],
-      rule.minResolution && ['min-resolution', rule.minResolution],
-      rule.maxResolution && ['max-resolution', rule.maxResolution],
-      rule.resolution && ['resolution', rule.resolution],
-      rule.update && ['update', rule.update],
-    ]
-      .filter(Boolean)
-      .map(r => r && `(${r[0]}: ${r[1]})`)
-      .join(' and ');
-
-    const operatorPart = rule.operator ? `${rule.operator} ` : '';
-    const conditionsPart = conditions ? ` and ${conditions}` : '';
-
-    return `${operatorPart}${rule.mediaType ?? 'screen'}${conditionsPart}`;
-  });
-
-  return `@media ${mediaRules.join(', ')}`;
-};
