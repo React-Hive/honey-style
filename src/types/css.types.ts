@@ -16,7 +16,7 @@ export type HoneyHEXColor = `#${string}`;
  * Represents any valid CSS color, either a named color (like `'red'`, `'blue'`)
  * or a hexadecimal color code (like `'#ff0000'`).
  */
-export type HoneyCSSColor = CSS.DataType.NamedColor | HoneyHEXColor;
+export type HoneyCSSColor = HoneyHEXColor | CSS.DataType.NamedColor | CSS.Globals;
 
 /**
  * Represents absolute CSS dimension units.
@@ -66,3 +66,70 @@ export type HoneyCSSDimensionValue<Unit extends HoneyCSSDimensionUnit = HoneyCSS
   | `${number}${Unit}`
   | `${number}`
   | 'auto';
+
+/**
+ * Represents CSS resolution units typically used in media queries.
+ *
+ * - `dpi` — dots per inch
+ * - `dpcm` — dots per centimeter
+ * - `dppx` — dots per pixel (e.g., 2dppx for Retina displays)
+ * - `x` — alias for `dppx`
+ */
+type HoneyCSSResolutionUnit = 'dpi' | 'dpcm' | 'dppx' | 'x';
+
+/**
+ * Represents a CSS resolution value, such as `'300dpi'`, `'2x'`, or `'1.5dppx'`.
+ */
+type HoneyCSSResolutionValue = `${number}${HoneyCSSResolutionUnit}`;
+
+/**
+ * Properties for dimension-based media queries
+ */
+interface HoneyCSSMediaDimensionProperties {
+  width?: HoneyCSSDimensionValue;
+  minWidth?: HoneyCSSDimensionValue;
+  maxWidth?: HoneyCSSDimensionValue;
+  height?: HoneyCSSDimensionValue;
+  minHeight?: HoneyCSSDimensionValue;
+  maxHeight?: HoneyCSSDimensionValue;
+}
+
+/**
+ * Properties for resolution-based media queries
+ */
+interface HoneyCSSMediaResolutionProperties {
+  resolution?: HoneyCSSResolutionValue;
+  minResolution?: HoneyCSSResolutionValue;
+  maxResolution?: HoneyCSSResolutionValue;
+}
+
+type HoneyCSSMediaRuleOperator = 'not' | 'only';
+
+type HoneyCSSMediaRuleType = 'all' | 'print' | 'screen' | 'speech';
+
+/**
+ * Represents the possible values for media query orientation.
+ *
+ * Used in responsive styles to target specific device orientations.
+ *
+ * - `'landscape'` – Width is greater than height.
+ * - `'portrait'` – Height is greater than width.
+ */
+type HoneyCSSMediaOrientation = 'landscape' | 'portrait';
+
+type HoneyCSSMediaRuleUpdate = 'none' | 'slow' | 'fast';
+
+/**
+ * Options for CSS @media at-rule.
+ */
+export interface HoneyCSSMediaRule
+  extends HoneyCSSMediaDimensionProperties,
+    HoneyCSSMediaResolutionProperties {
+  operator?: HoneyCSSMediaRuleOperator;
+  /**
+   * @default screen
+   */
+  mediaType?: HoneyCSSMediaRuleType;
+  orientation?: HoneyCSSMediaOrientation;
+  update?: HoneyCSSMediaRuleUpdate;
+}

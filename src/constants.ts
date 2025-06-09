@@ -21,80 +21,101 @@ export const HONEY_STYLE_ATTR = 'data-honey-style';
 export const HONEY_BREAKPOINTS: HoneyBreakpointName[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 const VALID_HTML_ATTRS = new Set([
+  // Standard Attributes
   'accept',
   'accessKey',
-  'alt',
-  'aria',
-  'as',
   'autoCapitalize',
   'autoComplete',
   'autoFocus',
   'capture',
-  'checked',
+  'class',
   'className',
   'contentEditable',
   'contextMenu',
-  'controls',
-  'crossOrigin',
-  'dangerouslySetInnerHTML',
-  'data',
   'dir',
-  'disabled',
-  'download',
   'draggable',
+  'hidden',
+  'id',
+  'inert',
+  'inputMode',
+  'is',
+  'lang',
+  'nonce',
+  'part',
+  'slot',
+  'spellCheck',
+  'style',
+  'tabIndex',
+  'title',
+  'translate',
+  'unselectable',
+
+  // Form Attributes
+  'checked',
+  'disabled',
   'form',
   'formAction',
   'formEncType',
   'formMethod',
   'formNoValidate',
   'formTarget',
-  'height',
-  'hidden',
-  'href',
-  'hrefLang',
-  'id',
-  'is',
-  'isMap',
-  'inert',
-  'key',
-  'lang',
   'list',
-  'loop',
   'max',
   'maxLength',
-  'media',
   'min',
   'minLength',
   'multiple',
-  'muted',
   'name',
   'pattern',
   'placeholder',
   'readOnly',
   'required',
-  'role',
   'size',
-  'slot',
-  'spellCheck',
+  'step',
+  'type',
+  'value',
+
+  // Media Attributes
+  'alt',
+  'controls',
+  'crossOrigin',
+  'height',
+  'isMap',
+  'loop',
+  'media',
+  'muted',
+  'poster',
+  'preload',
   'src',
   'srcSet',
-  'step',
-  'style',
-  'tabIndex',
-  'target',
-  'title',
-  'translate',
-  'type',
   'useMap',
-  'value',
   'width',
+
+  // Anchor & Link Attributes
+  'download',
+  'href',
+  'hrefLang',
+  'referrerPolicy',
+  'rel',
+  'target',
+
+  // React Specific
+  'dangerouslySetInnerHTML',
+  'key',
   'ref',
   'children',
-  'class',
+
+  // Deprecated/Obscure Attributes (still valid in some contexts)
   'char',
   'charOff',
-  'unselectable',
-  'inputMode',
+
+  // Web Components / Shadow DOM
+  'exportparts',
+  'popover',
+  'popoverTarget',
+  'popoverTargetAction',
+  'virtualkeyboardpolicy',
+  'writingsuggestions',
 ]);
 
 const VALID_TABLE_ATTRS = new Set<keyof TdHTMLAttributes<any>>([
@@ -161,23 +182,28 @@ const VALID_EVENT_ATTRS = new Set([
   'onCopy',
   'onCut',
   'onPaste',
+
   // Composition
   'onCompositionEnd',
   'onCompositionStart',
   'onCompositionUpdate',
+
   // Focus
   'onFocus',
   'onBlur',
+
   // Form
   'onChange',
   'onInput',
   'onInvalid',
   'onReset',
   'onSubmit',
+
   // Keyboard
   'onKeyDown',
   'onKeyPress',
   'onKeyUp',
+
   // Mouse
   'onClick',
   'onContextMenu',
@@ -189,6 +215,7 @@ const VALID_EVENT_ATTRS = new Set([
   'onMouseOut',
   'onMouseOver',
   'onMouseUp',
+
   // Drag & Drop
   'onDrag',
   'onDragEnd',
@@ -198,6 +225,7 @@ const VALID_EVENT_ATTRS = new Set([
   'onDragOver',
   'onDragStart',
   'onDrop',
+
   // Pointer
   'onPointerDown',
   'onPointerMove',
@@ -209,17 +237,22 @@ const VALID_EVENT_ATTRS = new Set([
   'onPointerOut',
   'onGotPointerCapture',
   'onLostPointerCapture',
+
   // Selection
   'onSelect',
+
   // Touch
   'onTouchCancel',
   'onTouchEnd',
   'onTouchMove',
   'onTouchStart',
+
   // UI
   'onScroll',
+
   // Wheel
   'onWheel',
+
   // Media
   'onAbort',
   'onCanPlay',
@@ -243,6 +276,7 @@ const VALID_EVENT_ATTRS = new Set([
   'onTimeUpdate',
   'onVolumeChange',
   'onWaiting',
+
   // Image
   'onLoad',
   'onError',

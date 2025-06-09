@@ -1,16 +1,16 @@
 import { HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
-import { isStyledComponent, toKebabCase } from './utils';
+import { isFunction, isNil, isObject, isStyledComponent, toKebabCase } from './utils';
 import type { HoneyStyledInterpolation, HoneyStyledContext } from './types';
 
 const resolveCssInterpolation = <Props extends object>(
   value: HoneyStyledInterpolation<Props>,
   context: HoneyStyledContext<Props>,
 ): string => {
-  if (value === '' || value === false || value === undefined || value === null) {
+  if (value === '' || value === false || isNil(value)) {
     return '';
   }
 
-  if (typeof value === 'function') {
+  if (isFunction(value)) {
     if (isStyledComponent(value)) {
       return `.${value[HONEY_STYLED_COMPONENT_ID_PROP]}`;
     }
@@ -22,7 +22,7 @@ const resolveCssInterpolation = <Props extends object>(
     return value.map(v => resolveCssInterpolation(v, context)).join('\n');
   }
 
-  if (value && typeof value === 'object') {
+  if (isObject(value)) {
     return Object.entries(value)
       .filter(([, v]) => v !== undefined && v !== false)
       .map(([k, v]) => `${toKebabCase(k)}: ${v};`)

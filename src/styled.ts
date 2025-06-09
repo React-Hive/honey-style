@@ -9,6 +9,8 @@ import {
   resolveClassName,
   filterNonHtmlAttrs,
   isStyledComponent,
+  isFunction,
+  isString,
 } from './utils';
 import { css } from './css';
 import { mountStyle } from './mount-style';
@@ -31,7 +33,7 @@ const evaluateDynamicCss = (
     return '';
   }
 
-  if (typeof interpolation === 'string') {
+  if (isString(interpolation)) {
     return interpolation;
   }
 
@@ -102,10 +104,9 @@ export const styled = <
         Object.entries(props).filter(([, value]) => value !== undefined),
       );
 
-      const resolvedDefaultProps: typeof defaultProps =
-        typeof defaultProps === 'function'
-          ? defaultProps({ theme, as, className, ...cleanedProps } as never)
-          : (defaultProps ?? ({} as never));
+      const resolvedDefaultProps = isFunction(defaultProps)
+        ? defaultProps({ theme, as, className, ...cleanedProps } as never)
+        : (defaultProps ?? ({} as never));
 
       const context: HoneyStyledContext<any> = {
         ...resolvedDefaultProps,
@@ -122,7 +123,7 @@ export const styled = <
         return mountStyle(baseClassName, baseCss, __compositionDepth);
       }, [baseClassName]);
 
-      const cssPropRaw = typeof cssProp === 'function' ? cssProp(context) : cssProp;
+      const cssPropRaw = isFunction(cssProp) ? cssProp(context) : cssProp;
       const cssPropString = evaluateDynamicCss(cssPropRaw, context);
 
       const cssPropClassName = cssPropString ? resolveClassName(cssPropString) : '';
@@ -143,9 +144,10 @@ export const styled = <
 
       const finalComponent = as || target;
 
-      if (typeof target === 'string') {
-        const filteredProps =
-          typeof finalComponent === 'string' ? filterNonHtmlAttrs(mergedProps) : mergedProps;
+      if (isString(target)) {
+        const filteredProps = isString(finalComponent)
+          ? filterNonHtmlAttrs(mergedProps)
+          : mergedProps;
 
         return createElement(finalComponent, filteredProps);
       }
@@ -162,8 +164,9 @@ export const styled = <
     StyledComponent[HONEY_STYLED_COMPONENT_ID_PROP] = componentId;
 
     if (__DEV__) {
-      const componentName =
-        typeof target === 'string' ? target : target.displayName || target.name || 'Component';
+      const componentName = isString(target)
+        ? target
+        : target.displayName || target.name || 'Component';
 
       StyledComponent.displayName = `HoneyStyledComponent(${componentName})`;
     }

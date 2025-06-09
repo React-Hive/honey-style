@@ -1,0 +1,28 @@
+{
+  "machine": {
+    "cpu": "Apple M1 Max",
+    "cores": 10,
+    "totalMemoryGB": 64,
+    "freeMemoryGB": 19.98,
+    "platform": "darwin arm64",
+    "node": "v22.12.0"
+  },
+  "benchmarks": {
+    "basicBox": {
+      "renders": 10000,
+      "totalTimeMs": 1866.59
+    },
+    "extendedBox": {
+      "renders": 10000,
+      "totalTimeMs": 1653.6
+    },
+    "dynamicBoxViaProps": {
+      "renders": 10000,
+      "totalTimeMs": 1881.74
+    },
+    "boxWithAsProp": {
+      "renders": 10000,
+      "totalTimeMs": 1676.73
+    }
+  }
+}

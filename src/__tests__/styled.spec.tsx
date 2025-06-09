@@ -20,6 +20,7 @@ describe('[styled]: basic behavior', () => {
 
   it('should render a styled component with "as" prop and preserve native attributes', () => {
     const Box = styled('div')``;
+
     const A = styled(Box, {
       as: 'a',
     })``;
@@ -35,6 +36,7 @@ describe('[styled]: basic behavior', () => {
 
   it('should render with the "as" prop using a styled component and preserve attributes', () => {
     const Link = styled('a')``;
+
     const Box = styled('div')``;
 
     const { getByTestId } = customRender(
@@ -94,4 +96,37 @@ describe('[styled]: basic behavior', () => {
       backgroundColor: 'green',
     });
   });
+
+  it('should override default props with props passed to styled component', () => {
+    const Box = styled('div', {
+      title: 'Test',
+    })``;
+
+    const { getByTestId } = customRender(<Box title="Override Test" data-testid="box" />);
+
+    expect(getByTestId('box')).toHaveAttribute('title', 'Override Test');
+  });
+
+  // it('should 1', () => {
+  //   type BoxProps<As extends ElementType> = HoneyStyledProps<
+  //     As,
+  //     {
+  //       customProp: string;
+  //     }
+  //   >;
+  //
+  //   const Box = styled<BoxProps<'div'>>('div', {
+  //     'data-testid': 'box',
+  //   })``;
+  //
+  //   const Form = styled<BoxProps<'form'>>(Box, {
+  //     as: 'form',
+  //   })``;
+  //
+  //   const { getByTestId } = customRender(
+  //     <Form unknownProp="123" customProp="test" data-testid="form" />,
+  //   );
+  //
+  //   // expect(getByTestId('form'));
+  // });
 });
