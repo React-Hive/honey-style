@@ -1,4 +1,5 @@
-import { HoneyCSSDimensionValue } from '../types';
+import { boolFilter } from '../utils';
+import type { HoneyCSSDimensionValue } from '../types';
 
 /**
  * Represents CSS resolution units typically used in media queries.
@@ -8,17 +9,17 @@ import { HoneyCSSDimensionValue } from '../types';
  * - `dppx` — dots per pixel (e.g., 2dppx for Retina displays)
  * - `x` — alias for `dppx`
  */
-type HoneyCSSResolutionUnit = 'dpi' | 'dpcm' | 'dppx' | 'x';
+type MediaQueryRuleResolutionUnit = 'dpi' | 'dpcm' | 'dppx' | 'x';
 
 /**
  * Represents a CSS resolution value, such as `'300dpi'`, `'2x'`, or `'1.5dppx'`.
  */
-type HoneyCSSResolutionValue = `${number}${HoneyCSSResolutionUnit}`;
+type MediaQueryRuleResolutionValue = `${number}${MediaQueryRuleResolutionUnit}`;
 
 /**
  * Properties for dimension-based media queries
  */
-interface HoneyCSSMediaDimensionProperties {
+interface MediaQueryRuleDimensionProperties {
   width?: HoneyCSSDimensionValue;
   minWidth?: HoneyCSSDimensionValue;
   maxWidth?: HoneyCSSDimensionValue;
@@ -30,15 +31,15 @@ interface HoneyCSSMediaDimensionProperties {
 /**
  * Properties for resolution-based media queries
  */
-interface HoneyCSSMediaResolutionProperties {
-  resolution?: HoneyCSSResolutionValue;
-  minResolution?: HoneyCSSResolutionValue;
-  maxResolution?: HoneyCSSResolutionValue;
+interface MediaQueryRuleResolutionProperties {
+  resolution?: MediaQueryRuleResolutionValue;
+  minResolution?: MediaQueryRuleResolutionValue;
+  maxResolution?: MediaQueryRuleResolutionValue;
 }
 
-type HoneyCSSMediaRuleOperator = 'not' | 'only';
+type MediaQueryRuleOperator = 'not' | 'only';
 
-type HoneyCSSMediaRuleType = 'all' | 'print' | 'screen' | 'speech';
+type MediaQueryRuleType = 'all' | 'print' | 'screen' | 'speech';
 
 /**
  * Represents the possible values for media query orientation.
@@ -48,24 +49,26 @@ type HoneyCSSMediaRuleType = 'all' | 'print' | 'screen' | 'speech';
  * - `'landscape'` – Width is greater than height.
  * - `'portrait'` – Height is greater than width.
  */
-type HoneyCSSMediaOrientation = 'landscape' | 'portrait';
+type MediaQueryRuleOrientation = 'landscape' | 'portrait';
 
-type HoneyCSSMediaRuleUpdate = 'none' | 'slow' | 'fast';
+type MediaQueryRuleUpdate = 'none' | 'slow' | 'fast';
 
 /**
  * Options for CSS @media at-rule.
  */
-export interface HoneyCSSMediaRule
-  extends HoneyCSSMediaDimensionProperties,
-    HoneyCSSMediaResolutionProperties {
-  operator?: HoneyCSSMediaRuleOperator;
+export interface HoneyMediaQueryRule
+  extends MediaQueryRuleDimensionProperties,
+    MediaQueryRuleResolutionProperties {
+  operator?: MediaQueryRuleOperator;
   /**
    * @default screen
    */
-  mediaType?: HoneyCSSMediaRuleType;
-  orientation?: HoneyCSSMediaOrientation;
-  update?: HoneyCSSMediaRuleUpdate;
+  mediaType?: MediaQueryRuleType;
+  orientation?: MediaQueryRuleOrientation;
+  update?: MediaQueryRuleUpdate;
 }
+
+type HoneyMediaQueryRuleConfig = [string, string | number];
 
 /**
  * Constructs a complete `@media` query string from an array of media rule objects.
@@ -85,9 +88,9 @@ export interface HoneyCSSMediaRule
  * // Returns: "@media screen and (min-width: 768px) and (orientation: landscape), print"
  * ```
  */
-export const mediaQuery = (rules: HoneyCSSMediaRule[]): string => {
+export const mediaQuery = (rules: HoneyMediaQueryRule[]): string => {
   const mediaRules = rules.map(rule => {
-    const conditions = [
+    const rulesConfig: (HoneyMediaQueryRuleConfig | undefined)[] = [
       rule.width && ['width', rule.width],
       rule.minWidth && ['min-width', rule.minWidth],
       rule.maxWidth && ['max-width', rule.maxWidth],
@@ -99,9 +102,10 @@ export const mediaQuery = (rules: HoneyCSSMediaRule[]): string => {
       rule.maxResolution && ['max-resolution', rule.maxResolution],
       rule.resolution && ['resolution', rule.resolution],
       rule.update && ['update', rule.update],
-    ]
-      .filter(Boolean)
-      .map(r => r && `(${r[0]}: ${r[1]})`)
+    ];
+
+    const conditions = boolFilter(rulesConfig)
+      .map(ruleConfig => `(${ruleConfig[0]}: ${ruleConfig[1]})`)
       .join(' and ');
 
     const operatorPart = rule.operator ? `${rule.operator} ` : '';

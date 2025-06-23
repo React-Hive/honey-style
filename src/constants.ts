@@ -281,6 +281,18 @@ const VALID_EVENT_ATTRS = new Set([
   // Image
   'onLoad',
   'onError',
+
+  // Transition
+  'onTransitionEnd',
+  'onTransitionStart',
+  'onTransitionRun',
+  'onTransitionCancel',
+
+  // Animation
+  'onAnimationStart',
+  'onAnimationEnd',
+  'onAnimationIteration',
+  'onAnimationCancel',
 ]);
 
 export const VALID_DOM_ELEMENT_ATTRS = new Set([
