@@ -57,12 +57,12 @@ export type HoneyCSSDimensionUnit = HoneyCSSAbsoluteDimensionUnit | HoneyCSSRela
  *
  * This type can represent:
  * - A value with a specific CSS unit, such as `'8px'`, `'1.5rem'`, or `'100%'`.
- * - A number without a unit, such as `'16'` (representing a unitless value).
+ * - A number without a unit, such as `16` (representing a unitless value).
  * - The special value `'auto'` commonly used for flexible layout values.
  *
  * @template Unit - The CSS unit to use (e.g., `'px'`, `'em'`, `'rem'`).
  */
 export type HoneyCSSDimensionValue<Unit extends HoneyCSSDimensionUnit = HoneyCSSDimensionUnit> =
   | `${number}${Unit}`
-  | `${number}`
-  | 'auto';
+  | 'auto'
+  | number;
