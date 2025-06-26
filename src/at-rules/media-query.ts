@@ -91,12 +91,12 @@ type HoneyMediaQueryRuleConfig = [string, string | number];
 export const mediaQuery = (rules: HoneyMediaQueryRule[]): string => {
   const mediaRules = rules.map(rule => {
     const rulesConfig: (HoneyMediaQueryRuleConfig | undefined)[] = [
-      rule.width === undefined ? undefined : ['width', rule.width],
-      rule.minWidth === undefined ? undefined : ['min-width', rule.minWidth],
-      rule.maxWidth === undefined ? undefined : ['max-width', rule.maxWidth],
-      rule.height === undefined ? undefined : ['height', rule.height],
-      rule.minHeight === undefined ? undefined : ['min-height', rule.minHeight],
-      rule.maxHeight === undefined ? undefined : ['max-height', rule.maxHeight],
+      rule.width && ['width', rule.width],
+      rule.minWidth && ['min-width', rule.minWidth],
+      rule.maxWidth && ['max-width', rule.maxWidth],
+      rule.height && ['height', rule.height],
+      rule.minHeight && ['min-height', rule.minHeight],
+      rule.maxHeight && ['max-height', rule.maxHeight],
       rule.orientation && ['orientation', rule.orientation],
       rule.minResolution && ['min-resolution', rule.minResolution],
       rule.maxResolution && ['max-resolution', rule.maxResolution],
