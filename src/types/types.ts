@@ -2,7 +2,7 @@ import * as CSS from 'csstype';
 import type { ElementType } from 'react';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP } from '../constants';
-import type { HoneyCSSColor, HoneyCSSDimensionValue } from './css.types';
+import type { HoneyCSSColor, HoneyCSSDimensionUnit, HoneyCSSDimensionValue } from './css.types';
 
 /**
  * Creates a new type by omitting the specified keys `U` from the object type `T`.
@@ -216,7 +216,7 @@ export interface HoneyContainer {
   /**
    * Max container width in any CSS distance value.
    */
-  maxWidth: HoneyCSSDimensionValue;
+  maxWidth: `${number}${HoneyCSSDimensionUnit}`;
 }
 
 /**

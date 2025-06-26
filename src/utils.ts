@@ -1,7 +1,20 @@
 import { compile, serialize, stringify } from 'stylis';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
-import type { HoneyCSSClassName, HoneyStyledComponent } from './types';
+import type {
+  HoneyColor,
+  HoneyColorKey,
+  HoneyColors,
+  HoneyCSSClassName,
+  HoneyCSSColor,
+  HoneyCSSDimensionValue,
+  HoneyDimensionName,
+  HoneyFontName,
+  HoneyHEXColor,
+  HoneyStyledComponent,
+  HoneyStyledContext,
+} from './types';
+import { css } from './css';
 
 export function assert(condition: any, message: string): asserts condition {
   if (!condition) {
@@ -122,3 +135,128 @@ export const filterNonHtmlAttrs = <Attrs extends object>(attrs: Attrs): Attrs =>
     }
     return allowedAttrs;
   }, {} as Attrs);
+
+/**
+ * Converts a pixel value to rem.
+ *
+ * @param px - The pixel value to be converted to rem.
+ * @param base - The base value for conversion. Default is 16, which is the typical root font size.
+ *
+ * @returns The value in rem as a string.
+ */
+export const pxToRem = (px: number, base: number = 16): string => `${px / base}rem`;
+
+/**
+ * Type guard function to check if a string value follows the pattern of a theme color value.
+ *
+ * A theme color value is assumed to be a string containing exactly one dot (e.g., 'primary.main').
+ *
+ * @param propertyValue - The string value to check.
+ *
+ * @returns True if the string value is a theme color value, false otherwise.
+ */
+export const checkIsThemeColorValue = (propertyValue: string): propertyValue is HoneyColorKey =>
+  propertyValue.split('.').length === 2;
+
+/**
+ * Resolves the font styles based on the provided font name from the theme.
+ *
+ * @param fontName - The name of the font to be resolved from the theme.
+ *
+ * @returns A style function that takes a theme object and returns the CSS styles for the specified font.
+ */
+export const resolveFont =
+  (fontName: HoneyFontName) =>
+  ({ theme }: HoneyStyledContext<object>) => {
+    const font = theme.fonts[fontName];
+
+    return css`
+      font-family: ${font.family};
+      font-size: ${pxToRem(font.size)};
+      font-weight: ${font.weight};
+      line-height: ${font.lineHeight !== undefined && pxToRem(font.lineHeight)};
+      letter-spacing: ${font.letterSpacing !== undefined && pxToRem(font.letterSpacing)};
+    `;
+  };
+
+/**
+ * Converts a 3-character or 6-character HEX color code to an 8-character HEX with alpha (RRGGBBAA) format.
+ *
+ * @param hex - The 3-character or 6-character HEX color code (e.g., "#RGB" or "#RRGGBB" or "RGB" or "RRGGBB").
+ * @param alpha - The alpha transparency value between 0 (fully transparent) and 1 (fully opaque).
+ *
+ * @throws {Error} If alpha value is not between 0 and 1, or if the hex code is invalid.
+ *
+ * @returns The 8-character HEX with alpha (RRGGBBAA) format color code, or null if input is invalid.
+ */
+export const convertHexToHexWithAlpha = (hex: string, alpha: number): HoneyHEXColor => {
+  if (alpha < 0 || alpha > 1) {
+    throw new Error(`[honey-layout]: Alpha "${alpha}" is not a valid hex format.`);
+  }
+
+  const hexRegex = /^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
+
+  const match = hex.match(hexRegex);
+  if (!match) {
+    throw new Error(`[honey-layout]: Invalid hex format.`);
+  }
+
+  const cleanHex = match[1];
+
+  // Expand 3-character hex to 6-character hex if necessary
+  const fullHex =
+    cleanHex.length === 3
+      ? cleanHex[0] + cleanHex[0] + cleanHex[1] + cleanHex[1] + cleanHex[2] + cleanHex[2]
+      : cleanHex;
+
+  // Convert to 8-character hex with alpha
+  const alphaHex = Math.round(alpha * 255)
+    .toString(16)
+    .toUpperCase()
+    .padStart(2, '0');
+
+  return `#${fullHex + alphaHex}`;
+};
+
+/**
+ * Resolves a color value from the theme or returns the input color directly if it's a standalone color name or HEX value.
+ *
+ * @param colorInput - A string representing the color to resolve.
+ *                 This can be:
+ *                  - A theme key in the format 'colorType.colorName'.
+ *                  - A standalone color name (e.g., "red", "blue").
+ *                  - A HEX color value (e.g., "#RRGGBB").
+ * @param [alpha] - The alpha transparency value between 0 (fully transparent) and 1 (fully opaque).
+ *                  Default to `undefined`.
+ *
+ * @returns A function that takes an `ExecutionContext` with a `theme` and resolves the color value:
+ *           - A HEX color string from the theme (e.g., "#RRGGBB").
+ *           - A HEX color string with alpha (e.g., "#RRGGBBAA") if `alpha` is provided.
+ *           - The input `colorKey` value directly if it's a standalone color name or HEX value.
+ *
+ * @throws Will throw an error if the provided alpha value is not within the valid range (0 to 1).
+ * @throws Will throw an error if the color format is invalid.
+ */
+export const resolveColor =
+  (colorInput: HoneyColor, alpha?: number) =>
+  ({ theme }: HoneyStyledContext<object>): HoneyCSSColor => {
+    const [colorType, colorName] = colorInput.split('.');
+
+    const color = colorName
+      ? theme.colors[colorType as keyof HoneyColors][colorName]
+      : (colorType as HoneyCSSColor);
+
+    return alpha === undefined ? color : convertHexToHexWithAlpha(color, alpha);
+  };
+
+/**
+ * Resolves a specific dimension value from the theme configuration.
+ *
+ * @param dimensionName - The name of the dimension to resolve.
+ *
+ * @returns A style function that takes the theme and returns the resolved dimension value from the theme.
+ */
+export const resolveDimension =
+  (dimensionName: HoneyDimensionName) =>
+  ({ theme }: HoneyStyledContext<object>): HoneyCSSDimensionValue =>
+    theme.dimensions[dimensionName];
