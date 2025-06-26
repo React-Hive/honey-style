@@ -109,7 +109,7 @@ export interface HoneyFont {
  *
  * @example
  * ```ts
- * declare module '@react-hive/honey-layout' {
+ * declare module '@react-hive/honey-style' {
  *  export interface HoneyFonts {
  *    body: HoneyFont;
  *    caption: HoneyFont;
@@ -176,7 +176,7 @@ interface BaseHoneyColors {
  *
  * @example
  * ```ts
- * declare module '@react-hive/honey-layout' {
+ * declare module '@react-hive/honey-style' {
  *  export interface HoneyColors {
  *    neutral: Record<'charcoalDark' | 'charcoalGray' | 'crimsonRed', HoneyCSSColor>;
  *  }
