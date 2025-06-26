@@ -1,6 +1,6 @@
-import { HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
-import { isFunction, isNil, isObject, isStyledComponent, toKebabCase } from './utils';
-import type { HoneyStyledInterpolation, HoneyStyledContext } from './types';
+import { HONEY_STYLED_COMPONENT_ID_PROP } from '../constants';
+import { isFunction, isNil, isObject, isStyledComponent, toKebabCase } from '../utils';
+import type { HoneyStyledInterpolation, HoneyStyledContext } from '../types';
 
 const resolveCssInterpolation = <Props extends object>(
   value: HoneyStyledInterpolation<Props>,

@@ -1,8 +1,8 @@
 import { useInsertionEffect } from 'react';
 
 import { HONEY_GLOBAL_STYLE_ATTR } from './constants';
-import { css } from './css';
-import { processCss, generateId } from './utils';
+import { css, processCss } from './css';
+import { generateId } from './utils';
 import { useHoneyStyle } from './hooks';
 import type { HoneyStyledInterpolation, HoneyStyledContext } from './types';
 

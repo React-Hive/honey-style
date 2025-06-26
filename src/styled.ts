@@ -3,7 +3,6 @@ import type { ElementType, ComponentProps, ComponentPropsWithRef } from 'react';
 
 import { __DEV__, HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
 import {
-  processCss,
   generateId,
   combineClassNames,
   resolveClassName,
@@ -12,7 +11,7 @@ import {
   isFunction,
   isString,
 } from './utils';
-import { css } from './css';
+import { css, processCss } from './css';
 import { mountStyle } from './mount-style';
 import { useHoneyStyle } from './hooks';
 import type {
@@ -118,7 +117,9 @@ export const styled = <
       const baseClassName = resolveClassName(rawCss);
 
       useInsertionEffect(() => {
-        const baseCss = processCss(rawCss, `.${baseClassName}`);
+        const baseCss = processCss(rawCss, `.${baseClassName}`, {
+          spacingMultiplier: theme.spacings.base,
+        });
 
         return mountStyle(baseClassName, baseCss, __compositionDepth);
       }, [baseClassName]);
@@ -130,7 +131,9 @@ export const styled = <
 
       useInsertionEffect(() => {
         if (cssPropClassName) {
-          const overrideCss = processCss(cssPropString, `.${cssPropClassName}`);
+          const overrideCss = processCss(cssPropString, `.${cssPropClassName}`, {
+            spacingMultiplier: theme.spacings.base,
+          });
 
           return mountStyle(cssPropClassName, overrideCss, 1);
         }

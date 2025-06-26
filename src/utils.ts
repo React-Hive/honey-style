@@ -1,5 +1,3 @@
-import { compile, serialize, stringify } from 'stylis';
-
 import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
 import { css } from './css';
 import type {
@@ -110,12 +108,6 @@ export const resolveClassName = (css: string) => `hscn-${hashString(css)}`;
 
 export const isStyledComponent = (component: any): component is HoneyStyledComponent =>
   HONEY_STYLED_COMPONENT_ID_PROP in component;
-
-export const processCss = (rawCss: string, selector?: string): string => {
-  const scopedCss = selector ? `${selector}{${rawCss}}` : rawCss;
-
-  return serialize(compile(scopedCss), stringify);
-};
 
 /**
  * Filters out non-standard HTML attributes from a props object intended for a native HTML element.

@@ -107,6 +107,34 @@ describe('[styled]: basic behavior', () => {
     expect(getByTestId('box')).toHaveAttribute('title', 'Override Test');
   });
 
+  it('should convert single numeric spacing values to px using the multiplier', () => {
+    const Box = styled('div')`
+      margin: ${1.5};
+      padding: ${1};
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="box" />);
+
+    expect(getByTestId('box')).toHaveStyle({
+      margin: '12px',
+      padding: '8px',
+    });
+  });
+
+  it('should convert array spacing values to px using the multiplier', () => {
+    const Box = styled('div')`
+      margin: ${[0.5, 2]};
+      padding: ${[1, 1.5]};
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="box" />);
+
+    expect(getByTestId('box')).toHaveStyle({
+      margin: '4px 16px',
+      padding: '8px 12px',
+    });
+  });
+
   // it('should 1', () => {
   //   type BoxProps<As extends ElementType> = HoneyStyledProps<
   //     As,
