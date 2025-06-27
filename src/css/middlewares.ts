@@ -26,16 +26,23 @@ export const createSpacingMiddleware =
       KEBAB_CASE_SPACING_PROPERTIES.includes(element.props as never) &&
       typeof element.children === 'string'
     ) {
-      const transformed = element.children
-        .split(/\s+/)
-        .map(value => {
-          if (/[a-z%]+$/i.test(value)) {
-            return value;
-          }
+      // If the whole value contains parentheses, skip entirely (likely calc or var)
+      if (/[()]/.test(element.children)) {
+        return;
+      }
 
-          return `${parseFloat(value) * spacingMultiplier}px`;
-        })
-        .join(' ');
+      const transformedParts: string[] = [];
+
+      const parts = element.children.trim().split(/\s+/);
+
+      for (const value of parts) {
+        transformedParts.push(
+          // Accept only numeric strings (integers or floats), no units or symbols
+          /^(\d+|\d*\.\d+)$/.test(value) ? `${parseFloat(value) * spacingMultiplier}px` : value,
+        );
+      }
+
+      const transformed = transformedParts.join(' ');
 
       element.return = `${element.props}:${transformed};`;
     }
