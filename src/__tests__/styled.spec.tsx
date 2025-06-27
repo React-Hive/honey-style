@@ -124,14 +124,14 @@ describe('[styled]: basic behavior', () => {
   it('should convert array spacing values to px using the multiplier', () => {
     const Box = styled('div')`
       margin: ${[0.5, 2]};
-      padding: ${[1, 1.5, '20px']};
+      padding: ${[1, 1.5, '20px', -2]};
     `;
 
     const { getByTestId } = customRender(<Box data-testid="box" />);
 
     expect(getByTestId('box')).toHaveStyle({
       margin: '4px 16px',
-      padding: '8px 12px 20px',
+      padding: '8px 12px 20px -16px',
     });
   });
 

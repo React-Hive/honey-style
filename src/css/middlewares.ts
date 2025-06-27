@@ -38,7 +38,7 @@ export const createSpacingMiddleware =
       for (const value of parts) {
         transformedParts.push(
           // Accept only numeric strings (integers or floats), no units or symbols
-          /^(\d+|\d*\.\d+)$/.test(value) ? `${parseFloat(value) * spacingMultiplier}px` : value,
+          /^-?\d*\.?\d+$/.test(value) ? `${parseFloat(value) * spacingMultiplier}px` : value,
         );
       }
 
