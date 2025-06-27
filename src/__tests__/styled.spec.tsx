@@ -149,6 +149,49 @@ describe('[styled]: basic behavior', () => {
     });
   });
 
+  it('should convert @honey-stack directive to flex column with calculated gap', () => {
+    const Box = styled('div')`
+      @honey-stack (2);
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="box" />);
+
+    expect(getByTestId('box')).toHaveStyle({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '16px',
+    });
+  });
+
+  it('should apply @honey-stack with explicit px gap without using multiplier', () => {
+    const Box = styled('div')`
+      @honey-stack (12px);
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="box" />);
+
+    expect(getByTestId('box')).toHaveStyle({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '12px',
+    });
+  });
+
+  it('should 1', () => {
+    const Box = styled('div')`
+      @honey-stack (1) {
+      }
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="box" />);
+
+    expect(getByTestId('box')).toHaveStyle({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '8px',
+    });
+  });
+
   // it('should 1', () => {
   //   type BoxProps<As extends ElementType> = HoneyStyledProps<
   //     As,

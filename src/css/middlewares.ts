@@ -47,3 +47,34 @@ export const createSpacingMiddleware =
       element.return = `${element.props}:${transformed};`;
     }
   };
+
+interface StackMiddlewareOptions {
+  /**
+   * @default 0
+   */
+  spacingMultiplier: number;
+}
+
+export const createStackMiddleware =
+  ({ spacingMultiplier = 0 }: StackMiddlewareOptions): Middleware =>
+  element => {
+    if (element.parent?.type !== 'rule' || element.type !== '@honey-stack') {
+      return;
+    }
+
+    const match = element.value.match(`^${element.type}\\s*\\(\\s*([^)]+?)\\s*\\)`);
+    if (!match) {
+      return;
+    }
+
+    const rawGap = match[1].trim();
+    // Matches values like: 1.5, -2, 10px, 0.25rem, 5%, etc.
+    const hasUnit = /[a-z%]+$/i.test(rawGap);
+
+    const gapValue = hasUnit ? rawGap : `${parseFloat(rawGap) * spacingMultiplier}px`;
+    const parentSelector = element.parent?.value;
+
+    // Transform @honey-stack(...) into three normal declarations
+    element.type = 'decl';
+    element.return = `${parentSelector}{display:flex;flex-direction:column;gap:${gapValue};}`;
+  };

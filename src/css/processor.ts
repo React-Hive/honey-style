@@ -1,7 +1,7 @@
 import { compile, middleware, serialize, stringify } from 'stylis';
 import type { Middleware } from 'stylis';
 
-import { createSpacingMiddleware } from './middlewares';
+import { createSpacingMiddleware, createStackMiddleware } from './middlewares';
 
 interface ProcessCssOptions {
   /**
@@ -17,7 +17,11 @@ export const processCss = (
 ): string => {
   const scopedCss = selector ? `${selector}{${rawCss}}` : rawCss;
 
-  const middlewares: Middleware[] = [createSpacingMiddleware({ spacingMultiplier }), stringify];
+  const middlewares: Middleware[] = [
+    createSpacingMiddleware({ spacingMultiplier }),
+    createStackMiddleware({ spacingMultiplier }),
+    stringify,
+  ];
 
   return serialize(compile(scopedCss), middleware(middlewares));
 };
