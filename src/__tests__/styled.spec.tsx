@@ -124,14 +124,28 @@ describe('[styled]: basic behavior', () => {
   it('should convert array spacing values to px using the multiplier', () => {
     const Box = styled('div')`
       margin: ${[0.5, 2]};
-      padding: ${[1, 1.5]};
+      padding: ${[1, 1.5, '20px']};
     `;
 
     const { getByTestId } = customRender(<Box data-testid="box" />);
 
     expect(getByTestId('box')).toHaveStyle({
       margin: '4px 16px',
-      padding: '8px 12px',
+      padding: '8px 12px 20px',
+    });
+  });
+
+  it('should convert directional spacing properties to px using the multiplier', () => {
+    const Box = styled('div')`
+      margin-top: ${2};
+      padding-left: ${1};
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="box" />);
+
+    expect(getByTestId('box')).toHaveStyle({
+      marginTop: '16px',
+      paddingLeft: '8px',
     });
   });
 

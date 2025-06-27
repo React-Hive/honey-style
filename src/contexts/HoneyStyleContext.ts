@@ -1,13 +1,15 @@
 import { createContext } from 'react';
 
 import type {
-  Nullable,
-  HoneyTheme,
-  HoneyColorKey,
   HoneyCSSColor,
   HoneyCSSDimensionUnit,
   HoneyCSSDimensionValue,
   HoneyCSSSpacingValue,
+} from '../css';
+import type {
+  Nullable,
+  HoneyTheme,
+  HoneyColorKey,
   HoneyDimensionName,
   HoneyFontName,
   HoneySpacings,

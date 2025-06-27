@@ -2,7 +2,7 @@ import * as CSS from 'csstype';
 import type { ElementType } from 'react';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP } from '../constants';
-import type { HoneyCSSColor, HoneyCSSDimensionUnit } from './css.types';
+import type { HoneyCSSColor, HoneyCSSDimensionUnit } from '../css';
 
 /**
  * Creates a new type by omitting the specified keys `U` from the object type `T`.

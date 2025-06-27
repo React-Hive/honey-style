@@ -14,10 +14,10 @@ import {
 import { css, processCss } from './css';
 import { mountStyle } from './mount-style';
 import { useHoneyStyle } from './hooks';
+import type { HoneyCSSClassName } from './css';
 import type {
   FastOmit,
   Override,
-  HoneyCSSClassName,
   HoneyHTMLDataAttributes,
   HoneyStyledInterpolation,
   HoneyStyledPropsWithAs,

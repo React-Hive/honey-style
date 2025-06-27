@@ -2,6 +2,11 @@ import type { Middleware } from 'stylis';
 
 import { CSS_SPACING_PROPERTIES } from './constants';
 
+const toKebabCase = (str: string): string =>
+  str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+
+const KEBAB_CASE_SPACING_PROPERTIES: string[] = CSS_SPACING_PROPERTIES.map(toKebabCase);
+
 interface SpacingMiddlewareOptions {
   /**
    * @default 0
@@ -18,7 +23,7 @@ export const createSpacingMiddleware =
 
     if (
       typeof element.props === 'string' &&
-      CSS_SPACING_PROPERTIES.includes(element.props as never) &&
+      KEBAB_CASE_SPACING_PROPERTIES.includes(element.props as never) &&
       typeof element.children === 'string'
     ) {
       const transformed = element.children

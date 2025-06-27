@@ -1,4 +1,4 @@
-import { boolFilter } from '../utils';
+import { boolFilter } from '../../utils';
 import type { HoneyCSSDimensionValue } from '../types';
 
 /**

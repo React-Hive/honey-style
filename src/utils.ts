@@ -1,20 +1,22 @@
 import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
 import { css } from './css';
 import type {
+  HoneyHEXColor,
+  HoneyCSSColor,
+  HoneyCSSClassName,
+  HoneyCSSShorthandDimensionOutput,
+  HoneyCSSShorthandTuple,
+  HoneyCSSSpacingValue,
+  HoneyCSSDimensionUnit,
+  HoneyCSSDimensionValue,
+} from './css';
+import type {
   Nullable,
   HoneyColor,
   HoneyColorKey,
   HoneyColors,
-  HoneyCSSClassName,
-  HoneyCSSColor,
-  HoneyCSSDimensionUnit,
-  HoneyCSSDimensionValue,
-  HoneyCSSShorthandDimensionOutput,
-  HoneyCSSShorthandTuple,
-  HoneyCSSSpacingValue,
   HoneyDimensionName,
   HoneyFontName,
-  HoneyHEXColor,
   HoneySpacings,
   HoneyStyledComponent,
   HoneyStyledContext,
