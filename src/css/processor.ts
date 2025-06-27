@@ -18,8 +18,8 @@ export const processCss = (
   const scopedCss = selector ? `${selector}{${rawCss}}` : rawCss;
 
   const middlewares: Middleware[] = [
-    createSpacingMiddleware({ spacingMultiplier }),
     createStackMiddleware({ spacingMultiplier }),
+    createSpacingMiddleware({ spacingMultiplier }),
     stringify,
   ];
 

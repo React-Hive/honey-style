@@ -149,7 +149,20 @@ describe('[styled]: basic behavior', () => {
     });
   });
 
-  it('should convert @honey-stack directive to flex column with calculated gap', () => {
+  it('should apply flex column layout without gap when using @honey-stack without arguments', () => {
+    const Box = styled('div')`
+      @honey-stack;
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="box" />);
+
+    expect(getByTestId('box')).toHaveStyle({
+      display: 'flex',
+      flexDirection: 'column',
+    });
+  });
+
+  it('should apply flex column layout and gap using @honey-stack with numeric multiplier', () => {
     const Box = styled('div')`
       @honey-stack (2);
     `;
@@ -163,7 +176,7 @@ describe('[styled]: basic behavior', () => {
     });
   });
 
-  it('should apply @honey-stack with explicit px gap without using multiplier', () => {
+  it('should apply flex column layout with explicit gap unit when using @honey-stack(12px)', () => {
     const Box = styled('div')`
       @honey-stack (12px);
     `;
@@ -177,7 +190,7 @@ describe('[styled]: basic behavior', () => {
     });
   });
 
-  it('should 1', () => {
+  it('should support @honey-stack with braces and apply calculated gap', () => {
     const Box = styled('div')`
       @honey-stack (1) {
       }
@@ -189,6 +202,24 @@ describe('[styled]: basic behavior', () => {
       display: 'flex',
       flexDirection: 'column',
       gap: '8px',
+    });
+  });
+
+  it('should apply flex column layout and transform numeric gap inside @honey-stack block while preserving other styles', () => {
+    const Box = styled('div')`
+      @honey-stack {
+        gap: ${1};
+        align-items: center;
+      }
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="box" />);
+
+    expect(getByTestId('box')).toHaveStyle({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '8px',
+      alignItems: 'center',
     });
   });
 
