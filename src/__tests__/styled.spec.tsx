@@ -154,9 +154,9 @@ describe('[styled]: basic behavior', () => {
       @honey-stack;
     `;
 
-    const { getByTestId } = customRender(<Box data-testid="box" />);
+    const { getByTestId } = customRender(<Box data-testid="stack" />);
 
-    expect(getByTestId('box')).toHaveStyle({
+    expect(getByTestId('stack')).toHaveStyle({
       display: 'flex',
       flexDirection: 'column',
     });
@@ -167,9 +167,9 @@ describe('[styled]: basic behavior', () => {
       @honey-stack (2);
     `;
 
-    const { getByTestId } = customRender(<Box data-testid="box" />);
+    const { getByTestId } = customRender(<Box data-testid="stack" />);
 
-    expect(getByTestId('box')).toHaveStyle({
+    expect(getByTestId('stack')).toHaveStyle({
       display: 'flex',
       flexDirection: 'column',
       gap: '16px',
@@ -181,9 +181,9 @@ describe('[styled]: basic behavior', () => {
       @honey-stack (12px);
     `;
 
-    const { getByTestId } = customRender(<Box data-testid="box" />);
+    const { getByTestId } = customRender(<Box data-testid="stack" />);
 
-    expect(getByTestId('box')).toHaveStyle({
+    expect(getByTestId('stack')).toHaveStyle({
       display: 'flex',
       flexDirection: 'column',
       gap: '12px',
@@ -196,9 +196,9 @@ describe('[styled]: basic behavior', () => {
       }
     `;
 
-    const { getByTestId } = customRender(<Box data-testid="box" />);
+    const { getByTestId } = customRender(<Box data-testid="stack" />);
 
-    expect(getByTestId('box')).toHaveStyle({
+    expect(getByTestId('stack')).toHaveStyle({
       display: 'flex',
       flexDirection: 'column',
       gap: '8px',
@@ -213,13 +213,48 @@ describe('[styled]: basic behavior', () => {
       }
     `;
 
-    const { getByTestId } = customRender(<Box data-testid="box" />);
+    const { getByTestId } = customRender(<Box data-testid="stack" />);
 
-    expect(getByTestId('box')).toHaveStyle({
+    expect(getByTestId('stack')).toHaveStyle({
       display: 'flex',
       flexDirection: 'column',
       gap: '8px',
       alignItems: 'center',
+    });
+  });
+
+  it('should transform nested @honey-stack directives and apply correct layout, gap, and spacing styles to child elements', () => {
+    const Box = styled('div')`
+      @honey-stack {
+        gap: ${1};
+        align-items: center;
+
+        .nested-stack {
+          @honey-stack (0.5) {
+            padding: ${1};
+          }
+        }
+      }
+    `;
+
+    const { getByTestId } = customRender(
+      <Box data-testid="stack">
+        <div className="nested-stack" data-testid="nested-stack" />
+      </Box>,
+    );
+
+    expect(getByTestId('stack')).toHaveStyle({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '8px',
+      alignItems: 'center',
+    });
+
+    expect(getByTestId('nested-stack')).toHaveStyle({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '4px',
+      padding: '8px',
     });
   });
 

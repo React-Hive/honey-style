@@ -1,4 +1,4 @@
-import { serialize } from 'stylis';
+import { compile, serialize } from 'stylis';
 import type { Middleware } from 'stylis';
 
 import { CSS_SPACING_PROPERTIES } from './constants';
@@ -47,7 +47,10 @@ export const createStackMiddleware =
       }
 
       element.type = 'decl';
-      element.return = `${parentSelector}{${resultDeclaration}${serializedChildren}}`;
+      element.return = serialize(
+        compile(`${parentSelector}{${resultDeclaration}${serializedChildren}}`),
+        callback,
+      );
     }
   };
 
