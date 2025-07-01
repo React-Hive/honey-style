@@ -258,6 +258,71 @@ describe('[styled]: basic behavior', () => {
     });
   });
 
+  it('should convert @honey-center to flex container centered both vertically and horizontally', () => {
+    const Box = styled('div')`
+      @honey-center {
+        //
+      }
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="center" />);
+
+    expect(getByTestId('center')).toHaveStyle({
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    });
+  });
+
+  it('should convert @honey-absolute-fill block to absolute positioning with full inset', () => {
+    const Box = styled('div')`
+      @honey-absolute-fill {
+        //
+      }
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="absolute-fill" />);
+
+    expect(getByTestId('absolute-fill')).toHaveStyle({
+      position: 'absolute',
+      top: '0',
+      right: '0',
+      bottom: '0',
+      left: '0',
+    });
+  });
+
+  it('should convert @honey-inline block to flex container with center alignment', () => {
+    const Box = styled('div')`
+      @honey-inline {
+        //
+      }
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="inline" />);
+
+    expect(getByTestId('inline')).toHaveStyle({
+      display: 'flex',
+      alignItems: 'center',
+    });
+  });
+
+  it('should convert @honey-inline directive with numeric gap to flex container with calculated spacing', () => {
+    const Box = styled('div')`
+      @honey-inline (3) {
+        //
+      }
+    `;
+
+    const { getByTestId } = customRender(<Box data-testid="inline" />);
+
+    expect(getByTestId('inline')).toHaveStyle({
+      display: 'flex',
+      alignItems: 'center',
+      gap: '24px',
+    });
+  });
+
   // it('should 1', () => {
   //   type BoxProps<As extends ElementType> = HoneyStyledProps<
   //     As,

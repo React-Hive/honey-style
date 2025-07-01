@@ -159,6 +159,7 @@ export type HoneyCSSSpacingProperty = keyof Pick<
   | 'right'
   | 'bottom'
   | 'left'
+  | 'inset'
   | 'gap'
   | 'rowGap'
   | 'columnGap'

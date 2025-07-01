@@ -18,6 +18,7 @@ export const CSS_SPACING_PROPERTIES: readonly HoneyCSSSpacingProperty[] = [
   'right',
   'bottom',
   'left',
+  'inset',
   'gap',
   'rowGap',
   'columnGap',
