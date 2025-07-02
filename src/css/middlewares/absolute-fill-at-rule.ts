@@ -1,7 +1,12 @@
 import { createAtRuleMiddleware } from './factory';
+import type { CSSDeclaration } from './types';
 
 export const createAbsoluteFillAtRuleMiddleware = () =>
   createAtRuleMiddleware({
     name: 'absolute-fill',
-    transform: () => 'position:absolute;top:0;right:0;bottom:0;left:0;',
+    transform: () => {
+      const declarations: CSSDeclaration[] = ['position:absolute;', 'inset:0;'];
+
+      return declarations.join('');
+    },
   });

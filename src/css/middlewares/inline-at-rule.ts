@@ -16,9 +16,9 @@ export const createInlineAtRuleMiddleware = ({
     transform: args => {
       const declarations: CSSDeclaration[] = ['display:flex;', 'align-items:center;'];
 
-      if (args) {
-        const isNumber = /^-?\d*\.?\d+$/.test(args);
-        const gap = isNumber ? `${parseFloat(args) * spacingMultiplier}px` : args;
+      if (args?.length) {
+        const isNumber = /^-?\d*\.?\d+$/.test(args[0]);
+        const gap = isNumber ? `${parseFloat(args[0]) * spacingMultiplier}px` : args;
 
         declarations.push(`gap:${gap};`);
       }

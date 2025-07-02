@@ -7,6 +7,7 @@ import {
   createInlineAtRuleMiddleware,
   createSpacingMiddleware,
   createStackAtRuleMiddleware,
+  createEllipsisAtRuleMiddleware,
 } from './middlewares';
 
 interface ProcessCssOptions {
@@ -24,6 +25,7 @@ export const processCss = (
     createStackAtRuleMiddleware({ spacingMultiplier }),
     createInlineAtRuleMiddleware({ spacingMultiplier }),
     createCenterAtRuleMiddleware(),
+    createEllipsisAtRuleMiddleware(),
     createAbsoluteFillAtRuleMiddleware(),
     createSpacingMiddleware({ spacingMultiplier }),
     stringify,
