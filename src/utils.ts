@@ -1,3 +1,5 @@
+import { hashString } from '@react-hive/honey-utils';
+
 import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
 import { css } from './css';
 import type {
@@ -22,81 +24,7 @@ import type {
   HoneyStyledContext,
 } from './types';
 
-export function assert(condition: any, message: string): asserts condition {
-  if (!condition) {
-    throw new Error(message);
-  }
-}
-
 export const generateId = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 8)}`;
-
-export const toKebabCase = (str: string): string =>
-  str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-
-export const isString = (value: unknown): value is string => typeof value === 'string';
-
-export const isObject = (value: unknown): value is object => typeof value === 'object';
-
-export const isFunction = (value: unknown) => typeof value === 'function';
-
-/**
- * Checks if a value is null or undefined.
- *
- * @param value - The value to check.
- *
- * @returns `true` if the value is `null` or `undefined`, otherwise `false`.
- */
-export const isNil = (value: unknown): value is null | undefined =>
-  value === undefined || value === null;
-
-/**
- * Filters out `null`, `undefined`, and other falsy values from an array,
- * returning a typed array of only truthy `Item` values.
- *
- * Useful when working with optional or nullable items that need to be sanitized.
- *
- * @template T - The type of the items in the array.
- *
- * @param array - An array of items that may include `null`, `undefined`, or falsy values.
- *
- * @returns A new array containing only truthy `Item` values.
- */
-export const boolFilter = <T>(array: (T | false | null | undefined)[]): T[] =>
-  array.filter(Boolean) as T[];
-
-/**
- * Generates a short, consistent hash string from an input string using a DJB2-inspired algorithm.
- *
- * This function uses a variation of the DJB2 algorithm, which is a simple yet effective hashing algorithm
- * based on bitwise XOR (`^`) and multiplication by 33. It produces a non-negative 32-bit integer,
- * which is then converted to a base-36 string (digits + lowercase letters) to produce a compact output.
- *
- * Useful for:
- * - Generating stable class names in CSS-in-JS libraries.
- * - Producing consistent cache keys.
- * - Quick and lightweight hashing needs where cryptographic security is not required.
- *
- * ⚠️ This is not cryptographically secure and should not be used for hashing passwords or sensitive data.
- *
- * @param str - The input string to hash.
- *
- * @returns A short, base-36 encoded hash string.
- *
- * @example
- * ```ts
- * const className = hashString('background-color: red;');
- * // → 'e4k1z0x'
- * ```
- */
-const hashString = (str: string): string => {
-  let hash = 5381;
-
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash * 33) ^ str.charCodeAt(i);
-  }
-
-  return (hash >>> 0).toString(36);
-};
 
 /**
  * Combines multiple class names into a single space-separated string

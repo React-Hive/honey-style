@@ -1,6 +1,6 @@
 import { useContext } from 'react';
+import { assert } from '@react-hive/honey-utils';
 
-import { assert } from '../utils';
 import { HoneyStyleContext } from '../contexts';
 
 export const useHoneyStyle = () => {

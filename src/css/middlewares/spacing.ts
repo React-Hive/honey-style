@@ -11,11 +11,11 @@ interface SpacingMiddlewareOptions {
   /**
    * @default 0
    */
-  spacingMultiplier?: number;
+  spacing?: number;
 }
 
 export const createSpacingMiddleware =
-  ({ spacingMultiplier = 0 }: SpacingMiddlewareOptions): Middleware =>
+  ({ spacing = 0 }: SpacingMiddlewareOptions): Middleware =>
   element => {
     if (element.type !== 'decl') {
       return;
@@ -38,7 +38,7 @@ export const createSpacingMiddleware =
       for (const value of parts) {
         transformedParts.push(
           // Accept only numeric strings (integers or floats), no units or symbols
-          /^-?\d*\.?\d+$/.test(value) ? `${parseFloat(value) * spacingMultiplier}px` : value,
+          /^-?\d*\.?\d+$/.test(value) ? `${parseFloat(value) * spacing}px` : value,
         );
       }
 

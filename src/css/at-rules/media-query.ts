@@ -1,4 +1,5 @@
-import { boolFilter } from '../../utils';
+import { boolFilter } from '@react-hive/honey-utils';
+
 import type { HoneyCSSDimensionValue } from '../types';
 
 /**

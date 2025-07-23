@@ -5,11 +5,11 @@ interface CreateInlineAtRuleMiddlewareOptions {
   /**
    * @default 0
    */
-  spacingMultiplier?: number;
+  spacing?: number;
 }
 
 export const createInlineAtRuleMiddleware = ({
-  spacingMultiplier = 0,
+  spacing = 0,
 }: CreateInlineAtRuleMiddlewareOptions = {}) =>
   createAtRuleMiddleware({
     name: 'inline',
@@ -18,7 +18,7 @@ export const createInlineAtRuleMiddleware = ({
 
       if (args?.length) {
         const isNumber = /^-?\d*\.?\d+$/.test(args[0]);
-        const gap = isNumber ? `${parseFloat(args[0]) * spacingMultiplier}px` : args;
+        const gap = isNumber ? `${parseFloat(args[0]) * spacing}px` : args;
 
         declarations.push(`gap:${gap};`);
       }

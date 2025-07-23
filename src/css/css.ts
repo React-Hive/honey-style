@@ -1,5 +1,7 @@
+import { isFunction, isNil, isObject, toKebabCase } from '@react-hive/honey-utils';
+
 import { HONEY_STYLED_COMPONENT_ID_PROP } from '../constants';
-import { isFunction, isNil, isObject, isStyledComponent, toKebabCase } from '../utils';
+import { isStyledComponent } from '../utils';
 import type { HoneyStyledInterpolation, HoneyStyledContext } from '../types';
 
 const resolveCssInterpolation = <Props extends object>(

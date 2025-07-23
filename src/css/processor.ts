@@ -1,6 +1,7 @@
 import { compile, middleware, serialize, stringify } from 'stylis';
 import type { Middleware } from 'stylis';
 
+import { __DEV__ } from '../constants';
 import {
   createAbsoluteFillAtRuleMiddleware,
   createCenterAtRuleMiddleware,
@@ -11,25 +12,31 @@ import {
 } from './middlewares';
 
 interface ProcessCssOptions {
-  spacingMultiplier?: number;
+  spacing?: number;
 }
 
 export const processCss = (
   rawCss: string,
   selector?: string,
-  { spacingMultiplier }: ProcessCssOptions = {},
+  { spacing }: ProcessCssOptions = {},
 ): string => {
   const scopedCss = selector ? `${selector}{${rawCss}}` : rawCss;
 
-  const middlewares: Middleware[] = [
-    createStackAtRuleMiddleware({ spacingMultiplier }),
-    createInlineAtRuleMiddleware({ spacingMultiplier }),
+  const middlewares: Middleware[] = [];
+
+  if (__DEV__) {
+    // middlewares.push(suggestAtRuleMiddleware);
+  }
+
+  middlewares.push(
+    createStackAtRuleMiddleware({ spacing }),
+    createInlineAtRuleMiddleware({ spacing }),
     createCenterAtRuleMiddleware(),
     createEllipsisAtRuleMiddleware(),
     createAbsoluteFillAtRuleMiddleware(),
-    createSpacingMiddleware({ spacingMultiplier }),
+    createSpacingMiddleware({ spacing }),
     stringify,
-  ];
+  );
 
   return serialize(compile(scopedCss), middleware(middlewares));
 };

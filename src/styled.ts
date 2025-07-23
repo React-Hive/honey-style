@@ -1,4 +1,5 @@
 import { createElement, useInsertionEffect } from 'react';
+import { isFunction, isString } from '@react-hive/honey-utils';
 import type { ElementType, ComponentProps, ComponentPropsWithRef } from 'react';
 
 import { __DEV__, HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
@@ -8,8 +9,6 @@ import {
   resolveClassName,
   filterNonHtmlAttrs,
   isStyledComponent,
-  isFunction,
-  isString,
 } from './utils';
 import { css, processCss } from './css';
 import { mountStyle } from './mount-style';
@@ -118,7 +117,7 @@ export const styled = <
 
       useInsertionEffect(() => {
         const baseCss = processCss(rawCss, `.${baseClassName}`, {
-          spacingMultiplier: theme.spacings.base,
+          spacing: theme.spacings.base,
         });
 
         return mountStyle(baseClassName, baseCss, __compositionDepth);
@@ -132,7 +131,7 @@ export const styled = <
       useInsertionEffect(() => {
         if (cssPropClassName) {
           const overrideCss = processCss(cssPropString, `.${cssPropClassName}`, {
-            spacingMultiplier: theme.spacings.base,
+            spacing: theme.spacings.base,
           });
 
           return mountStyle(cssPropClassName, overrideCss, 1);

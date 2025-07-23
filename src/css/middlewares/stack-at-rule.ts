@@ -5,12 +5,10 @@ interface CreateStackAtRuleMiddlewareOptions {
   /**
    * @default 0
    */
-  spacingMultiplier?: number;
+  spacing?: number;
 }
 
-export const createStackAtRuleMiddleware = ({
-  spacingMultiplier = 0,
-}: CreateStackAtRuleMiddlewareOptions) =>
+export const createStackAtRuleMiddleware = ({ spacing = 0 }: CreateStackAtRuleMiddlewareOptions) =>
   createAtRuleMiddleware({
     name: 'stack',
     transform: args => {
@@ -18,7 +16,7 @@ export const createStackAtRuleMiddleware = ({
 
       if (args?.length) {
         const isNumber = /^-?\d*\.?\d+$/.test(args[0]);
-        const gap = isNumber ? `${parseFloat(args[0]) * spacingMultiplier}px` : args;
+        const gap = isNumber ? `${parseFloat(args[0]) * spacing}px` : args;
 
         declarations.push(`gap:${gap};`);
       }
