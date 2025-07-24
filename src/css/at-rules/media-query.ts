@@ -1,4 +1,4 @@
-import { boolFilter } from '@react-hive/honey-utils';
+import { compact } from '@react-hive/honey-utils';
 
 import type { HoneyCSSDimensionValue } from '../types';
 
@@ -105,7 +105,7 @@ export const mediaQuery = (rules: HoneyMediaQueryRule[]): string => {
       rule.update && ['update', rule.update],
     ];
 
-    const conditions = boolFilter(rulesConfig)
+    const conditions = compact(rulesConfig)
       .map(ruleConfig => `(${ruleConfig[0]}: ${ruleConfig[1]})`)
       .join(' and ');
 
