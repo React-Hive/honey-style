@@ -16,7 +16,7 @@ export type HoneyHEXColor = `#${string}`;
  * Represents any valid CSS color, either a named color (like `'red'`, `'blue'`)
  * or a hexadecimal color code (like `'#ff0000'`).
  */
-export type HoneyCSSColor = HoneyHEXColor | CSS.DataType.NamedColor | CSS.Globals;
+export type HoneyCSSColor = HoneyHEXColor | CSS.DataType.ColorBase | CSS.Globals;
 
 /**
  * Represents absolute CSS dimension units.
