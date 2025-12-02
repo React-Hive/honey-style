@@ -58,6 +58,10 @@ type DefaultPropsResolver<
       props: HoneyStyledContext<HoneyStyledPropsWithAs<Target, CombinedProps>>,
     ) => HoneyStyledPropsWithAs<Target, FastOmit<Partial<CombinedProps>, 'as'>>);
 
+interface StyledOptions {
+  omitProps?: (name: string) => boolean;
+}
+
 export const styled = <
   TargetProps extends object,
   Target extends ElementType = ElementType,
@@ -65,6 +69,7 @@ export const styled = <
 >(
   target: Target,
   defaultProps?: DefaultPropsResolver<OverrideTarget, ComponentProps<OverrideTarget>, TargetProps>,
+  { omitProps }: StyledOptions = {},
 ) => {
   return <Props extends object = TargetProps>(
     strings: TemplateStringsArray,
@@ -138,24 +143,44 @@ export const styled = <
         }
       }, [cssPropClassName]);
 
+      const finalClassName = combineClassNames([
+        componentId,
+        baseClassName,
+        className,
+        cssPropClassName,
+      ]);
+
       const mergedProps = {
         ...resolvedDefaultProps,
         ...cleanedProps,
-        className: combineClassNames([componentId, baseClassName, className, cssPropClassName]),
+        className: finalClassName,
       };
+
+      const finalProps = omitProps
+        ? Object.entries(mergedProps).reduce(
+            (result, [propName, propValue]) =>
+              omitProps(propName)
+                ? result
+                : {
+                    ...result,
+                    [propName]: propValue,
+                  },
+            {},
+          )
+        : mergedProps;
 
       const finalComponent = as || target;
 
       if (isString(target)) {
         const filteredProps = isString(finalComponent)
-          ? filterNonHtmlAttrs(mergedProps)
-          : mergedProps;
+          ? filterNonHtmlAttrs(finalProps)
+          : finalProps;
 
         return createElement(finalComponent, filteredProps);
       }
 
       return createElement(target, {
-        ...mergedProps,
+        ...finalProps,
         ...(as && { as }),
         ...(isStyledComponent(target) && {
           __compositionDepth: __compositionDepth - 1,
