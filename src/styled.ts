@@ -1,5 +1,5 @@
 import { createElement, useInsertionEffect } from 'react';
-import { isFunction, isString } from '@react-hive/honey-utils';
+import { isString, invokeIfFunction, definedProps } from '@react-hive/honey-utils';
 import type { ElementType, ComponentProps, ComponentPropsWithRef } from 'react';
 
 import { __DEV__, HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
@@ -103,13 +103,17 @@ export const styled = <
 
       const { theme } = useHoneyStyle();
 
-      const cleanedProps = Object.fromEntries(
-        Object.entries(props).filter(([, value]) => value !== undefined),
-      );
-
-      const resolvedDefaultProps = isFunction(defaultProps)
-        ? defaultProps({ theme, as, className, ...cleanedProps } as never)
-        : (defaultProps ?? ({} as never));
+      const cleanedProps = definedProps(props);
+      const resolvedDefaultProps = {
+        ...(invokeIfFunction(defaultProps, {
+          theme,
+          as,
+          className,
+          ...cleanedProps,
+        } as never) ?? ({} as never)),
+        // Allow overriding the default "className" prop
+        ...(className && { className }),
+      };
 
       const context: HoneyStyledContext<any> = {
         ...resolvedDefaultProps,
@@ -128,7 +132,7 @@ export const styled = <
         return mountStyle(baseClassName, baseCss, __compositionDepth);
       }, [baseClassName]);
 
-      const cssPropRaw = isFunction(cssProp) ? cssProp(context) : cssProp;
+      const cssPropRaw = invokeIfFunction(cssProp, context);
       const cssPropString = evaluateDynamicCss(cssPropRaw, context);
 
       const cssPropClassName = cssPropString ? resolveClassName(cssPropString) : '';
@@ -146,7 +150,7 @@ export const styled = <
       const finalClassName = combineClassNames([
         componentId,
         baseClassName,
-        className,
+        resolvedDefaultProps.className,
         cssPropClassName,
       ]);
 
