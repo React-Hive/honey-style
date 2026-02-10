@@ -69,7 +69,7 @@ export const createMediaAtRuleMiddleware = ({ theme }: CreateMediaAtRuleMiddlewa
 
       const childrenGroups = splitStylisChildren(element.children);
 
-      if (!childrenGroups.declarations.length && !childrenGroups.other.length) {
+      if (!childrenGroups.pseudoRules.length && !childrenGroups.otherRules.length) {
         return null;
       }
 
@@ -139,16 +139,19 @@ export const createMediaAtRuleMiddleware = ({ theme }: CreateMediaAtRuleMiddlewa
         mediaType,
       }));
 
-      const nestedRulesCss =
-        childrenGroups.other.length > 0
-          ? `${parent.value}${serialize(childrenGroups.other, callback)}`
+      const pseudoSelectorCss =
+        childrenGroups.pseudoRules.length > 0
+          ? `${parent.value}${serialize(childrenGroups.pseudoRules, callback)}`
           : '';
 
-      const declarationCss =
-        childrenGroups.declarations.length > 0
-          ? createCssRule(parent.value, serialize(childrenGroups.declarations, callback))
+      const nestedSelectorCss =
+        childrenGroups.otherRules.length > 0
+          ? createCssRule(parent.value, serialize(childrenGroups.otherRules, callback))
           : '';
 
-      return createCssRule(mediaQuery(finalMediaQueryRules), `${nestedRulesCss}${declarationCss}`);
+      return createCssRule(
+        mediaQuery(finalMediaQueryRules),
+        `${pseudoSelectorCss}${nestedSelectorCss}`,
+      );
     },
   });

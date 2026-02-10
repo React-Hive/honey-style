@@ -60,32 +60,39 @@ export const getChildrenCss = (element: Element, callback: Middleware): string =
   isArray(element.children) ? serialize(element.children, callback) : element.children;
 
 interface StylisChildrenGroups {
-  declarations: Element[];
-  other: Element[];
+  pseudoRules: Element[];
+  otherRules: Element[];
 }
 
+/**
+ * Splits Stylis children into:
+ *
+ * - pseudoRules: rules that start with a pseudo selector (e.g. ":hover", ":not(...)")
+ * - otherRules: everything else
+ */
 export const splitStylisChildren = (children: string | Element[]): StylisChildrenGroups => {
   if (!isArray(children) || children.length === 0) {
     return {
-      declarations: [],
-      other: [],
+      pseudoRules: [],
+      otherRules: [],
     };
   }
 
   return children.reduce<StylisChildrenGroups>(
-    (result, child) => {
-      if (child.type === 'decl') {
-        result.declarations.push(child);
-        //
+    (groups, child) => {
+      const isPseudoRule = child.value.startsWith('&');
+
+      if (isPseudoRule) {
+        groups.pseudoRules.push(child);
       } else {
-        result.other.push(child);
+        groups.otherRules.push(child);
       }
 
-      return result;
+      return groups;
     },
     {
-      declarations: [],
-      other: [],
+      pseudoRules: [],
+      otherRules: [],
     },
   );
 };

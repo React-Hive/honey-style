@@ -249,4 +249,26 @@ describe('@honey-media CSS at-rule', () => {
     expect(cssText).toMatch(/\.hscn-[a-z0-9]+\s*>\s*\.content/);
     expect(cssText).toContain('width:100%');
   });
+
+  it('should support descendant id selector inside @honey-media block', () => {
+    const Box = styled('div')`
+      @honey-media (sm:up) {
+        #burger-btn {
+          display: none;
+        }
+      }
+    `;
+
+    customRender(
+      <Box data-testid="media">
+        <button id="burger-btn" data-testid="burger-btn" />
+      </Box>,
+    );
+
+    const cssText = getRenderedCssText();
+
+    expect(cssText).toContain('@media screen and (min-width: 768px)');
+    expect(cssText).toMatch(/\.hscn-[a-z0-9]+\s+#burger-btn/);
+    expect(cssText).toContain('display:none');
+  });
 });
