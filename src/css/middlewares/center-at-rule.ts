@@ -1,10 +1,16 @@
-import { createAtRuleMiddleware } from './factory';
 import type { CSSDeclaration } from './types';
+import { createAtRuleMiddleware } from './factory';
+import { createCssRule, getChildrenCss } from '../css';
 
 export const createCenterAtRuleMiddleware = () =>
   createAtRuleMiddleware({
     name: 'center',
-    transform: (args = []) => {
+    transform: (args, element, callback) => {
+      const { parent } = element;
+      if (!parent) {
+        return null;
+      }
+
       const declarations: CSSDeclaration[] = [];
 
       switch (args[0]) {
@@ -31,6 +37,8 @@ export const createCenterAtRuleMiddleware = () =>
           break;
       }
 
-      return declarations.join('');
+      const childrenCss = getChildrenCss(element, callback);
+
+      return createCssRule(parent.value, `${declarations.join('')}${childrenCss}`);
     },
   });

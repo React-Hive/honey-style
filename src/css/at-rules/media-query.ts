@@ -40,7 +40,7 @@ interface MediaQueryRuleResolutionProperties {
 
 type MediaQueryRuleOperator = 'not' | 'only';
 
-type MediaQueryRuleType = 'all' | 'print' | 'screen' | 'speech';
+export type MediaQueryRuleType = 'all' | 'print' | 'screen' | 'speech';
 
 /**
  * Represents the possible values for media query orientation.
@@ -50,7 +50,7 @@ type MediaQueryRuleType = 'all' | 'print' | 'screen' | 'speech';
  * - `'landscape'` – Width is greater than height.
  * - `'portrait'` – Height is greater than width.
  */
-type MediaQueryRuleOrientation = 'landscape' | 'portrait';
+export type MediaQueryRuleOrientation = 'landscape' | 'portrait';
 
 type MediaQueryRuleUpdate = 'none' | 'slow' | 'fast';
 
@@ -58,8 +58,7 @@ type MediaQueryRuleUpdate = 'none' | 'slow' | 'fast';
  * Options for CSS @media at-rule.
  */
 export interface HoneyMediaQueryRule
-  extends MediaQueryRuleDimensionProperties,
-    MediaQueryRuleResolutionProperties {
+  extends MediaQueryRuleDimensionProperties, MediaQueryRuleResolutionProperties {
   operator?: MediaQueryRuleOperator;
   /**
    * @default screen
@@ -82,7 +81,7 @@ type HoneyMediaQueryRuleConfig = [string, string | number];
  *
  * @example
  * ```ts
- * atMedia([
+ * mediaQuery([
  *   { minWidth: '768px', orientation: 'landscape' },
  *   { mediaType: 'print' }
  * ]);
@@ -106,7 +105,7 @@ export const mediaQuery = (rules: HoneyMediaQueryRule[]): string => {
     ];
 
     const conditions = compact(rulesConfig)
-      .map(ruleConfig => `(${ruleConfig[0]}: ${ruleConfig[1]})`)
+      .map(([prop, value]) => `(${prop}: ${value})`)
       .join(' and ');
 
     const operatorPart = rule.operator ? `${rule.operator} ` : '';

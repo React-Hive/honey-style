@@ -1,7 +1,16 @@
+import type { ElementType, ComponentProps, ComponentPropsWithRef } from 'react';
 import { createElement, useInsertionEffect } from 'react';
 import { isString, invokeIfFunction, definedProps } from '@react-hive/honey-utils';
-import type { ElementType, ComponentProps, ComponentPropsWithRef } from 'react';
 
+import type {
+  FastOmit,
+  Override,
+  HoneyHTMLDataAttributes,
+  HoneyStyledInterpolation,
+  HoneyStyledPropsWithAs,
+  HoneyStyledContext,
+} from './types';
+import type { HoneyCSSClassName } from './css';
 import { __DEV__, HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
 import {
   generateId,
@@ -13,15 +22,6 @@ import {
 import { css, processCss } from './css';
 import { mountStyle } from './mount-style';
 import { useHoneyStyle } from './hooks';
-import type { HoneyCSSClassName } from './css';
-import type {
-  FastOmit,
-  Override,
-  HoneyHTMLDataAttributes,
-  HoneyStyledInterpolation,
-  HoneyStyledPropsWithAs,
-  HoneyStyledContext,
-} from './types';
 
 const evaluateDynamicCss = (
   interpolation: HoneyStyledInterpolation<any> | undefined,
@@ -126,7 +126,7 @@ export const styled = <
 
       useInsertionEffect(() => {
         const baseCss = processCss(rawCss, `.${baseClassName}`, {
-          spacing: theme.spacings.base,
+          theme,
         });
 
         return mountStyle(baseClassName, baseCss, __compositionDepth);
@@ -140,7 +140,7 @@ export const styled = <
       useInsertionEffect(() => {
         if (cssPropClassName) {
           const overrideCss = processCss(cssPropString, `.${cssPropClassName}`, {
-            spacing: theme.spacings.base,
+            theme,
           });
 
           return mountStyle(cssPropClassName, overrideCss, 1);

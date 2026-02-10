@@ -1,10 +1,10 @@
 import { useInsertionEffect } from 'react';
 
+import type { HoneyStyledInterpolation, HoneyStyledContext } from './types';
 import { HONEY_GLOBAL_STYLE_ATTR } from './constants';
 import { css, processCss } from './css';
 import { generateId } from './utils';
 import { useHoneyStyle } from './hooks';
-import type { HoneyStyledInterpolation, HoneyStyledContext } from './types';
 
 export const createGlobalStyle = (
   strings: TemplateStringsArray,

@@ -1,6 +1,8 @@
 import type { Middleware } from 'stylis';
+import { isString } from '@react-hive/honey-utils';
 
 import { CSS_SPACING_PROPERTIES } from '../constants';
+import type { HoneyTheme } from '../../types';
 
 const toKebabCase = (str: string): string =>
   str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
@@ -8,23 +10,20 @@ const toKebabCase = (str: string): string =>
 const KEBAB_CASE_SPACING_PROPERTIES: string[] = CSS_SPACING_PROPERTIES.map(toKebabCase);
 
 interface SpacingMiddlewareOptions {
-  /**
-   * @default 0
-   */
-  spacing?: number;
+  theme?: HoneyTheme;
 }
 
 export const createSpacingMiddleware =
-  ({ spacing = 0 }: SpacingMiddlewareOptions): Middleware =>
+  ({ theme }: SpacingMiddlewareOptions): Middleware =>
   element => {
     if (element.type !== 'decl') {
       return;
     }
 
     if (
-      typeof element.props === 'string' &&
-      KEBAB_CASE_SPACING_PROPERTIES.includes(element.props as never) &&
-      typeof element.children === 'string'
+      isString(element.props) &&
+      KEBAB_CASE_SPACING_PROPERTIES.includes(element.props) &&
+      isString(element.children)
     ) {
       // If the whole value contains parentheses, skip entirely (likely calc or var)
       if (/[()]/.test(element.children)) {
@@ -33,6 +32,7 @@ export const createSpacingMiddleware =
 
       const transformedParts: string[] = [];
 
+      const spacing = theme?.spacings.base ?? 0;
       const parts = element.children.trim().split(/\s+/);
 
       for (const value of parts) {

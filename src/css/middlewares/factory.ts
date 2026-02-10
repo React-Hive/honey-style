@@ -1,6 +1,9 @@
 import { compile, serialize } from 'stylis';
 import type { Element, Middleware } from 'stylis';
 
+import type { Nullable } from '../../types';
+import { createCssRule } from '../css';
+
 interface AtRuleMiddlewareOptions {
   /**
    * The suffix name of the custom at-rule without the `@honey-` prefix.
@@ -15,8 +18,7 @@ interface AtRuleMiddlewareOptions {
    * in place of the custom at-rule.
    *
    * @param args - An array of parsed arguments inside the at-rule parentheses.
-   *               Arguments are split by spaces. If no arguments are provided,
-   *               this will be `undefined`.
+   *               Arguments are split by spaces.
    *
    *               For example:
    *               - `@honey-stack(2)` → `args = ['2']`
@@ -25,12 +27,10 @@ interface AtRuleMiddlewareOptions {
    * @param element - The Stylis AST element representing the current at-rule node.
    *                  Can be useful for accessing raw content or children.
    *
-   * @param name - The same name as passed in `options.name`, for convenience.
-   *
    * @returns A string of one or more CSS declarations (e.g., `display:flex;gap:8px;`).
    *          This string will be injected into the compiled output in place of the at-rule.
    */
-  transform: (args: string[] | undefined, element: Element, name: string) => string;
+  transform: (args: string[], element: Element, callback: Middleware) => Nullable<string>;
 }
 
 /**
@@ -51,7 +51,7 @@ interface AtRuleMiddlewareOptions {
  * createAtRuleMiddleware({
  *   name: 'stack',
  *   transform: args => {
- *     const gap = parseFloat(args?.[0] ?? '0') * 8;
+ *     const gap = parseFloat(args[0] ?? '0') * 8;
  *
  *     return `display:flex;flex-direction:column;gap:${gap}px;`;
  *   }
@@ -71,17 +71,16 @@ interface AtRuleMiddlewareOptions {
  *
  * @returns A Stylis `Middleware` function that replaces the matched at-rule with the generated CSS.
  */
-export const createAtRuleMiddleware = ({
-  name,
-  transform,
-}: AtRuleMiddlewareOptions): Middleware => {
-  return (element, _i, _children, callback) => {
-    if (element.parent?.type !== 'rule' || element.type !== `@honey-${name}`) {
+export const createAtRuleMiddleware =
+  ({ name, transform }: AtRuleMiddlewareOptions): Middleware =>
+  (element, _i, _children, callback) => {
+    const { parent } = element;
+
+    if (!parent || !parent.value || parent.type !== 'rule') {
       return;
     }
 
-    const parentSelector = element.parent?.value;
-    if (!parentSelector) {
+    if (element.type !== `@honey-${name}`) {
       return;
     }
 
@@ -89,18 +88,14 @@ export const createAtRuleMiddleware = ({
       .trim()
       .match(new RegExp(`^${element.type}\\s*\\(\\s*([^)]+?)\\s*\\)\\s*;?$`, 'i'));
 
-    const args = argsMatch ? argsMatch[1].split(' ').filter(Boolean) : undefined;
-
-    const transformedCSS = transform(args, element, name);
-
-    const serializedChildren = Array.isArray(element.children)
-      ? serialize(element.children, callback)
-      : '';
-
     element.type = 'decl';
-    element.return = serialize(
-      compile(`${parentSelector}{${transformedCSS}${serializedChildren}}`),
-      callback,
-    );
+
+    const args = argsMatch ? argsMatch[1].split(' ').filter(Boolean) : [];
+
+    const css = transform(args, element, callback);
+    if (css) {
+      element.return = serialize(compile(css), callback);
+    } else {
+      element.value = '';
+    }
   };
-};

@@ -1,7 +1,9 @@
-import { compile, middleware, serialize, stringify } from 'stylis';
 import type { Middleware } from 'stylis';
+import { compile, middleware, serialize, stringify } from 'stylis';
 
+import type { HoneyTheme } from '../types';
 import { __DEV__ } from '../constants';
+import { createCssRule } from './css';
 import {
   createAbsoluteFillAtRuleMiddleware,
   createCenterAtRuleMiddleware,
@@ -9,18 +11,19 @@ import {
   createSpacingMiddleware,
   createStackAtRuleMiddleware,
   createEllipsisAtRuleMiddleware,
+  createMediaAtRuleMiddleware,
 } from './middlewares';
 
 interface ProcessCssOptions {
-  spacing?: number;
+  theme?: HoneyTheme;
 }
 
 export const processCss = (
   rawCss: string,
   selector?: string,
-  { spacing }: ProcessCssOptions = {},
+  { theme }: ProcessCssOptions = {},
 ): string => {
-  const scopedCss = selector ? `${selector}{${rawCss}}` : rawCss;
+  const scopedCss = selector ? createCssRule(selector, rawCss) : rawCss;
 
   const middlewares: Middleware[] = [];
 
@@ -29,12 +32,13 @@ export const processCss = (
   }
 
   middlewares.push(
-    createStackAtRuleMiddleware({ spacing }),
-    createInlineAtRuleMiddleware({ spacing }),
+    createMediaAtRuleMiddleware({ theme }),
+    createSpacingMiddleware({ theme }),
+    createStackAtRuleMiddleware({ theme }),
+    createInlineAtRuleMiddleware({ theme }),
     createCenterAtRuleMiddleware(),
     createEllipsisAtRuleMiddleware(),
     createAbsoluteFillAtRuleMiddleware(),
-    createSpacingMiddleware({ spacing }),
     stringify,
   );
 

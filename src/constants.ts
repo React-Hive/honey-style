@@ -4,9 +4,10 @@ import type { HoneyBreakpointName } from './types';
 
 const ENV = process.env.NODE_ENV || 'development';
 
-export const __DEV__ = ENV !== 'production';
+export const __DEV__ =
+  ENV !== 'production' && typeof window !== 'undefined' && !process.env.JEST_WORKER_ID;
 
-if (__DEV__ && typeof window !== 'undefined' && !process.env.JEST_WORKER_ID) {
+if (__DEV__) {
   console.info(
     '[@react-hive/honey-style]: You are running in development mode. ' +
       'This build is not optimized for production and may include extra checks or logs.',

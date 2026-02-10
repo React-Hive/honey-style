@@ -1,4 +1,5 @@
 import type { Middleware, Element } from 'stylis';
+import { isArray, isString } from '@react-hive/honey-utils';
 
 interface Declaration {
   prop: string;
@@ -6,17 +7,12 @@ interface Declaration {
 }
 
 const collectDeclarations = (rule: Element): Declaration[] => {
-  if (!rule.children || !Array.isArray(rule.children)) {
+  if (!isArray(rule.children)) {
     return [];
   }
 
   return rule.children
-    .filter(
-      child =>
-        child.type === 'decl' &&
-        typeof child.props === 'string' &&
-        typeof child.children === 'string',
-    )
+    .filter(child => child.type === 'decl' && isString(child.props) && isString(child.children))
     .map(child => ({
       prop: child.props,
       value: child.children,
