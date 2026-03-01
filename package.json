@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "",
   "keywords": [
     "react",
@@ -19,8 +19,10 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky",
+    "clean": "rm -rf dist coverage",
     "build": "webpack --config webpack.config.mjs",
-    "test": "jest --collect-coverage",
+    "test": "jest --coverage",
+    "prepublishOnly": "pnpm clean && pnpm test && pnpm build",
     "performanceTest": "jest --testMatch **/*.performance.spec.tsx --testPathIgnorePatterns=''",
     "diagnostics": "tsx scripts/collect-diagnostics.ts"
   },
@@ -45,23 +47,22 @@
   },
   "dependencies": {
     "@mdx-js/react": "3.1.1",
-    "@react-hive/honey-utils": "3.21.0",
-    "csstype": "3.2.3",
-    "stylis": "4.3.6"
+    "@react-hive/honey-css": "1.15.0",
+    "@react-hive/honey-utils": "3.24.0",
+    "csstype": "3.2.3"
   },
   "devDependencies": {
-    "@eslint/js": "9.39.1",
+    "@eslint/js": "10.0.1",
     "@mdx-js/loader": "3.1.1",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
     "@types/jest": "29.5.14",
     "@types/mdx": "2.0.13",
-    "@types/node": "22.19.9",
-    "@types/react": "^19.2.13",
+    "@types/node": "22.19.11",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@types/stylis": "4.2.7",
     "copy-webpack-plugin": "13.0.1",
-    "eslint": "9.39.2",
+    "eslint": "10.0.1",
     "eslint-plugin-react": "7.37.5",
     "html-webpack-plugin": "5.6.6",
     "husky": "9.1.7",
@@ -72,8 +73,8 @@
     "ts-loader": "9.5.4",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.54.0",
-    "webpack": "5.105.0",
+    "typescript-eslint": "8.56.0",
+    "webpack": "5.105.2",
     "webpack-cli": "6.0.1"
   },
   "jest": {

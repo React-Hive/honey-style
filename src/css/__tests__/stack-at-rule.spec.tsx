@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 import { render } from '@testing-library/react';
 
-import { HoneyStyleProvider } from '../../../providers';
-import { themeMock } from '../../../__mocks__';
-import { styled } from '../../../styled';
+import { HoneyStyleProvider } from '../../providers';
+import { themeMock } from '../../__mocks__';
+import { styled } from '../../styled';
 
 const customRender = (element: ReactElement) =>
   render(<HoneyStyleProvider theme={themeMock}>{element}</HoneyStyleProvider>);
