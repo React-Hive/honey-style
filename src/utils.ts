@@ -1,4 +1,4 @@
-import { hashString } from '@react-hive/honey-utils';
+import { generateEphemeralId, hashString } from '@react-hive/honey-utils';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
 import { css } from './css';
@@ -24,7 +24,7 @@ import type {
   HoneyStyledContext,
 } from './types';
 
-export const generateId = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 8)}`;
+export const generateId = (prefix: string) => `${prefix}-${generateEphemeralId()}`;
 
 /**
  * Combines multiple class names into a single space-separated string

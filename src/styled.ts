@@ -125,8 +125,9 @@ export const styled = <
       const baseClassName = resolveClassName(rawCss);
 
       useInsertionEffect(() => {
-        const baseCss = processCss(rawCss, `.${baseClassName}`, {
+        const baseCss = processCss(rawCss, {
           theme,
+          selector: `.${baseClassName}`,
         });
 
         return mountStyle(baseClassName, baseCss, __compositionDepth);
@@ -139,8 +140,9 @@ export const styled = <
 
       useInsertionEffect(() => {
         if (cssPropClassName) {
-          const overrideCss = processCss(cssPropString, `.${cssPropClassName}`, {
+          const overrideCss = processCss(cssPropString, {
             theme,
+            selector: `.${cssPropClassName}`,
           });
 
           return mountStyle(cssPropClassName, overrideCss, 1);

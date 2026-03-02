@@ -19,7 +19,7 @@ export const createGlobalStyle = (
 
     useInsertionEffect(() => {
       const rawCss = computeCss({ theme });
-      const processedCss = processCss(rawCss);
+      const processedCss = processCss(rawCss, { theme });
 
       const styleElement = document.createElement('style');
       styleElement.id = styleId;

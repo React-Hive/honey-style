@@ -13,13 +13,10 @@ import { createMediaAtRuleTransformer } from './create-media-at-rule-transformer
 
 interface ProcessCssOptions {
   theme?: HoneyTheme;
+  selector?: string;
 }
 
-export const processCss = (
-  rawCss: string,
-  selector?: string,
-  { theme }: ProcessCssOptions = {},
-): string => {
+export const processCss = (rawCss: string, { theme, selector }: ProcessCssOptions = {}): string => {
   const scopedCss = selector ? createCssRule(selector, rawCss) : rawCss;
 
   const ast = parseCss(scopedCss);
