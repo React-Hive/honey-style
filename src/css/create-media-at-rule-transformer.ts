@@ -1,6 +1,6 @@
 import type { HoneyCssAstAtRuleNode, HoneyCssAstNode } from '@react-hive/honey-css';
 
-import type { HoneyBreakpoints, HoneyTheme } from '../types';
+import type { HoneyBreakpoints, HoneyTheme, Nullable } from '../types';
 import type {
   HoneyMediaQueryRule,
   MediaQueryRuleOrientation,
@@ -46,8 +46,8 @@ export const createMediaAtRuleTransformer = ({ theme }: CreateMediaAtRuleTransfo
 
     const tokens = rawParams.split(/\s+/);
 
-    let orientation: MediaQueryRuleOrientation;
-    let mediaType: MediaQueryRuleType;
+    let orientation: Nullable<MediaQueryRuleOrientation> = null;
+    let mediaType: Nullable<MediaQueryRuleType> = null;
 
     const rules: HoneyMediaQueryRule[] = [];
 
@@ -103,15 +103,31 @@ export const createMediaAtRuleTransformer = ({ theme }: CreateMediaAtRuleTransfo
       }
     }
 
-    if (!rules.length) {
-      return [];
+    let finalRules: HoneyMediaQueryRule[] = [];
+
+    if (rules.length) {
+      finalRules = rules.map<HoneyMediaQueryRule>(rule => ({
+        ...rule,
+        orientation,
+        mediaType,
+      }));
+    } else {
+      if (mediaType) {
+        finalRules.push({
+          mediaType,
+        });
+      }
+
+      if (orientation) {
+        finalRules.push({
+          orientation,
+        });
+      }
     }
 
-    const finalRules = rules.map<HoneyMediaQueryRule>(rule => ({
-      ...rule,
-      orientation,
-      mediaType,
-    }));
+    if (!finalRules.length) {
+      return [];
+    }
 
     const fullMedia = mediaQuery(finalRules);
 

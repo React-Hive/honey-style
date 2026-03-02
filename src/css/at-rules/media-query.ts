@@ -1,5 +1,6 @@
 import { compact } from '@react-hive/honey-utils';
 
+import type { Nullable } from '../../types';
 import type { HoneyCSSDimensionValue } from '../types';
 
 /**
@@ -63,8 +64,8 @@ export interface HoneyMediaQueryRule
   /**
    * @default screen
    */
-  mediaType?: MediaQueryRuleType;
-  orientation?: MediaQueryRuleOrientation;
+  mediaType?: Nullable<MediaQueryRuleType>;
+  orientation?: Nullable<MediaQueryRuleOrientation>;
   update?: MediaQueryRuleUpdate;
 }
 
@@ -90,7 +91,7 @@ type HoneyMediaQueryRuleConfig = [string, string | number];
  */
 export const mediaQuery = (rules: HoneyMediaQueryRule[]): string => {
   const mediaRules = rules.map(rule => {
-    const rulesConfig: (HoneyMediaQueryRuleConfig | undefined)[] = [
+    const rulesConfig: Nullable<HoneyMediaQueryRuleConfig | undefined>[] = [
       rule.width && ['width', rule.width],
       rule.minWidth && ['min-width', rule.minWidth],
       rule.maxWidth && ['max-width', rule.maxWidth],
