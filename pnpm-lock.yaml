@@ -15,8 +15,8 @@ importers:
         specifier: 1.15.0
         version: 1.15.0
       '@react-hive/honey-utils':
-        specifier: 3.24.0
-        version: 3.24.0
+        specifier: 3.25.0
+        version: 3.25.0
       csstype:
         specifier: 3.2.3
         version: 3.2.3
@@ -618,8 +618,8 @@ packages:
   '@react-hive/honey-utils@3.23.0':
     resolution: {integrity: sha512-cujOguv6JU95gxenSePFNpk9vNApEhUtBXLeO4knwVxfqQ9dS8rFh1f+JulyhU5H6fvVHLjqIiqYYOVok1BKPA==}
 
-  '@react-hive/honey-utils@3.24.0':
-    resolution: {integrity: sha512-h/XkFGzitCZt9kFaO0t2oDhZIHEA0QjS6EncwaUBsj6t2NLVEBm+76Xts8ZKkE93DUTRzm1gOhYURISiwVvETQ==}
+  '@react-hive/honey-utils@3.25.0':
+    resolution: {integrity: sha512-K6Myh1tvRLQCN/iW6u+pRNPsZiOjrIqIi2YqjuHabfP40z9NXzZq9R0gOiVFkvG3saMNr7GapjNpC8IlPaXCyg==}
 
   '@sinclair/typebox@0.27.10':
     resolution: {integrity: sha512-MTBk/3jGLNB2tVxv6uLlFh1iu64iYOQ2PbdOSK3NW8JZsmlaOh2q6sdtKowBhfw8QFLmYNzTW4/oK4uATIi6ZA==}
@@ -3862,7 +3862,7 @@ snapshots:
 
   '@react-hive/honey-utils@3.23.0': {}
 
-  '@react-hive/honey-utils@3.24.0': {}
+  '@react-hive/honey-utils@3.25.0': {}
 
   '@sinclair/typebox@0.27.10': {}
 

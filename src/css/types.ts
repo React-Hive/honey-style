@@ -1,22 +1,13 @@
+import type { HexColor } from '@react-hive/honey-utils';
 import * as CSS from 'csstype';
 
 export type HoneyCSSClassName = string | undefined;
 
 /**
- * Represents a hexadecimal color value.
- *
- * Examples:
- * - `'#ffffff'`
- * - `'#123abc'`
- * - `'#000'`
- */
-export type HoneyHEXColor = `#${string}`;
-
-/**
  * Represents any valid CSS color, either a named color (like `'red'`, `'blue'`)
  * or a hexadecimal color code (like `'#ff0000'`).
  */
-export type HoneyCSSColor = HoneyHEXColor | CSS.DataType.ColorBase | CSS.Globals;
+export type HoneyCSSColor = HexColor | CSS.DataType.ColorBase | CSS.Globals;
 
 /**
  * Represents absolute CSS dimension units.

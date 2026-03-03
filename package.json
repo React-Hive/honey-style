@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "",
   "keywords": [
     "react",
@@ -48,7 +48,7 @@
   "dependencies": {
     "@mdx-js/react": "3.1.1",
     "@react-hive/honey-css": "1.15.0",
-    "@react-hive/honey-utils": "3.24.0",
+    "@react-hive/honey-utils": "3.25.0",
     "csstype": "3.2.3"
   },
   "devDependencies": {
