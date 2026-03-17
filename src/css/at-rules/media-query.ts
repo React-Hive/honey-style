@@ -1,7 +1,7 @@
 import { compact } from '@react-hive/honey-utils';
 
 import type { Nullable } from '../../types';
-import type { HoneyCSSDimensionValue } from '../types';
+import type { HoneyCssDimensionValue } from '../types';
 
 /**
  * Represents CSS resolution units typically used in media queries.
@@ -22,12 +22,12 @@ type MediaQueryRuleResolutionValue = `${number}${MediaQueryRuleResolutionUnit}`;
  * Properties for dimension-based media queries
  */
 interface MediaQueryRuleDimensionProperties {
-  width?: HoneyCSSDimensionValue;
-  minWidth?: HoneyCSSDimensionValue;
-  maxWidth?: HoneyCSSDimensionValue;
-  height?: HoneyCSSDimensionValue;
-  minHeight?: HoneyCSSDimensionValue;
-  maxHeight?: HoneyCSSDimensionValue;
+  width?: HoneyCssDimensionValue;
+  minWidth?: HoneyCssDimensionValue;
+  maxWidth?: HoneyCssDimensionValue;
+  height?: HoneyCssDimensionValue;
+  minHeight?: HoneyCssDimensionValue;
+  maxHeight?: HoneyCssDimensionValue;
 }
 
 /**

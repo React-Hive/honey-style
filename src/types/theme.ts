@@ -2,7 +2,7 @@ import * as CSS from 'csstype';
 import type { ElementType } from 'react';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP } from '../constants';
-import type { HoneyCSSColor, HoneyCSSDimensionUnit } from '../css';
+import type { HoneyCssColor, HoneyCssDimensionUnit } from '../css';
 
 /**
  * Creates a new type by omitting the specified keys `U` from the object type `T`.
@@ -58,7 +58,7 @@ export type FastOmit<T extends object, U extends string | number | symbol> = {
  */
 export type Override<A extends object, B extends object> = FastOmit<A, keyof B> & B;
 
-export type HoneyHTMLDataAttributes = {
+export type HoneyHtmlDataAttributes = {
   [key: `data-${string}`]: string | number;
 };
 
@@ -131,44 +131,44 @@ interface BaseHoneyColors {
    * Used for elements that require high visibility and emphasis, such as primary buttons, call-to-action elements,
    * and important elements like headers or titles.
    */
-  primary: Record<string, HoneyCSSColor>;
+  primary: Record<string, HoneyCssColor>;
   /**
    * Used to complement the primary color and add visual interest.
    * Often used for secondary buttons, borders, and decorative elements to provide contrast and balance within the design.
    * Helps create a cohesive visual hierarchy by providing variation in color tones.
    */
-  secondary: Record<string, HoneyCSSColor>;
+  secondary: Record<string, HoneyCssColor>;
   /**
    * Used to draw attention to specific elements or interactions.
    * Often applied to interactive elements like links, icons, or tooltips to indicate their interactive nature.
    * Can be used sparingly to highlight important information or to create visual focal points.
    */
-  accent: Record<string, HoneyCSSColor>;
+  accent: Record<string, HoneyCssColor>;
   /**
    * Used for backgrounds, text, and other elements where a subtle, non-distracting color is desired.
    * Provides a versatile palette for elements like backgrounds, borders, text, and icons, allowing other colors to stand
    * out more prominently. Helps maintain balance and readability without overwhelming the user with too much color.
    */
-  neutral: Record<string, HoneyCSSColor>;
+  neutral: Record<string, HoneyCssColor>;
   /**
    * Used to indicate successful or positive actions or states.
    * Often applied to elements like success messages, notifications, or icons to convey successful completion of tasks or operations.
    * Provides visual feedback to users to indicate that their actions were successful.
    */
-  success: Record<string, HoneyCSSColor>;
+  success: Record<string, HoneyCssColor>;
   /**
    * Used to indicate cautionary or potentially risky situations.
    * Applied to elements like warning messages, alerts, or icons to notify users about potential issues or actions that require attention.
    * Helps users recognize and address potential problems or risks before they escalate.
    */
-  warning: Record<string, HoneyCSSColor>;
+  warning: Record<string, HoneyCssColor>;
   /**
    * Used to indicate errors, critical issues, or potentially destructive actions.
    * Applied to elements like error messages, validation indicators, form fields, or delete buttons to alert users about incorrect input,
    * system errors, or actions that may have irreversible consequences. Provides visual feedback to prompt users to
    * take corrective actions or seek assistance when encountering errors or potentially risky actions.
    */
-  error: Record<string, HoneyCSSColor>;
+  error: Record<string, HoneyCssColor>;
 }
 
 /**
@@ -210,16 +210,16 @@ export type HoneyColorKey = {
   [ColorType in keyof HoneyColors]: `${ColorType}.${keyof HoneyColors[ColorType] & string}`;
 }[keyof HoneyColors];
 
-export type HoneyColor = HoneyCSSColor | HoneyColorKey;
+export type HoneyColor = HoneyCssColor | HoneyColorKey;
 
 export interface HoneyContainer {
   /**
    * Max container width in any CSS distance value.
    */
-  maxWidth: `${number}${HoneyCSSDimensionUnit}`;
+  maxWidth: `${number}${HoneyCssDimensionUnit}`;
 }
 
-export type HoneyDimensionValue = `${number}${HoneyCSSDimensionUnit}`;
+export type HoneyDimensionValue = `${number}${HoneyCssDimensionUnit}`;
 
 /**
  * Represents a map of dimension names to CSS distance values.
@@ -278,7 +278,7 @@ export type HoneyStyledContext<Props extends object> = {
   theme: HoneyTheme;
 } & Props;
 
-type HoneyStyledInterpolationCSSProps = {
+type HoneyStyledInterpolationCssProps = {
   [K in keyof CSS.Properties]?: CSS.Properties[K] | null | false | undefined;
 };
 
@@ -293,6 +293,6 @@ export type HoneyStyledInterpolation<Props extends object> =
   | null
   | undefined
   | HoneyStyledComponent
-  | HoneyStyledInterpolationCSSProps
+  | HoneyStyledInterpolationCssProps
   | HoneyStyledFunction<Props>
   | HoneyStyledInterpolation<Props>[];

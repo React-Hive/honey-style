@@ -5,12 +5,12 @@ import { isString, invokeIfFunction, definedProps } from '@react-hive/honey-util
 import type {
   FastOmit,
   Override,
-  HoneyHTMLDataAttributes,
+  HoneyHtmlDataAttributes,
   HoneyStyledInterpolation,
   HoneyStyledPropsWithAs,
   HoneyStyledContext,
 } from './types';
-import type { HoneyCSSClassName } from './css';
+import type { HoneyCssClassName } from './css';
 import { __DEV__, HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
 import {
   generateId,
@@ -44,7 +44,7 @@ export type HoneyStyledProps<
   Props extends object,
 > = HoneyStyledPropsWithAs<
   Element,
-  HoneyHTMLDataAttributes & ComponentPropsWithRef<Element> & Props
+  HoneyHtmlDataAttributes & ComponentPropsWithRef<Element> & Props
 >;
 
 type DefaultPropsResolver<
@@ -92,7 +92,7 @@ export const styled = <
        * @deprecated Please use inheritance instead.
        */
       css?: HoneyStyledInterpolation<Props>;
-      className?: HoneyCSSClassName;
+      className?: HoneyCssClassName;
       __compositionDepth?: number;
     }) => {
       if (__DEV__ && cssProp) {

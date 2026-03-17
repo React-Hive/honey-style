@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 
 import type {
-  HoneyCSSColor,
-  HoneyCSSDimensionUnit,
-  HoneyCSSDimensionValue,
-  HoneyCSSSpacingValue,
+  HoneyCssColor,
+  HoneyCssDimensionUnit,
+  HoneyCssDimensionValue,
+  HoneyCssSpacingValue,
 } from '../css';
 import type {
   Nullable,
@@ -35,8 +35,8 @@ export interface HoneyStyleContextValue {
    * @returns The resolved spacing value, formatted as a string with the appropriate unit.
    */
   resolveSpacing: <
-    Value extends HoneyCSSSpacingValue,
-    Unit extends Nullable<HoneyCSSDimensionUnit> = 'px',
+    Value extends HoneyCssSpacingValue,
+    Unit extends Nullable<HoneyCssDimensionUnit> = 'px',
   >(
     value: Value,
     unit?: Unit,
@@ -50,7 +50,7 @@ export interface HoneyStyleContextValue {
    *
    * @returns The resolved CSS color, optionally with alpha transparency.
    */
-  resolveColor: (colorKey: HoneyColorKey, alpha?: number) => HoneyCSSColor;
+  resolveColor: (colorKey: HoneyColorKey, alpha?: number) => HoneyCssColor;
   /**
    * Function to resolve font styles based on the theme.
    *
@@ -66,7 +66,7 @@ export interface HoneyStyleContextValue {
    *
    * @returns The resolved CSS dimension value (e.g., width, height).
    */
-  resolveDimension: (dimensionName: HoneyDimensionName) => HoneyCSSDimensionValue;
+  resolveDimension: (dimensionName: HoneyDimensionName) => HoneyCssDimensionValue;
 }
 
 export const HoneyStyleContext = createContext<HoneyStyleContextValue | undefined>(undefined);

@@ -1,18 +1,17 @@
 import { generateEphemeralId, hashString, hexWithAlpha } from '@react-hive/honey-utils';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
+import type {
+  HoneyCssClassName,
+  HoneyCssColor,
+  HoneyCssDimensionUnit,
+  HoneyCssDimensionValue,
+  HoneyCssShorthandDimensionOutput,
+  HoneyCssShorthandTuple,
+  HoneyCssSpacingValue,
+} from './css';
 import { css } from './css';
 import type {
-  HoneyCSSColor,
-  HoneyCSSClassName,
-  HoneyCSSShorthandDimensionOutput,
-  HoneyCSSShorthandTuple,
-  HoneyCSSSpacingValue,
-  HoneyCSSDimensionUnit,
-  HoneyCSSDimensionValue,
-} from './css';
-import type {
-  Nullable,
   HoneyColor,
   HoneyColorKey,
   HoneyColors,
@@ -21,6 +20,7 @@ import type {
   HoneySpacings,
   HoneyStyledComponent,
   HoneyStyledContext,
+  Nullable,
 } from './types';
 
 export const generateId = (prefix: string) => `${prefix}-${generateEphemeralId()}`;
@@ -30,7 +30,7 @@ export const generateId = (prefix: string) => `${prefix}-${generateEphemeralId()
  *
  * @param classNames - Array of class names to combine
  */
-export const combineClassNames = (classNames: HoneyCSSClassName[]) =>
+export const combineClassNames = (classNames: HoneyCssClassName[]) =>
   classNames.filter(Boolean).join(' ').trim();
 
 export const resolveClassName = (css: string) => `hscn-${hashString(css)}`;
@@ -82,7 +82,7 @@ export const pxToRem = (px: number, base: number = 16): string => `${px / base}r
  *
  * @returns True if the string value is a theme color value, false otherwise.
  */
-export const checkIsThemeColorValue = (propertyValue: string): propertyValue is HoneyColorKey =>
+export const isThemeColorValue = (propertyValue: string): propertyValue is HoneyColorKey =>
   propertyValue.split('.').length === 2;
 
 /**
@@ -102,15 +102,15 @@ export const checkIsThemeColorValue = (propertyValue: string): propertyValue is 
  * @template Unit - A CSS length unit (e.g., 'px', 'em'), or `null` to skip unit formatting.
  */
 export type HoneyResolveSpacingResult<
-  Value extends HoneyCSSSpacingValue,
-  Unit extends Nullable<HoneyCSSDimensionUnit>,
-> = Value extends HoneyCSSDimensionValue
+  Value extends HoneyCssSpacingValue,
+  Unit extends Nullable<HoneyCssDimensionUnit>,
+> = Value extends HoneyCssDimensionValue
   ? Value
   : Unit extends null
     ? Value
-    : Value extends HoneyCSSShorthandTuple<number | HoneyCSSDimensionValue>
-      ? HoneyCSSShorthandDimensionOutput<Value, NonNullable<Unit>>
-      : HoneyCSSDimensionValue<NonNullable<Unit>>;
+    : Value extends HoneyCssShorthandTuple<number | HoneyCssDimensionValue>
+      ? HoneyCssShorthandDimensionOutput<Value, NonNullable<Unit>>
+      : HoneyCssDimensionValue<NonNullable<Unit>>;
 
 /**
  * Resolves a spacing value or shorthand spacing array using the theme and optional unit.
@@ -135,7 +135,7 @@ export type HoneyResolveSpacingResult<
  *          - `never` if the input is a raw string (unsupported).
  */
 export const resolveSpacing =
-  <Value extends HoneyCSSSpacingValue, Unit extends Nullable<HoneyCSSDimensionUnit> = 'px'>(
+  <Value extends HoneyCssSpacingValue, Unit extends Nullable<HoneyCssDimensionUnit> = 'px'>(
     value: Value,
     unit: Unit = 'px' as Unit,
     type: keyof HoneySpacings = 'base',
@@ -211,12 +211,12 @@ export const resolveFont =
  */
 export const resolveColor =
   (colorInput: HoneyColor, alpha?: number) =>
-  ({ theme }: HoneyStyledContext<object>): HoneyCSSColor => {
+  ({ theme }: HoneyStyledContext<object>): HoneyCssColor => {
     const [colorType, colorName] = colorInput.split('.');
 
     const color = colorName
       ? theme.colors[colorType as keyof HoneyColors][colorName]
-      : (colorType as HoneyCSSColor);
+      : (colorType as HoneyCssColor);
 
     return alpha === undefined ? color : hexWithAlpha(color, alpha);
   };
@@ -230,5 +230,5 @@ export const resolveColor =
  */
 export const resolveDimension =
   (dimensionName: HoneyDimensionName) =>
-  ({ theme }: HoneyStyledContext<object>): HoneyCSSDimensionValue =>
+  ({ theme }: HoneyStyledContext<object>): HoneyCssDimensionValue =>
     theme.dimensions[dimensionName];

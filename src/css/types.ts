@@ -1,13 +1,13 @@
 import type { HexColor } from '@react-hive/honey-utils';
 import * as CSS from 'csstype';
 
-export type HoneyCSSClassName = string | undefined;
+export type HoneyCssClassName = string | undefined;
 
 /**
  * Represents any valid CSS color, either a named color (like `'red'`, `'blue'`)
  * or a hexadecimal color code (like `'#ff0000'`).
  */
-export type HoneyCSSColor = HexColor | CSS.DataType.ColorBase | CSS.Globals;
+export type HoneyCssColor = HexColor | CSS.DataType.ColorBase | CSS.Globals;
 
 /**
  * Represents absolute CSS dimension units.
@@ -21,7 +21,7 @@ export type HoneyCSSColor = HexColor | CSS.DataType.ColorBase | CSS.Globals;
  * - `'pt'` — points
  * - `'pc'` — picas
  */
-type HoneyCSSAbsoluteDimensionUnit = 'px' | 'cm' | 'mm' | 'in' | 'pt' | 'pc';
+type HoneyCssAbsoluteDimensionUnit = 'px' | 'cm' | 'mm' | 'in' | 'pt' | 'pc';
 
 /**
  * Represents relative CSS dimension units.
@@ -36,12 +36,12 @@ type HoneyCSSAbsoluteDimensionUnit = 'px' | 'cm' | 'mm' | 'in' | 'pt' | 'pc';
  * - `'vmin'` — 1% of the smaller dimension of the viewport
  * - `'vmax'` — 1% of the larger dimension of the viewport
  */
-type HoneyCSSRelativeDimensionUnit = 'em' | 'rem' | '%' | 'vh' | 'vw' | 'vmin' | 'vmax';
+type HoneyCssRelativeDimensionUnit = 'em' | 'rem' | '%' | 'vh' | 'vw' | 'vmin' | 'vmax';
 
 /**
  * Represents any valid CSS dimension unit, including both absolute and relative types.
  */
-export type HoneyCSSDimensionUnit = HoneyCSSAbsoluteDimensionUnit | HoneyCSSRelativeDimensionUnit;
+export type HoneyCssDimensionUnit = HoneyCssAbsoluteDimensionUnit | HoneyCssRelativeDimensionUnit;
 
 /**
  * Represents a numeric CSS dimension value with an optional specific unit.
@@ -52,7 +52,7 @@ export type HoneyCSSDimensionUnit = HoneyCSSAbsoluteDimensionUnit | HoneyCSSRela
  *
  * @template Unit - The CSS unit to use (e.g., `'px'`, `'em'`, `'rem'`).
  */
-export type HoneyCSSDimensionValue<Unit extends HoneyCSSDimensionUnit = HoneyCSSDimensionUnit> =
+export type HoneyCssDimensionValue<Unit extends HoneyCssDimensionUnit = HoneyCssDimensionUnit> =
   | `${number}${Unit}`
   | 'auto';
 
@@ -69,7 +69,7 @@ export type HoneyCSSDimensionValue<Unit extends HoneyCSSDimensionUnit = HoneyCSS
  *
  * @template T - The type of each spacing value (e.g., number, string, or token).
  */
-export type HoneyCSSShorthandTuple<T> = [T, T] | [T, T, T] | [T, T, T, T];
+export type HoneyCssShorthandTuple<T> = [T, T] | [T, T, T] | [T, T, T, T];
 
 /**
  * Converts a tuple of spacing values into a valid CSS shorthand string using a consistent unit.
@@ -87,15 +87,15 @@ export type HoneyCSSShorthandTuple<T> = [T, T] | [T, T, T] | [T, T, T, T];
  * @template Tuple - A tuple of 2 to 4 values to be converted into a CSS shorthand string.
  * @template Unit - The CSS unit to apply to each value (e.g., `'px'`, `'rem'`, `'%'`).
  */
-export type HoneyCSSShorthandDimensionOutput<
-  Tuple extends HoneyCSSShorthandTuple<unknown>,
-  Unit extends HoneyCSSDimensionUnit,
+export type HoneyCssShorthandDimensionOutput<
+  Tuple extends HoneyCssShorthandTuple<unknown>,
+  Unit extends HoneyCssDimensionUnit,
 > = Tuple extends [unknown, unknown]
-  ? `${HoneyCSSDimensionValue<Unit>} ${HoneyCSSDimensionValue<Unit>}`
+  ? `${HoneyCssDimensionValue<Unit>} ${HoneyCssDimensionValue<Unit>}`
   : Tuple extends [unknown, unknown, unknown]
-    ? `${HoneyCSSDimensionValue<Unit>} ${HoneyCSSDimensionValue<Unit>} ${HoneyCSSDimensionValue<Unit>}`
+    ? `${HoneyCssDimensionValue<Unit>} ${HoneyCssDimensionValue<Unit>} ${HoneyCssDimensionValue<Unit>}`
     : Tuple extends [unknown, unknown, unknown, unknown]
-      ? `${HoneyCSSDimensionValue<Unit>} ${HoneyCSSDimensionValue<Unit>} ${HoneyCSSDimensionValue<Unit>} ${HoneyCSSDimensionValue<Unit>}`
+      ? `${HoneyCssDimensionValue<Unit>} ${HoneyCssDimensionValue<Unit>} ${HoneyCssDimensionValue<Unit>} ${HoneyCssDimensionValue<Unit>}`
       : never;
 
 /**
@@ -112,7 +112,7 @@ export type HoneyCSSShorthandDimensionOutput<
  *
  * @template T - The type of each individual value.
  */
-export type HoneyCSSMultiValue<T> = T | HoneyCSSShorthandTuple<T>;
+export type HoneyCssMultiValue<T> = T | HoneyCssShorthandTuple<T>;
 
 /**
  * Represents a spacing value used in layout-related CSS properties.
@@ -124,14 +124,14 @@ export type HoneyCSSMultiValue<T> = T | HoneyCSSShorthandTuple<T>;
  *
  * Commonly used for properties like `margin`, `padding`, `gap`, etc.
  */
-export type HoneyCSSSpacingValue = HoneyCSSMultiValue<number | HoneyCSSDimensionValue>;
+export type HoneyCssSpacingValue = HoneyCssMultiValue<number | HoneyCssDimensionValue>;
 
-export type HoneyRawCSSSpacingValue = number | HoneyCSSDimensionValue | CSS.Globals;
+export type HoneyRawCssSpacingValue = number | HoneyCssDimensionValue | CSS.Globals;
 
 /**
  * Represents CSS properties related to spacing and positioning.
  */
-export type HoneyCSSSpacingProperty = keyof Pick<
+export type HoneyCssSpacingProperty = keyof Pick<
   CSS.Properties,
   | 'margin'
   | 'marginTop'
@@ -162,7 +162,7 @@ export type HoneyCSSSpacingProperty = keyof Pick<
  * These properties accept 2–4 space-separated values
  * to control spacing on multiple sides (e.g., top, right, bottom, left).
  */
-export type HoneyCSSShorthandSpacingProperty = keyof Pick<
+export type HoneyCssShorthandSpacingProperty = keyof Pick<
   CSS.Properties,
   'margin' | 'padding' | 'gap'
 >;
@@ -170,7 +170,7 @@ export type HoneyCSSShorthandSpacingProperty = keyof Pick<
 /**
  * Represents a subset of CSS properties that define color-related styles.
  */
-export type HoneyCSSColorProperty = keyof Pick<
+export type HoneyCssColorProperty = keyof Pick<
   CSS.Properties,
   | 'color'
   | 'backgroundColor'

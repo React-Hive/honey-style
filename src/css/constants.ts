@@ -1,6 +1,6 @@
-import type { HoneyCSSColorProperty, HoneyCSSSpacingProperty } from './types';
+import type { HoneyCssColorProperty, HoneyCssSpacingProperty } from './types';
 
-export const CSS_SPACING_PROPERTIES: readonly HoneyCSSSpacingProperty[] = [
+export const CSS_SPACING_PROPERTIES: readonly HoneyCssSpacingProperty[] = [
   'margin',
   'marginTop',
   'marginRight',
@@ -24,7 +24,7 @@ export const CSS_SPACING_PROPERTIES: readonly HoneyCSSSpacingProperty[] = [
   'columnGap',
 ];
 
-export const CSS_COLOR_PROPERTIES: readonly HoneyCSSColorProperty[] = [
+export const CSS_COLOR_PROPERTIES: readonly HoneyCssColorProperty[] = [
   'color',
   'backgroundColor',
   'borderColor',
