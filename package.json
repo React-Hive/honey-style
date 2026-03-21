@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "",
   "keywords": [
     "react",
@@ -48,7 +48,7 @@
   "dependencies": {
     "@mdx-js/react": "3.1.1",
     "@react-hive/honey-css": "1.15.0",
-    "@react-hive/honey-utils": "3.25.0",
+    "@react-hive/honey-utils": "3.26.0",
     "csstype": "3.2.3"
   },
   "devDependencies": {
@@ -61,8 +61,8 @@
     "@types/node": "22.19.11",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "copy-webpack-plugin": "13.0.1",
-    "eslint": "10.0.2",
+    "copy-webpack-plugin": "14.0.0",
+    "eslint": "10.1.0",
     "eslint-plugin-react": "7.37.5",
     "html-webpack-plugin": "5.6.6",
     "husky": "9.1.7",
@@ -73,9 +73,9 @@
     "ts-loader": "9.5.4",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.56.1",
-    "webpack": "5.105.3",
-    "webpack-cli": "6.0.1"
+    "typescript-eslint": "8.57.1",
+    "webpack": "5.105.4",
+    "webpack-cli": "7.0.2"
   },
   "jest": {
     "preset": "ts-jest",

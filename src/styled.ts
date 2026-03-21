@@ -1,25 +1,25 @@
-import type { ElementType, ComponentProps, ComponentPropsWithRef } from 'react';
+import type { ComponentProps, ComponentPropsWithRef, ElementType } from 'react';
 import { createElement, useInsertionEffect } from 'react';
-import { isString, invokeIfFunction, definedProps } from '@react-hive/honey-utils';
+import { definedProps, invokeIfFunction, isString } from '@react-hive/honey-utils';
 
 import type {
   FastOmit,
-  Override,
   HoneyHtmlDataAttributes,
+  HoneyStyledContext,
   HoneyStyledInterpolation,
   HoneyStyledPropsWithAs,
-  HoneyStyledContext,
+  Override,
 } from './types';
 import type { HoneyCssClassName } from './css';
+import { css, processCss } from './css';
 import { __DEV__, HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
 import {
-  generateId,
   combineClassNames,
-  resolveClassName,
   filterNonHtmlAttrs,
+  generateId,
   isStyledComponent,
+  resolveClassName,
 } from './utils';
-import { css, processCss } from './css';
 import { mountStyle } from './mount-style';
 import { useHoneyStyle } from './hooks';
 
@@ -110,7 +110,7 @@ export const styled = <
           as,
           className,
           ...cleanedProps,
-        } as never) ?? ({} as never)),
+        } as never) ?? {}),
         // Allow overriding the default "className" prop
         ...(className && { className }),
       };
@@ -151,8 +151,8 @@ export const styled = <
 
       const finalClassName = combineClassNames([
         componentId,
-        baseClassName,
         resolvedDefaultProps.className,
+        baseClassName,
         cssPropClassName,
       ]);
 
