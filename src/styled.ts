@@ -151,9 +151,9 @@ export const styled = <
 
       const finalClassName = combineClassNames([
         componentId,
-        resolvedDefaultProps.className,
         baseClassName,
         cssPropClassName,
+        resolvedDefaultProps.className,
       ]);
 
       const mergedProps = {

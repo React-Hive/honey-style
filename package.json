@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "",
   "keywords": [
     "react",
@@ -27,12 +27,14 @@
     "diagnostics": "tsx scripts/collect-diagnostics.ts"
   },
   "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.cjs"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.mjs"
+    }
   },
   "files": [
     "dist",
@@ -47,8 +49,8 @@
   },
   "dependencies": {
     "@mdx-js/react": "3.1.1",
-    "@react-hive/honey-css": "1.15.0",
-    "@react-hive/honey-utils": "3.26.0",
+    "@react-hive/honey-css": "1.16.0",
+    "@react-hive/honey-utils": "3.27.0",
     "csstype": "3.2.3"
   },
   "devDependencies": {
@@ -58,7 +60,7 @@
     "@testing-library/react": "16.3.2",
     "@types/jest": "29.5.14",
     "@types/mdx": "2.0.13",
-    "@types/node": "22.19.11",
+    "@types/node": "22.19.15",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "copy-webpack-plugin": "14.0.0",
@@ -73,7 +75,7 @@
     "ts-loader": "9.5.4",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.57.1",
+    "typescript-eslint": "8.57.2",
     "webpack": "5.105.4",
     "webpack-cli": "7.0.2"
   },
