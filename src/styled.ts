@@ -14,11 +14,11 @@ import type { HoneyCssClassName } from './css';
 import { css, processCss } from './css';
 import { __DEV__, HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
 import {
+  buildClassName,
   combineClassNames,
   filterNonHtmlAttrs,
   generateId,
   isStyledComponent,
-  resolveClassName,
 } from './utils';
 import { mountStyle } from './mount-style';
 import { useHoneyStyle } from './hooks';
@@ -122,7 +122,7 @@ export const styled = <
       };
 
       const rawCss = computeCss(context);
-      const baseClassName = resolveClassName(rawCss);
+      const baseClassName = buildClassName(rawCss);
 
       useInsertionEffect(() => {
         const baseCss = processCss(rawCss, {
@@ -136,7 +136,7 @@ export const styled = <
       const cssPropRaw = invokeIfFunction(cssProp, context);
       const cssPropString = evaluateDynamicCss(cssPropRaw, context);
 
-      const cssPropClassName = cssPropString ? resolveClassName(cssPropString) : '';
+      const cssPropClassName = cssPropString ? buildClassName(cssPropString) : '';
 
       useInsertionEffect(() => {
         if (cssPropClassName) {

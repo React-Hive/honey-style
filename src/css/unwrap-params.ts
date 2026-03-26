@@ -1,9 +1,9 @@
-export const unwrapParams = (params?: string): string => {
-  if (!params) {
+export const unwrapParams = (input?: string): string => {
+  if (!input) {
     return '';
   }
 
-  const trimmed = params.trim();
+  const trimmed = input.trim();
 
   if (trimmed.startsWith('(') && trimmed.endsWith(')')) {
     return trimmed.slice(1, -1).trim();

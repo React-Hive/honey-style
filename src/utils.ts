@@ -33,7 +33,7 @@ export const generateId = (prefix: string) => `${prefix}-${generateEphemeralId()
 export const combineClassNames = (classNames: HoneyCssClassName[]) =>
   classNames.filter(Boolean).join(' ').trim();
 
-export const resolveClassName = (css: string) => `hscn-${hashString(css)}`;
+export const buildClassName = (css: string) => `hscn-${hashString(css)}`;
 
 export const isStyledComponent = (component: any): component is HoneyStyledComponent =>
   HONEY_STYLED_COMPONENT_ID_PROP in component;

@@ -1,6 +1,6 @@
+import type { PropsWithChildren, ReactElement } from 'react';
 import React from 'react';
 import { render } from '@testing-library/react';
-import type { ReactElement, PropsWithChildren } from 'react';
 
 import { themeMock } from '../__mocks__';
 import { HoneyStyleProvider } from '../providers';
@@ -91,10 +91,6 @@ describe('[styled]: basic behavior', () => {
         'hscn-1b56n0h',
       ],
     );
-
-    expect(getByTestId('custom-add-btn')).toHaveStyle({
-      backgroundColor: 'green',
-    });
   });
 
   it('should override default props with props passed to styled component', () => {

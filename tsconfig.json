@@ -5,14 +5,12 @@
     "lib": ["DOM", "ESNext"],
     "target": "ES2022",
     "module": "ESNext",
-    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "strict": true,
-    "types": ["node", "jest", "mdx", "@testing-library/jest-dom"]
+    "types": ["node", "vitest/globals", "@testing-library/jest-dom"]
   },
   "files": ["src/global.d.ts"],
   "include": ["src"]

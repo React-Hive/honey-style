@@ -1,5 +1,5 @@
-import React from 'react';
 import type { ReactElement } from 'react';
+import React from 'react';
 import { render } from '@testing-library/react';
 
 import { HoneyStyleProvider } from '../../providers';
@@ -37,7 +37,7 @@ describe('@honey-media CSS at-rule', () => {
     const { getByTestId } = customRender(<Box data-testid="media" />);
 
     expect(getByTestId('media')).toHaveStyle({
-      color: 'black',
+      color: 'rgb(0, 0, 0)',
     });
 
     const cssText = getRenderedCssText();

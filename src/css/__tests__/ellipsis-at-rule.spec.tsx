@@ -38,7 +38,7 @@ describe('@honey-ellipsis CSS at-rule', () => {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      color: 'red',
+      color: 'rgb(255, 0, 0)',
     });
   });
 
@@ -70,7 +70,7 @@ describe('@honey-ellipsis CSS at-rule', () => {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      color: 'red',
+      color: 'rgb(255, 0, 0)',
       maxWidth: '120px',
     });
   });
@@ -99,7 +99,7 @@ describe('@honey-ellipsis CSS at-rule', () => {
 
     // Ensure nested selector still worked
     expect(getByTestId('child')).toHaveStyle({
-      color: 'red',
+      color: 'rgb(255, 0, 0)',
     });
   });
 
