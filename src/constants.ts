@@ -14,10 +14,13 @@ if (__DEV__) {
   );
 }
 
+export const HONEY_STYLE_REGISTRY_SYMBOL = Symbol.for('honey-style-registry');
+
 export const HONEY_STYLED_COMPONENT_ID_PROP = '$$ComponentId';
 
 export const HONEY_GLOBAL_STYLE_ATTR = 'data-honey-global-style';
 export const HONEY_STYLE_ATTR = 'data-honey-style';
+export const HONEY_STYLE_PRIORITY_ATTR = 'data-priority';
 
 export const HONEY_BREAKPOINTS: HoneyBreakpointName[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 

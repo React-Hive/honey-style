@@ -1,71 +1,110 @@
-import { HONEY_STYLE_ATTR } from './constants';
+import {
+  HONEY_STYLE_ATTR,
+  HONEY_STYLE_PRIORITY_ATTR,
+  HONEY_STYLE_REGISTRY_SYMBOL,
+} from './constants';
+
+interface HoneyWindow extends Window {
+  [HONEY_STYLE_REGISTRY_SYMBOL]?: Map<string, StyleRegistryEntry>;
+}
 
 type StyleCleanupFn = () => void;
 
-/**
- * Represents an entry in the style registry with the raw CSS string,
- * its usage count, and optional priority for ordering.
- */
 interface StyleRegistryEntry {
   css: string;
   usages: number;
   priority: number;
 }
 
-/**
- * Global style registry, shared across reloads and modules.
- */
 const getStyleRegistry = (): Map<string, StyleRegistryEntry> => {
-  if (!window.__honeyStyleRegistry) {
-    window.__honeyStyleRegistry = new Map<string, StyleRegistryEntry>();
+  const w = window as HoneyWindow;
+
+  if (!w[HONEY_STYLE_REGISTRY_SYMBOL]) {
+    w[HONEY_STYLE_REGISTRY_SYMBOL] = new Map();
   }
 
-  return window.__honeyStyleRegistry;
+  return w[HONEY_STYLE_REGISTRY_SYMBOL];
 };
 
 const styleRegistry = getStyleRegistry();
 
-let globalStyleTag: HTMLStyleElement | null = null;
+/**
+ * Cache style tags per priority
+ */
+const styleTagsByPriority = new Map<number, HTMLStyleElement>();
+
+const pendingStyleUpdatePriorities = new Set<number>();
+let isStyleUpdateScheduled = false;
 
 /**
- * Ensures a single <style> tag exists and is attached to <head>.
- *
- * @returns The <style> element.
+ * Ensures a <style> tag exists for a given priority.
  */
-const ensureGlobalStyleTag = (): HTMLStyleElement => {
-  if (!globalStyleTag) {
-    globalStyleTag = document.querySelector(`style[${HONEY_STYLE_ATTR}="true"]`);
+const ensureStyleTagForPriority = (priority: number): HTMLStyleElement => {
+  let styleElement = styleTagsByPriority.get(priority);
+  if (styleElement) return styleElement;
 
-    if (!globalStyleTag) {
-      globalStyleTag = document.createElement('style');
-      globalStyleTag.setAttribute(HONEY_STYLE_ATTR, 'true');
+  styleElement = document.createElement('style');
+  styleElement.setAttribute(HONEY_STYLE_ATTR, 'true');
+  styleElement.setAttribute(HONEY_STYLE_PRIORITY_ATTR, String(priority));
 
-      document.head.appendChild(globalStyleTag);
-    }
+  const existing = Array.from(document.querySelectorAll(`style[${HONEY_STYLE_ATTR}="true"]`));
+
+  const insertBefore = existing.find(
+    el => Number(el.getAttribute(HONEY_STYLE_PRIORITY_ATTR)) > priority,
+  );
+
+  if (insertBefore) {
+    document.head.insertBefore(styleElement, insertBefore);
+  } else {
+    document.head.appendChild(styleElement);
   }
 
-  return globalStyleTag;
+  styleTagsByPriority.set(priority, styleElement);
+
+  return styleElement;
 };
 
-/**
- * Updates the global <style> tag with all currently active styles, sorted by priority.
- */
-const updateGlobalStyleContent = () => {
-  const styleTag = ensureGlobalStyleTag();
+const updateStyleTagForPriority = (priority: number) => {
+  const tag = ensureStyleTagForPriority(priority);
 
-  const allCss = Array.from(styleRegistry.entries())
-    .sort(([, a], [, b]) => a.priority - b.priority)
-    .map(([, entry]) => entry.css)
+  const css = Array.from(styleRegistry.values())
+    .filter(entry => entry.priority === priority)
+    .map(entry => entry.css)
     .join('\n');
 
-  styleTag.textContent = allCss;
+  if (css) {
+    tag.textContent = css;
+  } else {
+    tag.remove();
+    styleTagsByPriority.delete(priority);
+  }
 };
 
-/**
- * Creates a cleanup function for a style, which decrements usage count and removes it if unused.
- *
- * @param className - The key of the style.
- */
+const flushStyleUpdates = () => {
+  for (const priority of pendingStyleUpdatePriorities) {
+    updateStyleTagForPriority(priority);
+  }
+
+  pendingStyleUpdatePriorities.clear();
+};
+
+const scheduleStyleUpdate = (priority: number) => {
+  pendingStyleUpdatePriorities.add(priority);
+
+  if (isStyleUpdateScheduled) {
+    return;
+  }
+
+  isStyleUpdateScheduled = true;
+
+  // microtask → no flicker (runs before paint)
+  queueMicrotask(() => {
+    isStyleUpdateScheduled = false;
+
+    flushStyleUpdates();
+  });
+};
+
 const createCleanupFunction =
   (className: string): StyleCleanupFn =>
   () => {
@@ -79,19 +118,10 @@ const createCleanupFunction =
     if (entry.usages <= 0) {
       styleRegistry.delete(className);
 
-      updateGlobalStyleContent();
+      scheduleStyleUpdate(entry.priority);
     }
   };
 
-/**
- * Mounts a CSS string under a given class name. Injects into a global <style> tag and manages its lifecycle.
- *
- * @param className - Unique identifier for the style block.
- * @param css - Full CSS rule string (can include multiple rules, media queries, etc.)
- * @param priority - Optional number to determine style ordering (lower = earlier = lower specificity)
- *
- * @returns A cleanup function to unmount the style when it's no longer needed.
- */
 export const mountStyle = (
   className: string,
   css: string,
@@ -102,6 +132,12 @@ export const mountStyle = (
   if (existing) {
     existing.usages++;
 
+    if (existing.priority > priority) {
+      existing.priority = priority;
+
+      updateStyleTagForPriority(priority);
+    }
+
     return createCleanupFunction(className);
   }
 
@@ -111,7 +147,7 @@ export const mountStyle = (
     usages: 1,
   });
 
-  updateGlobalStyleContent();
+  updateStyleTagForPriority(priority);
 
   return createCleanupFunction(className);
 };
