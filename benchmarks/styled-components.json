@@ -3,26 +3,26 @@
     "cpu": "Apple M1 Max",
     "cores": 10,
     "totalMemoryGB": 64,
-    "freeMemoryGB": 0.07,
+    "freeMemoryGB": 1.24,
     "platform": "darwin arm64",
-    "node": "v22.12.0"
+    "node": "v24.13.1"
   },
   "benchmarks": {
     "basicBox": {
       "renders": 10000,
-      "totalTimeMs": 1976.7
+      "totalTimeMs": 1447.86
     },
     "extendedBox": {
       "renders": 10000,
-      "totalTimeMs": 1596.66
+      "totalTimeMs": 1227.61
     },
     "dynamicBoxViaProps": {
       "renders": 10000,
-      "totalTimeMs": 1804.61
+      "totalTimeMs": 1229.61
     },
     "boxWithAsProp": {
       "renders": 10000,
-      "totalTimeMs": 1661.61
+      "totalTimeMs": 1197.96
     }
   }
 }

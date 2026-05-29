@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "",
   "keywords": [
     "react",
@@ -23,7 +23,7 @@
     "build": "webpack --config webpack.config.mjs",
     "test": "vitest",
     "prepublishOnly": "CI=1 pnpm clean && pnpm test && pnpm build",
-    "performanceTest": "jest --testMatch **/*.performance.spec.tsx --testPathIgnorePatterns=''",
+    "performanceTest": "vitest run --config vitest.performance.config.ts",
     "diagnostics": "tsx scripts/collect-diagnostics.ts"
   },
   "type": "module",
