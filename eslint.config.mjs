@@ -8,4 +8,11 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.strict,
   pluginReact.configs.flat.recommended,
+  {
+    settings: {
+      react: {
+        version: '19',
+      },
+    },
+  },
 ];

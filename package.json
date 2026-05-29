@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "5.4.0",
+  "version": "6.0.0",
   "description": "",
   "keywords": [
     "react",
@@ -47,31 +47,31 @@
     "styled-components": "^6.1.0"
   },
   "dependencies": {
-    "@react-hive/honey-css": "1.17.0",
-    "@react-hive/honey-utils": "3.28.0",
+    "@react-hive/honey-css": "1.17.1",
+    "@react-hive/honey-utils": "4.0.0",
     "csstype": "3.2.3"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
-    "@types/node": "22.19.15",
-    "@types/react": "^19.2.14",
+    "@types/node": "24.12.4",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "copy-webpack-plugin": "14.0.0",
-    "eslint": "10.1.0",
+    "eslint": "10.4.0",
     "eslint-plugin-react": "7.37.5",
-    "html-webpack-plugin": "5.6.6",
+    "html-webpack-plugin": "5.6.7",
     "husky": "9.1.7",
-    "jsdom": "29.0.1",
-    "prettier": "3.8.1",
-    "ts-loader": "9.5.4",
-    "tsx": "4.21.0",
-    "typescript": "6.0.2",
-    "typescript-eslint": "8.57.2",
-    "vitest": "4.1.2",
-    "webpack": "5.105.4",
-    "webpack-cli": "7.0.2"
+    "jsdom": "29.1.1",
+    "prettier": "3.8.3",
+    "ts-loader": "9.5.7",
+    "tsx": "4.22.3",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.60.0",
+    "vitest": "4.1.7",
+    "webpack": "5.107.2",
+    "webpack-cli": "7.0.3"
   },
   "browserslist": [
     "defaults",

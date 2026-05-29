@@ -6,10 +6,10 @@ import type {
   MediaQueryRuleOrientation,
   MediaQueryRuleType,
 } from './at-rules';
+import { mediaQuery } from './at-rules';
 import { __DEV__ } from '../constants';
 import { createAtRuleTransformer } from './create-at-rule-transformer';
 import { unwrapParams } from './unwrap-params';
-import { mediaQuery } from './at-rules';
 
 type BreakpointDirection = 'up' | 'down';
 

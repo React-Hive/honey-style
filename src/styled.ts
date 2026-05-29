@@ -23,22 +23,6 @@ import {
 import { mountStyle } from './mount-style';
 import { useHoneyStyle } from './hooks';
 
-const evaluateDynamicCss = (
-  interpolation: HoneyStyledInterpolation<any> | undefined,
-  context: HoneyStyledContext<any>,
-): string => {
-  if (!interpolation) {
-    return '';
-  }
-
-  if (isString(interpolation)) {
-    return interpolation;
-  }
-
-  // @ts-expect-error
-  return css([''], [interpolation])(context);
-};
-
 export type HoneyStyledProps<
   Element extends ElementType,
   Props extends object,
@@ -82,25 +66,14 @@ export const styled = <
       as,
       className,
       __compositionDepth = 0,
-      css: cssProp,
       ...props
     }: HoneyStyledPropsWithAs<
       AsElement,
       Override<ComponentProps<AsElement>, FastOmit<Props, 'as'>>
     > & {
-      /**
-       * @deprecated Please use inheritance instead.
-       */
-      css?: HoneyStyledInterpolation<Props>;
       className?: HoneyCssClassName;
       __compositionDepth?: number;
     }) => {
-      if (__DEV__ && cssProp) {
-        console.warn(
-          `[@react-hive/honey-style]: The "css" prop is deprecated. Please use inheritance or composition instead.`,
-        );
-      }
-
       const { theme } = useHoneyStyle();
 
       const cleanedProps = definedProps(props);
@@ -133,26 +106,9 @@ export const styled = <
         return mountStyle(baseClassName, baseCss, __compositionDepth);
       }, [baseClassName]);
 
-      const cssPropRaw = invokeIfFunction(cssProp, context);
-      const cssPropString = evaluateDynamicCss(cssPropRaw, context);
-
-      const cssPropClassName = cssPropString ? buildClassName(cssPropString) : '';
-
-      useInsertionEffect(() => {
-        if (cssPropClassName) {
-          const overrideCss = processCss(cssPropString, {
-            theme,
-            selector: `.${cssPropClassName}`,
-          });
-
-          return mountStyle(cssPropClassName, overrideCss, 1);
-        }
-      }, [cssPropClassName]);
-
       const finalClassName = combineClassNames([
         componentId,
         baseClassName,
-        cssPropClassName,
         resolvedDefaultProps.className,
       ]);
 
