@@ -1,6 +1,7 @@
 import { generateEphemeralId, hashString, hexWithAlpha } from '@react-hive/honey-utils';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
+import { css } from './css';
 import type {
   HoneyCssClassName,
   HoneyCssColor,
@@ -10,7 +11,6 @@ import type {
   HoneyCssShorthandTuple,
   HoneyCssSpacingValue,
 } from './css';
-import { css } from './css';
 import type {
   HoneyColor,
   HoneyColorKey,
