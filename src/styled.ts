@@ -1,4 +1,4 @@
-import type { ComponentProps, ComponentPropsWithRef, ElementType } from 'react';
+import type { ComponentProps, ComponentPropsWithRef, ElementType, ReactElement } from 'react';
 import { createElement, useInsertionEffect } from 'react';
 import { definedProps, invokeIfFunction, isString } from '@react-hive/honey-utils';
 
@@ -8,11 +8,16 @@ import type {
   HoneyStyledContext,
   HoneyStyledInterpolation,
   HoneyStyledPropsWithAs,
+  Nullable,
   Override,
 } from './types';
 import type { HoneyCssClassName } from './css';
 import { css, processCss } from './css';
-import { __DEV__, HONEY_STYLED_COMPONENT_ID_PROP } from './constants';
+import {
+  __DEV__,
+  HONEY_STYLED_COMPONENT_ID_PROP,
+  HONEY_STYLED_COMPOSITION_DEPTH_PROP,
+} from './constants';
 import {
   buildClassName,
   combineClassNames,
@@ -42,6 +47,25 @@ type DefaultPropsResolver<
       props: HoneyStyledContext<HoneyStyledPropsWithAs<Target, CombinedProps>>,
     ) => HoneyStyledPropsWithAs<Target, FastOmit<Partial<CombinedProps>, 'as'>>);
 
+type HoneyStyledInternalProps = {
+  className?: HoneyCssClassName;
+  [HONEY_STYLED_COMPOSITION_DEPTH_PROP]?: number;
+};
+
+type HoneyStyledPublicComponentProps<
+  AsElement extends ElementType,
+  Props extends object,
+> = HoneyStyledPropsWithAs<AsElement, Override<ComponentProps<AsElement>, FastOmit<Props, 'as'>>>;
+
+type HoneyStyledComponent<OverrideTarget extends ElementType, Props extends object> = (<
+  AsElement extends ElementType = OverrideTarget,
+>(
+  props: HoneyStyledPublicComponentProps<AsElement, Props>,
+) => Nullable<ReactElement<Props>>) & {
+  [HONEY_STYLED_COMPONENT_ID_PROP]: string;
+  displayName?: string;
+};
+
 interface StyledOptions {
   omitProps?: (name: string) => boolean;
 }
@@ -62,18 +86,12 @@ export const styled = <
     const componentId = generateId('hsc');
     const computeCss = css(strings, ...interpolations);
 
-    const StyledComponent = <AsElement extends ElementType = OverrideTarget>({
+    const StyledComponentImpl = <AsElement extends ElementType = OverrideTarget>({
       as,
       className,
       __compositionDepth = 0,
       ...props
-    }: HoneyStyledPropsWithAs<
-      AsElement,
-      Override<ComponentProps<AsElement>, FastOmit<Props, 'as'>>
-    > & {
-      className?: HoneyCssClassName;
-      __compositionDepth?: number;
-    }) => {
+    }: HoneyStyledPublicComponentProps<AsElement, Props> & HoneyStyledInternalProps) => {
       const { theme } = useHoneyStyle();
 
       const cleanedProps = definedProps(props);
@@ -145,10 +163,12 @@ export const styled = <
         ...finalProps,
         ...(as && { as }),
         ...(isStyledComponent(target) && {
-          __compositionDepth: __compositionDepth - 1,
+          [HONEY_STYLED_COMPOSITION_DEPTH_PROP]: __compositionDepth - 1,
         }),
       });
     };
+
+    const StyledComponent = StyledComponentImpl as HoneyStyledComponent<OverrideTarget, Props>;
 
     StyledComponent[HONEY_STYLED_COMPONENT_ID_PROP] = componentId;
 

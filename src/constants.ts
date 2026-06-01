@@ -5,7 +5,7 @@ import type { HoneyBreakpointName } from './types';
 const ENV = process.env.NODE_ENV || 'development';
 
 export const __DEV__ =
-  ENV !== 'production' && typeof window !== 'undefined' && !process.env.JEST_WORKER_ID;
+  ENV !== 'production' && typeof window !== 'undefined' && !process.env.VITEST_WORKER_ID;
 
 if (__DEV__) {
   console.info(
@@ -17,6 +17,7 @@ if (__DEV__) {
 export const HONEY_STYLE_REGISTRY_SYMBOL = Symbol.for('honey-style-registry');
 
 export const HONEY_STYLED_COMPONENT_ID_PROP = '$$ComponentId';
+export const HONEY_STYLED_COMPOSITION_DEPTH_PROP = '__compositionDepth';
 
 export const HONEY_GLOBAL_STYLE_ATTR = 'data-honey-global-style';
 export const HONEY_STYLE_ATTR = 'data-honey-style';
