@@ -34,6 +34,23 @@ describe('[styled]: basic behavior', () => {
     expect(getByTestId('link')).toHaveAttribute('href', 'https://google.com');
   });
 
+  it('should infer native anchor props when rendered with as="a"', () => {
+    type BoxProps = {
+      test: boolean;
+    };
+
+    const Box = styled<BoxProps, 'div'>('div')``;
+
+    const { getByTestId } = customRender(
+      <Box as="a" test={false} href="https://google.com" data-testid="link">
+        content
+      </Box>,
+    );
+
+    expect(getByTestId('link').tagName).toBe('A');
+    expect(getByTestId('link')).toHaveAttribute('href', 'https://google.com');
+  });
+
   it('should render with the "as" prop using a styled component and preserve attributes', () => {
     const Link = styled('a')``;
 
@@ -66,6 +83,31 @@ describe('[styled]: basic behavior', () => {
     );
 
     expect(getByTestId('link')).toHaveAttribute('href', 'https://google.com');
+  });
+
+  it('should support custom props and native element props when "as" is not provided', () => {
+    type BoxProps = {
+      test: boolean;
+    };
+
+    const handleClick = vi.fn();
+
+    const Box = styled<BoxProps, 'div'>('div')``;
+
+    const { getByTestId } = customRender(
+      <Box test={false} onClick={handleClick} data-testid="box">
+        content
+      </Box>,
+    );
+
+    const boxElement = getByTestId('box');
+
+    expect(boxElement.tagName).toBe('DIV');
+    expect(boxElement).toHaveTextContent('content');
+
+    boxElement.click();
+
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('should compose class names from base and extended styled components', () => {
