@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "description": "",
   "keywords": [
     "react",
@@ -47,7 +47,7 @@
     "styled-components": "^6.1.0"
   },
   "dependencies": {
-    "@react-hive/honey-css": "1.17.1",
+    "@react-hive/honey-css": "1.18.0",
     "@react-hive/honey-utils": "4.0.0",
     "csstype": "3.2.3"
   },

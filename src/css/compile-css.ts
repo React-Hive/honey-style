@@ -1,7 +1,5 @@
 import type { HoneyCssAstNode, HoneyCssAstStylesheetNode } from '@react-hive/honey-css';
-import { resolveCssSelector, stringifyCss } from '@react-hive/honey-css';
-
-import { flattenCssRules } from './flatten-css-rules';
+import { flattenCssRules, resolveCssSelector, stringifyCss } from '@react-hive/honey-css';
 
 const SCOPED_AT_RULES: Record<string, true> = {
   media: true,
