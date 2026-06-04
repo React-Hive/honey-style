@@ -1,4 +1,5 @@
 import type { HexColor } from '@react-hive/honey-utils';
+import type { HoneyCssDimensionUnit } from '@react-hive/honey-css';
 import * as CSS from 'csstype';
 
 export type HoneyCssClassName = string | undefined;
@@ -8,40 +9,6 @@ export type HoneyCssClassName = string | undefined;
  * or a hexadecimal color code (like `'#ff0000'`).
  */
 export type HoneyCssColor = HexColor | CSS.DataType.ColorBase | CSS.Globals;
-
-/**
- * Represents absolute CSS dimension units.
- *
- * These units are fixed in physical measurements.
- *
- * - `'px'` — pixels
- * - `'cm'` — centimeters
- * - `'mm'` — millimeters
- * - `'in'` — inches
- * - `'pt'` — points
- * - `'pc'` — picas
- */
-type HoneyCssAbsoluteDimensionUnit = 'px' | 'cm' | 'mm' | 'in' | 'pt' | 'pc';
-
-/**
- * Represents relative CSS dimension units.
- *
- * These units scale depending on the context.
- *
- * - `'em'` — relative to the font-size of the element
- * - `'rem'` — relative to the font-size of the root element
- * - `'%'` — percentage of the parent element
- * - `'vh'` — 1% of the viewport height
- * - `'vw'` — 1% of the viewport width
- * - `'vmin'` — 1% of the smaller dimension of the viewport
- * - `'vmax'` — 1% of the larger dimension of the viewport
- */
-type HoneyCssRelativeDimensionUnit = 'em' | 'rem' | '%' | 'vh' | 'vw' | 'vmin' | 'vmax';
-
-/**
- * Represents any valid CSS dimension unit, including both absolute and relative types.
- */
-export type HoneyCssDimensionUnit = HoneyCssAbsoluteDimensionUnit | HoneyCssRelativeDimensionUnit;
 
 /**
  * Represents a numeric CSS dimension value with an optional specific unit.
@@ -127,60 +94,3 @@ export type HoneyCssMultiValue<T> = T | HoneyCssShorthandTuple<T>;
 export type HoneyCssSpacingValue = HoneyCssMultiValue<number | HoneyCssDimensionValue>;
 
 export type HoneyRawCssSpacingValue = number | HoneyCssDimensionValue | CSS.Globals;
-
-/**
- * Represents CSS properties related to spacing and positioning.
- */
-export type HoneyCssSpacingProperty = keyof Pick<
-  CSS.Properties,
-  | 'margin'
-  | 'marginTop'
-  | 'marginRight'
-  | 'marginBottom'
-  | 'marginLeft'
-  | 'padding'
-  | 'paddingTop'
-  | 'paddingRight'
-  | 'paddingBottom'
-  | 'paddingLeft'
-  | 'paddingBlock'
-  | 'paddingBlockStart'
-  | 'paddingBlockEnd'
-  | 'top'
-  | 'right'
-  | 'bottom'
-  | 'left'
-  | 'inset'
-  | 'gap'
-  | 'rowGap'
-  | 'columnGap'
->;
-
-/**
- * Represents shorthand spacing properties that support multi-value arrays.
- *
- * These properties accept 2–4 space-separated values
- * to control spacing on multiple sides (e.g., top, right, bottom, left).
- */
-export type HoneyCssShorthandSpacingProperty = keyof Pick<
-  CSS.Properties,
-  'margin' | 'padding' | 'gap'
->;
-
-/**
- * Represents a subset of CSS properties that define color-related styles.
- */
-export type HoneyCssColorProperty = keyof Pick<
-  CSS.Properties,
-  | 'color'
-  | 'backgroundColor'
-  | 'borderColor'
-  | 'borderTopColor'
-  | 'borderRightColor'
-  | 'borderBottomColor'
-  | 'borderLeftColor'
-  | 'outlineColor'
-  | 'textDecorationColor'
-  | 'fill'
-  | 'stroke'
->;

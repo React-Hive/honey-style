@@ -1,8 +1,9 @@
 import * as CSS from 'csstype';
 import type { ElementType } from 'react';
+import type { HoneyCssDimensionUnit } from '@react-hive/honey-css';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP } from '../constants';
-import type { HoneyCssColor, HoneyCssDimensionUnit } from '../css';
+import type { HoneyCssColor } from '../css';
 
 /**
  * Creates a new type by omitting the specified keys `U` from the object type `T`.
@@ -57,10 +58,6 @@ export type FastOmit<T extends object, U extends string | number | symbol> = {
  * @template B - The object type with properties to override in `A`.
  */
 export type Override<A extends object, B extends object> = FastOmit<A, keyof B> & B;
-
-export type HoneyHtmlDataAttributes = {
-  [key: `data-${string}`]: string | number;
-};
 
 /**
  * Defines different spacing sizes available in the theme.

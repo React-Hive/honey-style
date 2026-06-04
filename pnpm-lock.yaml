@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@react-hive/honey-css':
-        specifier: 1.18.0
-        version: 1.18.0
+        specifier: 1.19.0
+        version: 1.19.0
       '@react-hive/honey-utils':
         specifier: 4.0.0
         version: 4.0.0
@@ -428,8 +428,8 @@ packages:
   '@oxc-project/types@0.133.0':
     resolution: {integrity: sha512-KzkdCd6Uxqnf6l3HOw1xfatAlUURA0g14cvBYFyJ5SaNOQbOUvBr9PKArcPcrNIeRsBdgcUzOGrhKveVpvOIGA==}
 
-  '@react-hive/honey-css@1.18.0':
-    resolution: {integrity: sha512-zuCnRkGBcW1AdG/CHKwtBtUFbfyzYbQLT1x6HCq8Q+ET+ebHMWgCh5NxB5oHVzUJFveehJ73p8zPTHFAk1Lvsg==}
+  '@react-hive/honey-css@1.19.0':
+    resolution: {integrity: sha512-5nsFnq6Kh9Aok180MXD6L/rmRuGADhhBeiUGYfDtOg7vKkzeBfbX9bb8C39BULnH33XMlD1fBlKBlSMAnyOepQ==}
     engines: {node: '>=24'}
 
   '@react-hive/honey-utils@4.0.0':
@@ -2637,9 +2637,10 @@ snapshots:
 
   '@oxc-project/types@0.133.0': {}
 
-  '@react-hive/honey-css@1.18.0':
+  '@react-hive/honey-css@1.19.0':
     dependencies:
       '@react-hive/honey-utils': 4.0.0
+      csstype: 3.2.3
 
   '@react-hive/honey-utils@4.0.0': {}
 

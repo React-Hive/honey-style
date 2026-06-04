@@ -1,4 +1,4 @@
 allowBuilds:
   esbuild: false
 minimumReleaseAgeExclude:
-  - '@react-hive/honey-css@1.18.0'
+  - '@react-hive/honey-css@1.19.0'

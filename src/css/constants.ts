@@ -1,4 +1,4 @@
-import type { HoneyCssColorProperty, HoneyCssSpacingProperty } from './types';
+import type { HoneyCssColorProperty, HoneyCssSpacingProperty } from '@react-hive/honey-css';
 
 export const CSS_SPACING_PROPERTIES: readonly HoneyCssSpacingProperty[] = [
   'margin',

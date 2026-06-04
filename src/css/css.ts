@@ -6,11 +6,11 @@ import {
   toKebabCase,
 } from '@react-hive/honey-utils';
 import * as CSS from 'csstype';
+import type { HoneyCssColorProperty, HoneyCssSpacingProperty } from '@react-hive/honey-css';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP } from '../constants';
 import { isStyledComponent } from '../utils';
 import { CSS_COLOR_PROPERTIES, CSS_SPACING_PROPERTIES } from './constants';
-import type { HoneyCssColorProperty, HoneyCssSpacingProperty } from './types';
 import type { HoneyStyledInterpolation, HoneyStyledContext } from '../types';
 
 /**

@@ -1,11 +1,7 @@
 import { createContext } from 'react';
+import type { HoneyCssDimensionUnit } from '@react-hive/honey-css';
 
-import type {
-  HoneyCssColor,
-  HoneyCssDimensionUnit,
-  HoneyCssDimensionValue,
-  HoneyCssSpacingValue,
-} from '../css';
+import type { HoneyCssColor, HoneyCssDimensionValue, HoneyCssSpacingValue } from '../css';
 import type {
   Nullable,
   HoneyTheme,

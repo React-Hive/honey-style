@@ -1,11 +1,11 @@
 import { generateEphemeralId, hashString, hexWithAlpha } from '@react-hive/honey-utils';
+import type { HoneyCssDimensionUnit } from '@react-hive/honey-css';
 
 import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
 import { css } from './css';
 import type {
   HoneyCssClassName,
   HoneyCssColor,
-  HoneyCssDimensionUnit,
   HoneyCssDimensionValue,
   HoneyCssShorthandDimensionOutput,
   HoneyCssShorthandTuple,
