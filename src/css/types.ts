@@ -8,7 +8,7 @@ export type HoneyCssClassName = string | undefined;
  * Represents any valid CSS color, either a named color (like `'red'`, `'blue'`)
  * or a hexadecimal color code (like `'#ff0000'`).
  */
-export type HoneyCssColor = HexColor | CSS.DataType.ColorBase | CSS.Globals;
+export type HoneyCssColor = HexColor | CSS.Property.Color;
 
 /**
  * Represents a numeric CSS dimension value with an optional specific unit.
