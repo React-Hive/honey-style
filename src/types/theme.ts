@@ -74,7 +74,7 @@ export interface HoneySpacings {
 }
 
 /**
- * Represents the breakpoints configuration in pixes for a responsive layout.
+ * Represents the breakpoint configuration in pixels for a responsive layout.
  *
  * Notes:
  * - `xs`: Extra small devices
@@ -102,7 +102,7 @@ export interface HoneyFont {
 }
 
 /**
- * Example of augmenting the fonts interface.
+ * Example of augmenting the font interface.
  *
  * @example
  * ```ts

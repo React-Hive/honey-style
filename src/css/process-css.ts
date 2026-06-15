@@ -10,6 +10,7 @@ import { createSpacingTransformer } from './create-spacing-transformer';
 import { transformEllipsisAtRule } from './transform-ellipsis-at-rule';
 import { transformInlineAtRule } from './transform-inline-at-rule';
 import { createMediaAtRuleTransformer } from './create-media-at-rule-transformer';
+import { transformIfAtRule } from './transform-if-at-rule';
 
 interface ProcessCssOptions {
   theme?: HoneyTheme;
@@ -22,6 +23,7 @@ export const processCss = (rawCss: string, { theme, selector }: ProcessCssOption
   const ast = parseCss(scopedCss);
 
   const transformers = [
+    transformIfAtRule,
     transformStackAtRule,
     transformInlineAtRule,
     transformCenterAtRule,
