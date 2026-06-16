@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "",
   "keywords": [
     "react",
@@ -31,6 +31,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "development": "./dist/index.dev.cjs",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs",
       "default": "./dist/index.mjs"
