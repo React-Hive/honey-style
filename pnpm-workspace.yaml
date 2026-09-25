@@ -2,6 +2,9 @@ allowBuilds:
   esbuild: true
 
 minimumReleaseAgeExclude:
-  - '@react-hive/honey-css@1.20.0'
+  - '@react-hive/honey-css@1.20.0 || 1.20.1'
   - '@types/node@24.13.5'
   - prettier@3.9.7
+  - '@vitest/mocker@5.0.2'
+  - '@vitest/spy@5.0.2'
+  - vitest@5.0.2

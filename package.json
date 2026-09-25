@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "8.3.1",
+  "version": "8.3.2",
   "description": "",
   "keywords": [
     "react",
@@ -48,7 +48,7 @@
     "styled-components": "^6.1.0"
   },
   "dependencies": {
-    "@react-hive/honey-css": "1.20.0",
+    "@react-hive/honey-css": "1.20.1",
     "@react-hive/honey-utils": "4.0.0",
     "csstype": "3.2.3"
   },
@@ -60,18 +60,18 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "copy-webpack-plugin": "14.0.0",
-    "eslint": "10.10.0",
+    "eslint": "10.11.0",
     "eslint-plugin-react": "7.37.5",
     "html-webpack-plugin": "5.6.8",
     "husky": "9.1.7",
     "jsdom": "29.1.1",
-    "prettier": "3.9.7",
+    "prettier": "3.9.9",
     "ts-loader": "9.6.2",
-    "tsx": "4.23.13",
+    "tsx": "4.23.15",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.70.0",
-    "vitest": "5.0.1",
-    "webpack": "5.111.0",
+    "typescript-eslint": "8.70.1",
+    "vitest": "5.0.2",
+    "webpack": "5.111.1",
     "webpack-cli": "7.2.3"
   },
   "browserslist": [
