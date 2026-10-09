@@ -82,13 +82,17 @@ const VALID_HTML_ATTRS = new Set([
 
   // Media Attributes
   'alt',
+  'autoPlay',
   'controls',
   'crossOrigin',
+  'disablePictureInPicture',
+  'disableRemotePlayback',
   'height',
   'isMap',
   'loop',
   'media',
   'muted',
+  'playsInline',
   'poster',
   'preload',
   'role',

@@ -135,6 +135,29 @@ describe('[styled]: basic behavior', () => {
     );
   });
 
+  it('should forward the media attributes a video needs to play inline on its own', () => {
+    const Video = styled('video')``;
+
+    const { getByTestId } = customRender(
+      <Video
+        data-testid="video"
+        autoPlay
+        playsInline
+        muted
+        disablePictureInPicture
+        disableRemotePlayback
+      />,
+    );
+
+    const video = getByTestId('video') as HTMLVideoElement;
+
+    expect(video).toHaveAttribute('autoplay');
+    expect(video).toHaveAttribute('playsinline');
+    expect(video).toHaveAttribute('disablepictureinpicture');
+    expect(video).toHaveAttribute('disableremoteplayback');
+    expect(video.muted).toBe(true);
+  });
+
   it('should override default props with props passed to styled component', () => {
     const Box = styled('div', {
       title: 'Test',
