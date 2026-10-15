@@ -27,8 +27,13 @@ const baseConfig = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
+  /**
+   * A key matches that exact request only, so `react/jsx-runtime` needs its own: without it the production
+   * bundles carry React's production JSX runtime.
+   */
   externals: {
     react: 'react',
+    'react/jsx-runtime': 'react/jsx-runtime',
   },
 };
 
