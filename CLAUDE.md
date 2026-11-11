@@ -14,6 +14,7 @@ Package manager is **pnpm** (see `pnpm-workspace.yaml`, `pnpm-lock.yaml`).
 pnpm test                                  # run the full suite once (vitest has watch:false)
 pnpm test src/css/__tests__/if-at-rule.spec.tsx   # single file
 pnpm vitest -t 'should resolve "&" inside'        # single test by name
+pnpm typecheck                             # tsc --noEmit over src, __tests__ included
 pnpm build                                 # webpack → dist (ESM + CJS + dev CJS)
 pnpm performanceTest                       # benchmarks, writes benchmarks/*.json
 pnpm diagnostics                           # tsc --extendedDiagnostics → diagnostics/latest.json
@@ -24,7 +25,7 @@ pnpm eslint .                              # no npm script; eslint.config.mjs is
 
 The husky `pre-commit` hook runs `pnpm diagnostics` and `git add diagnostics`, so `diagnostics/latest.json` is committed on every commit — expect it in diffs.
 
-Release: `prepublishOnly` runs clean → test → build; pushing to the `release` branch triggers the publish workflow. Commit subjects follow `<version> - <summary>` and the version in `package.json` is bumped in the same commit.
+Release: `prepublishOnly` runs clean → typecheck → test → build; pushing to the `release` branch triggers the publish workflow. Commit subjects follow `<version> - <summary>` and the version in `package.json` is bumped in the same commit.
 
 ## Architecture
 

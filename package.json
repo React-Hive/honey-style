@@ -1,6 +1,6 @@
 {
   "name": "@react-hive/honey-style",
-  "version": "8.4.1",
+  "version": "8.4.2",
   "description": "",
   "keywords": [
     "react",
@@ -22,7 +22,8 @@
     "clean": "rm -rf dist coverage",
     "build": "webpack --config webpack.config.mjs",
     "test": "vitest",
-    "prepublishOnly": "CI=1 pnpm clean && pnpm test && pnpm build",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "CI=1 pnpm clean && pnpm typecheck && pnpm test && pnpm build",
     "performanceTest": "vitest run --config vitest.performance.config.ts",
     "diagnostics": "tsx scripts/collect-diagnostics.ts"
   },
