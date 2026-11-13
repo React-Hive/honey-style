@@ -57,6 +57,7 @@ const VALID_HTML_ATTRS = new Set([
 
   // Form Attributes
   'checked',
+  'cols',
   'disabled',
   'form',
   'formAction',
@@ -75,10 +76,12 @@ const VALID_HTML_ATTRS = new Set([
   'placeholder',
   'readOnly',
   'required',
+  'rows',
   'size',
   'step',
   'type',
   'value',
+  'wrap',
 
   // Media Attributes
   'alt',

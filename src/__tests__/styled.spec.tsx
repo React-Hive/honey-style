@@ -158,6 +158,21 @@ describe('[styled]: basic behavior', () => {
     expect(video.muted).toBe(true);
   });
 
+  it('should forward the sizing attributes of a textarea', () => {
+    const Textarea = styled('textarea')``;
+
+    const { getByTestId } = customRender(
+      <Textarea data-testid="textarea" rows={1} cols={40} wrap="off" />,
+    );
+
+    const textarea = getByTestId('textarea') as HTMLTextAreaElement;
+
+    expect(textarea).toHaveAttribute('rows', '1');
+    expect(textarea).toHaveAttribute('cols', '40');
+    expect(textarea).toHaveAttribute('wrap', 'off');
+    expect(textarea.rows).toBe(1);
+  });
+
   it('should override default props with props passed to styled component', () => {
     const Box = styled('div', {
       title: 'Test',
