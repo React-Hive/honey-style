@@ -1,7 +1,11 @@
 import { generateEphemeralId, hashString, hexWithAlpha } from '@react-hive/honey-utils';
 import type { HoneyCssDimensionUnit } from '@react-hive/honey-css';
 
-import { HONEY_STYLED_COMPONENT_ID_PROP, VALID_DOM_ELEMENT_ATTRS } from './constants';
+import {
+  HONEY_STYLED_COMPONENT_ID_PROP,
+  VALID_DOM_ELEMENT_ATTRS,
+  VALID_ELEMENT_SPECIFIC_ATTRS,
+} from './constants';
 import { css } from './css';
 import type {
   HoneyCssClassName,
@@ -52,16 +56,26 @@ export const isStyledComponent = (component: any): component is HoneyStyledCompo
  * @template Attrs - The type of the attributes object.
  *
  * @param attrs - An object representing all props passed to a component.
+ * @param tagName - The element the props are for, which lets through the attributes only it takes:
+ *   `loading` on an `img` or an `iframe`.
  *
  * @returns A new object containing only props that are safe and valid for use on native DOM elements.
  */
-export const filterNonHtmlAttrs = <Attrs extends object>(attrs: Attrs): Attrs =>
-  Object.entries(attrs).reduce((allowedAttrs, [name, value]) => {
-    if (VALID_DOM_ELEMENT_ATTRS.has(name) || name.startsWith('data-') || name.startsWith('aria-')) {
+export const filterNonHtmlAttrs = <Attrs extends object>(attrs: Attrs, tagName?: string): Attrs => {
+  const elementAttrs = tagName ? VALID_ELEMENT_SPECIFIC_ATTRS[tagName] : undefined;
+
+  return Object.entries(attrs).reduce((allowedAttrs, [name, value]) => {
+    if (
+      VALID_DOM_ELEMENT_ATTRS.has(name) ||
+      elementAttrs?.has(name) ||
+      name.startsWith('data-') ||
+      name.startsWith('aria-')
+    ) {
       allowedAttrs[name as keyof Attrs] = value;
     }
     return allowedAttrs;
   }, {} as Attrs);
+};
 
 /**
  * Converts a pixel value to rem.

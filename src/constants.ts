@@ -93,7 +93,6 @@ const VALID_HTML_ATTRS = new Set([
   'disableRemotePlayback',
   'height',
   'isMap',
-  'loading',
   'loop',
   'media',
   'muted',
@@ -318,3 +317,13 @@ export const VALID_DOM_ELEMENT_ATTRS = new Set([
   ...VALID_SVG_ATTRS,
   ...VALID_EVENT_ATTRS,
 ]);
+
+/**
+ * Attributes passed only to the elements they belong to, by tag name. A name common enough as a
+ * component's own prop - `loading`, often a boolean saying something is on its way - would otherwise
+ * reach every element it is given to, and React warn of it there.
+ */
+export const VALID_ELEMENT_SPECIFIC_ATTRS: Partial<Record<string, ReadonlySet<string>>> = {
+  img: new Set(['loading']),
+  iframe: new Set(['loading']),
+};

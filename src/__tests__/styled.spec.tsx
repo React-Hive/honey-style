@@ -201,6 +201,14 @@ describe('[styled]: basic behavior', () => {
     expect(getByTestId('image')).toHaveAttribute('loading', 'lazy');
   });
 
+  it("should keep a component's own `loading` prop off an element that has no such attribute", () => {
+    const Box = styled('div')<{ loading?: boolean }>``;
+
+    const { getByTestId } = customRender(<Box data-testid="box" loading />);
+
+    expect(getByTestId('box')).not.toHaveAttribute('loading');
+  });
+
   it('should override default props with props passed to styled component', () => {
     const Box = styled('div', {
       title: 'Test',

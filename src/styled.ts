@@ -206,7 +206,7 @@ export const styled = <
 
       if (isString(target)) {
         const filteredProps = isString(finalComponent)
-          ? filterNonHtmlAttrs(finalProps)
+          ? filterNonHtmlAttrs(finalProps, finalComponent)
           : finalProps;
 
         return createElement(finalComponent, filteredProps);
