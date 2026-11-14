@@ -65,6 +65,7 @@ const VALID_HTML_ATTRS = new Set([
   'formMethod',
   'formNoValidate',
   'formTarget',
+  'htmlFor',
   'list',
   'max',
   'maxLength',
@@ -92,6 +93,7 @@ const VALID_HTML_ATTRS = new Set([
   'disableRemotePlayback',
   'height',
   'isMap',
+  'loading',
   'loop',
   'media',
   'muted',
@@ -103,6 +105,9 @@ const VALID_HTML_ATTRS = new Set([
   'srcSet',
   'useMap',
   'width',
+
+  // Time Attributes
+  'dateTime',
 
   // Anchor & Link Attributes
   'download',

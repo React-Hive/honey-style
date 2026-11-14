@@ -173,6 +173,34 @@ describe('[styled]: basic behavior', () => {
     expect(textarea.rows).toBe(1);
   });
 
+  it('should forward the machine-readable time of a time element', () => {
+    const Time = styled('time')``;
+
+    const { getByTestId } = customRender(
+      <Time data-testid="time" dateTime="2026-11-14T12:00:00.000Z">
+        14 Nov
+      </Time>,
+    );
+
+    expect(getByTestId('time')).toHaveAttribute('datetime', '2026-11-14T12:00:00.000Z');
+  });
+
+  it('should forward the control a label is for', () => {
+    const Label = styled('label')``;
+
+    const { getByTestId } = customRender(<Label data-testid="label" htmlFor="email" />);
+
+    expect(getByTestId('label')).toHaveAttribute('for', 'email');
+  });
+
+  it('should forward how an image loads', () => {
+    const Image = styled('img')``;
+
+    const { getByTestId } = customRender(<Image data-testid="image" alt="" loading="lazy" />);
+
+    expect(getByTestId('image')).toHaveAttribute('loading', 'lazy');
+  });
+
   it('should override default props with props passed to styled component', () => {
     const Box = styled('div', {
       title: 'Test',
